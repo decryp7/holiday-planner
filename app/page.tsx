@@ -9,6 +9,8 @@ interface LocationData {
 
 declare type CurrentLocation = LocationData | undefined;
 
+const GOOGLE_MAP_API_KEY_NAME = "NEXT_PUBLIC_GOOGLE_MAP_API_KEY";
+
 export default function Home() {
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
 
@@ -28,7 +30,7 @@ export default function Home() {
 
     return <main className={`w-full h-screen ${currentLocation ? "" : "blur"}`}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string, language:'en' }}
+                bootstrapURLKeys={{ key: process.env[GOOGLE_MAP_API_KEY_NAME] as string, language:'en' }}
                 defaultCenter={{lat:0, lng:0}}
                 center={currentLocation}
                 defaultZoom={0}
