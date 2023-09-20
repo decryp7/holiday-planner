@@ -1,7 +1,6 @@
 'use client'
 import {useState, useEffect} from "react";
 import GoogleMapReact from 'google-map-react';
-import {Client, LatLngLiteral} from "@googlemaps/google-maps-services-js";
 
 interface LocationData {
     lat: number;
@@ -12,19 +11,8 @@ declare type CurrentLocation = LocationData | undefined;
 
 export default function Home() {
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
-    const [defaultCenter, setDefaultCenter] = useState<CurrentLocation>(undefined);
 
     useEffect(() => {
-        const client = new Client({});
-        (async ()=>{
-            const res = await client.geocode({params: {key:process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string, address: "Taipei"}});
-
-            if(res.status === 200 && res.data && res.data.results) {
-                const latLngLiteral: LatLngLiteral = res.data.results[0].geometry.location;
-                setDefaultCenter({lat: latLngLiteral.lat, lng: latLngLiteral.lng});
-            }
-        })();
-
         if('geolocation' in navigator) {
             // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
             navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -38,20 +26,25 @@ export default function Home() {
         }
     }, []);
 
-    return <main className="flex md:flex-row flex-col">
-        <div className="min-w-max w-fit flex-nowrap p-2">
-          <label>Search: </label><input width="200px" />
-        </div>
-        <div className="w-full h-screen p-2">
-            {defaultCenter ?
+    return <main className={`w-full h-screen ${currentLocation ? "" : "blur"}`}>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string, language:'en' }}
-                defaultCenter={defaultCenter}
+                defaultCenter={{lat:0, lng:0}}
                 center={currentLocation}
-                defaultZoom={11}
-            >
+                defaultZoom={0}
+                zoom={currentLocation ? 11: 0}>
+
             </GoogleMapReact>
-            : <h2>Loading...</h2>}
-        </div>
+            <div className="absolute top-2 left-1/2 transform -translate-x-1/2">
+                <div className="mt-2">
+                    <input
+                        type="search"
+                        name="search"
+                        id="search"
+                        className="block w-full rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        placeholder="Search here"
+                    />
+                </div>
+            </div>
       </main>
 }
