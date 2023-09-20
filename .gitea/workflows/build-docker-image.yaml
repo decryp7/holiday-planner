@@ -16,7 +16,7 @@ jobs:
     name: Push Docker image
     runs-on: ubuntu-latest
     container:
-      image: node:16-bullseye
+      image: catthehacker/ubuntu:act-22.04
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
