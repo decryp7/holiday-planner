@@ -30,9 +30,6 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
-        env:
-          ACTIONS_RUNTIME_TOKEN: ''
-          DOCKER_BUILDKIT: 0
         with:
           context: .
           file: ./Dockerfile
