@@ -34,7 +34,6 @@ jobs:
           ACTIONS_RUNTIME_TOKEN: ''
           DOCKER_BUILDKIT: 0
         with:
-          context: .
           file: ./Dockerfile
           push: true
           tags: decryp7/holiday-planner:latest
