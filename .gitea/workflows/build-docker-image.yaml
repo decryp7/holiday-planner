@@ -21,7 +21,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Log in to Docker Hub
+      - name: Log in to dev.decryptology.net
         uses: docker/login-action@v2
         with:
           registry: dev.decryptology.net
@@ -34,4 +34,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: decryp7/holiday-planner:latest
+          tags: dev.decryptology.net/decryp7/holiday-planner:latest
