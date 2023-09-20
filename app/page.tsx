@@ -26,11 +26,11 @@ export default function Home() {
     }, []);
 
     return (
-      <main className="columns-2xs p-2">
-        <div className="min-w-fit w-fit border-2 p-2">
+      <main className="flex md:flex-row flex-col">
+        <div className="min-w-max w-fit flex-nowrap border-2 p-2">
           <label>Search: </label><input width="200px" />
         </div>
-        <div className="w-fit border-2 p-2">{currentLocation !== undefined ? JSON.stringify(currentLocation) : "Unknown"}</div>
+        <div className="w-full border-2 p-2">{currentLocation !== undefined ? JSON.stringify(currentLocation) : "Unknown"}</div>
       </main>
   )
 }
