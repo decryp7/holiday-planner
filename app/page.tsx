@@ -19,7 +19,8 @@ export default function Home() {
                 const { latitude, longitude } = coords;
                 setCurrentLocation({lat:latitude, lng:longitude});
             }, error =>{
-                alert(error.message);
+                console.log(`Unable to get user's location. ${error}`);
+                alert("Unable to get your current location.");
             })
         }else{
             alert("geolocation not supported!");
