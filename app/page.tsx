@@ -37,8 +37,8 @@ export default function Home() {
     return <main className={`w-full h-screen`}>
                 {isLoaded ? (<GoogleMap
                     mapContainerStyle={{width: '100%', height: '100%'}}
-                    center={currentLocation}
-                    zoom={14}>
+                    center={currentLocation !== undefined ? currentLocation : { lat:0, lng: 0 }}
+                    zoom={currentLocation !== undefined ? 14 : 3}>
                     <TrafficLayer></TrafficLayer>
                     <TransitLayer></TransitLayer>
                 </GoogleMap>) : <></>}
