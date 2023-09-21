@@ -12,6 +12,8 @@ declare type CurrentLocation = LocationData | undefined;
 export default function Home() {
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
 
+    console.log(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
+
     useEffect(() => {
         if('geolocation' in navigator) {
             // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
