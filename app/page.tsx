@@ -38,7 +38,7 @@ export default function Home() {
                 defaultCenter={{lat:0, lng:0}}
                 center={currentLocation}
                 defaultZoom={0}
-                zoom={currentLocation ? 11: 0}
+                zoom={currentLocation ? 14: 0}
             >
 
             </GoogleMapReact>
