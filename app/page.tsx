@@ -18,7 +18,7 @@ export default function Home() {
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 const { latitude, longitude } = coords;
                 setCurrentLocation({lat:latitude, lng:longitude});
-                console.log(`Got current user position! ${new Date()}`);
+                console.log("Got current user position!");
             }, error =>{
                 console.log(`Unable to get user's location. ${error}`);
                 alert("Unable to get your current location.");
