@@ -1,5 +1,5 @@
 'use client'
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import GoogleMapReact from 'google-map-react';
 
 interface LocationData {
@@ -12,20 +12,18 @@ declare type CurrentLocation = LocationData | undefined;
 export default function Home() {
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
 
-    useEffect(() => {
-        if('geolocation' in navigator) {
-            // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
-            navigator.geolocation.getCurrentPosition(({ coords }) => {
-                const { latitude, longitude } = coords;
-                setCurrentLocation({lat:latitude, lng:longitude});
-            }, error =>{
-                console.log(`Unable to get user's location. ${error}`);
-                alert("Unable to get your current location.");
-            })
-        }else{
-            alert("geolocation not supported!");
-        }
-    }, []);
+    if('geolocation' in navigator) {
+        // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+        navigator.geolocation.getCurrentPosition(({ coords }) => {
+            const { latitude, longitude } = coords;
+            setCurrentLocation({lat:latitude, lng:longitude});
+        }, error =>{
+            console.log(`Unable to get user's location. ${error}`);
+            alert("Unable to get your current location.");
+        })
+    }else{
+        alert("geolocation not supported!");
+    }
 
     return <main className={`w-full h-screen`}>
             <GoogleMapReact
