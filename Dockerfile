@@ -29,7 +29,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN NEXT_PUBLIC_GOOGLE_MAP_API_KEY=GOOGLE_MAP_API_KEY yarn build
+RUN NEXT_PUBLIC_GOOGLE_MAP_API_KEY=$GOOGLE_MAP_API_KEY yarn build
 
 # If using npm comment out above and use below instead
 # RUN npm run build
