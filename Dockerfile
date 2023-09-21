@@ -1,5 +1,7 @@
 FROM node:18-alpine AS base
 
+ARG GOOGLE_MAP_API_KEY
+
 # Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
@@ -27,7 +29,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
+RUN NEXT_PUBLIC_GOOGLE_MAP_API_KEY=GOOGLE_MAP_API_KEY yarn build
 
 # If using npm comment out above and use below instead
 # RUN npm run build
