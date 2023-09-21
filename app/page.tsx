@@ -1,6 +1,7 @@
 'use client'
 import {useState, useEffect} from "react";
 import { GoogleMap, useJsApiLoader, TrafficLayer, TransitLayer} from '@react-google-maps/api';
+import {Library} from "@googlemaps/js-api-loader";
 
 interface LocationData {
     lat: number;
@@ -9,11 +10,13 @@ interface LocationData {
 
 declare type CurrentLocation = LocationData | undefined;
 
+const libraries: Library[] = ["places", "streetView", "core", "journeySharing"]
+
 export default function Home() {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-        libraries: ["places", "streetView", "core", "journeySharing"]
+        libraries: libraries
     })
 
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
