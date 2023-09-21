@@ -28,11 +28,17 @@ export default function Home() {
 
     return <main className={`w-full h-screen`}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string, language:'en' }}
+                bootstrapURLKeys={{
+                    key: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
+                    language:'en',
+                    libraries:['places'],
+                }}
+                layerTypes={['TrafficLayer', 'TransitLayer']}
                 defaultCenter={{lat:0, lng:0}}
                 center={currentLocation}
                 defaultZoom={0}
-                zoom={currentLocation ? 11: 0}>
+                zoom={currentLocation ? 11: 0}
+            >
 
             </GoogleMapReact>
             <div className="absolute top-2 left-1/2 transform -translate-x-1/2">
