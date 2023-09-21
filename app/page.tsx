@@ -12,7 +12,7 @@ declare type CurrentLocation = LocationData | undefined;
 export default function Home() {
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
 
-    if('geolocation' in navigator) {
+    if(typeof navigator !== "undefined" && 'geolocation' in navigator) {
         // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
         navigator.geolocation.getCurrentPosition(({ coords }) => {
             const { latitude, longitude } = coords;
