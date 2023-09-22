@@ -45,7 +45,7 @@ export default function Home() {
                     <TrafficLayer/>
                     <TransitLayer/>
                 </GoogleMap>) : <></>}
-                <div className="absolute top-2 left-1/2 transform -translate-x-1/2">
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <div className="mt-2">
                         <input
                             type="search"
