@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev & local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3001 --target 3000",
+    "dev": "concurrently \"next dev\" \"local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3001 --target 3000\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -32,6 +32,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
+    "concurrently": "^8.2.1",
     "local-ssl-proxy": "^2.0.5"
   }
 }
