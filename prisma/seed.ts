@@ -1,17 +1,15 @@
 import { PrismaClient } from '@prisma/client'
-import { Days } from "./models";
+import {Day, DayFlags} from "./models";
 import { Places } from "./seedData";
 
 const prisma = new PrismaClient();
 
 async function main(){
     //insert default days
-    for (const day of Object.values(Days)
-        .filter(item => !isNaN(Number(item)))
-        .map(i => Number(i))){
+    for (const day of DayFlags){
         const result =  await prisma.day.create({
             data: {
-                name: Days[day],
+                name: Day[day],
             }
         });
         console.log(`Added ${JSON.stringify(result)} in Day table.`);

@@ -3,9 +3,10 @@ import PlaceCreateInput = Prisma.PlaceCreateInput;
 import PlaceTagCreateWithoutPlaceInput = Prisma.PlaceTagCreateWithoutPlaceInput;
 import OpeningHourCreateWithoutPlaceInput = Prisma.OpeningHourCreateWithoutPlaceInput;
 
-export enum Tags {
+export enum Tag {
+    Accommodation,
+    Attraction,
     Food,
-    PlaceOfInterest,
     Taipei,
     JiuFen,
     ShiFen,
@@ -14,24 +15,28 @@ export enum Tags {
     YiLan
 }
 
-export enum Days {
-    Sun,
-    Mon,
-    Tue,
-    Wed,
-    Thu,
-    Fri,
-    Sat
-}
+export enum Day {
+    Sun = 1 << 0,
+    Mon = 1 << 1,
+    Tue = 1 << 2,
+    Wed = 1 << 3,
+    Thu = 1 << 4,
+    Fri = 1 << 5,
+    Sat = 1 << 6,
+ }
+ export const EveryDay : Day = Day.Sun | Day.Mon | Day.Tue | Day.Wed | Day.Thu | Day.Fri | Day.Sat;
+
+export const DayFlags = Object.values(Day)
+    .filter((value): value is number => typeof value === "number");
 
 export interface OpeningHourData {
-    day: Days;
+    day: Day;
     from: string;
     to: string;
 }
 
 export class OpeningHour implements OpeningHourData {
-    constructor(public day: Days,
+    constructor(public day: Day,
                 public from: string,
                 public to: string) {
     }
@@ -44,7 +49,7 @@ export interface PlaceData {
     url: string;
     lat: number;
     lng: number;
-    tags: Tags[];
+    tags: Tag[];
     openingHours: OpeningHour[];
 
     ToPlaceCreateInput(): PlaceCreateInput;
@@ -57,7 +62,7 @@ export class Place implements PlaceData {
                 public address: string,
                 public lat: number,
                 public lng: number,
-                public tags: Tags[],
+                public tags: Tag[],
                 public openingHours: OpeningHourData[]) {
     }
 
@@ -67,8 +72,8 @@ export class Place implements PlaceData {
             placeTags.push({
                 tag: {
                     connectOrCreate: {
-                        where: {name: Tags[tag]},
-                        create: {name: Tags[tag]}
+                        where: {name: Tag[tag]},
+                        create: {name: Tag[tag]}
                     }
                 }
             });
@@ -76,11 +81,15 @@ export class Place implements PlaceData {
 
         const placeOpeningHours: OpeningHourCreateWithoutPlaceInput[] = [];
         for(const openingHour of this.openingHours){
-            placeOpeningHours.push({
-                day: {connect: {name: Days[openingHour.day]}},
-                from: openingHour.from,
-                to: openingHour.to
-            });
+            for(const day of DayFlags){
+                if((day & openingHour.day) === day){
+                    placeOpeningHours.push({
+                        day: {connect: {name: Day[day]}},
+                        from: openingHour.from,
+                        to: openingHour.to
+                    });
+                }
+            }
         }
 
         return  {
