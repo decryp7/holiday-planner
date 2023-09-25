@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "prisma db push && prisma generate && concurrently \"next dev\" \"local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3001 --target 3000\"",
-    "build": "prisma db push && prisma generate && next build",
+    "dev": "prisma migrate deploy && prisma generate && concurrently \"next dev\" \"local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3001 --target 3000\"",
+    "build": "prisma migrate deploy && prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "resetdb": "npx prisma db push --force-reset && npx prisma db seed"
