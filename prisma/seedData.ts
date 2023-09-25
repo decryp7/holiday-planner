@@ -11,7 +11,7 @@ export const Places: PlaceData[] = [
             new OpeningHour(EveryDay, "09:00", "23:00"),
         ]),
 
-    new Place("台北101 Taipei 101/World Trade Center",
+    new Place("台北101 Taipei 101 World Trade Center",
         "test",
         "",
         "",
