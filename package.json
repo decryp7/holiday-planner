@@ -6,18 +6,19 @@
     "dev": "concurrently \"next dev\" \"local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3001 --target 3000\"",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "resetdb": "npx prisma db push --force-reset && npx prisma db seed"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.3.38",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@prisma/client": "^5.3.1",
     "@react-google-maps/api": "^2.19.2",
     "@tailwindcss/forms": "^0.5.6",
-    "@types/node": "20.6.2",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
@@ -28,11 +29,13 @@
     "prisma": "^5.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.2.2"
+    "tailwindcss": "3.3.3"
   },
   "devDependencies": {
+    "@types/node": "^20.6.5",
     "concurrently": "^8.2.1",
-    "local-ssl-proxy": "^2.0.5"
+    "local-ssl-proxy": "^2.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }

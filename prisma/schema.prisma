@@ -9,3 +9,44 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Place {
+  name String @id
+  description  String
+  address      String
+  url String
+  lat          Decimal
+  lng          Decimal
+  tags         PlaceTag[]
+  openingHours OpeningHour[]
+}
+
+model Day {
+  name        String        @id
+  OpeningHour OpeningHour[]
+}
+
+model OpeningHour {
+  day     Day      @relation(fields: [dayName], references: [name])
+  dayName String
+  from    String
+  to      String
+  Place   Place    @relation(fields: [placeName], references: [name])
+  placeName String
+
+  @@unique([placeName, dayName, from, to])
+}
+
+model Tag {
+  name     String     @id
+  PlaceTag PlaceTag[]
+}
+
+model PlaceTag {
+  place   Place  @relation(fields: [placeName], references: [name])
+  placeName String
+  tag     Tag    @relation(fields: [tagName], references: [name])
+  tagName String
+
+  @@unique([placeName, tagName])
+}
