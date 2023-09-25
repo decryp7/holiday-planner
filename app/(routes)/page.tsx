@@ -35,6 +35,9 @@ export default function Home() {
         }else{
             alert("geolocation not supported!");
         }
+
+
+
     }, []);
 
     return <main className={`w-full h-screen`}>
