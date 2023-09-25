@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,14 +8,14 @@ datasource db {
 }
 
 model Place {
-  name String @id
+  name         String        @id
   description  String
   address      String
-  url String
+  url          String
   lat          Decimal
   lng          Decimal
-  tags         PlaceTag[]
   openingHours OpeningHour[]
+  tags         PlaceTag[]
 }
 
 model Day {
@@ -27,12 +24,12 @@ model Day {
 }
 
 model OpeningHour {
-  day     Day      @relation(fields: [dayName], references: [name])
-  dayName String
-  from    String
-  to      String
-  Place   Place    @relation(fields: [placeName], references: [name])
+  dayName   String
+  from      String
+  to        String
   placeName String
+  Place     Place  @relation(fields: [placeName], references: [name])
+  day       Day    @relation(fields: [dayName], references: [name])
 
   @@unique([placeName, dayName, from, to])
 }
@@ -43,10 +40,10 @@ model Tag {
 }
 
 model PlaceTag {
-  place   Place  @relation(fields: [placeName], references: [name])
   placeName String
-  tag     Tag    @relation(fields: [tagName], references: [name])
-  tagName String
+  tagName   String
+  tag       Tag    @relation(fields: [tagName], references: [name])
+  place     Place  @relation(fields: [placeName], references: [name])
 
   @@unique([placeName, tagName])
 }
