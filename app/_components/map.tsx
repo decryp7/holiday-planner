@@ -3,11 +3,11 @@ import {GoogleMap, TrafficLayer, TransitLayer, useJsApiLoader} from "@react-goog
 import {Library} from "@googlemaps/js-api-loader";
 import CurrentLocation from "@/app/_models/location";
 
-const libraries: Library[] = ["places", "streetView", "core", "journeySharing"]
-
 const Map = React.memo((
     props : {currentLocation: CurrentLocation}
     , context)=>{
+
+    const libraries: Library[] = ["places", "streetView", "core", "journeySharing"]
    const { isLoaded } = useJsApiLoader({
       id: 'google-map-script',
       googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
