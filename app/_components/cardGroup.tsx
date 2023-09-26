@@ -1,10 +1,9 @@
-import React, {useRef, useState} from "react";
+import React, {Children, Fragment, useEffect, useRef, useState} from "react";
+import Card from "@/app/_components/card";
 
 const CardGroup = React.memo((props : {children: any} , context) =>{
 
-    return <div>
-        {props.children}
-    </div>;
+    return <Fragment>{props.children}</Fragment>;
 });
 
 CardGroup.displayName = "CardGroup";

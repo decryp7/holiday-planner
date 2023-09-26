@@ -1,11 +1,17 @@
-import React, {useRef, useState} from "react";
+import React, {useImperativeHandle, useRef, useState} from "react";
 import _ from 'lodash';
 
-const Card = React.memo((
+const Card = React.memo(React.forwardRef((
     props : {children: any,
         header: string,
         headerSize: number,
-        labelColor: string} , context) =>{
+        labelColor: string} , ref) =>{
+    useImperativeHandle(ref, ()=>{
+       return {
+           test() { console.log("test")},
+       }
+    });
+
     const showStyle = {
         bottom: 0
     }
@@ -31,7 +37,7 @@ const Card = React.memo((
             <div className="p-2 text-black">{props.children}</div>
         </div>
 
-});
+}));
 
 Card.displayName = "Card";
 
