@@ -1,26 +1,33 @@
 import React, {useRef, useState} from "react";
+import _ from 'lodash';
 
-const Card = React.memo((props : {children: any} , context) =>{
-    const hideClass = `-translate-y-[calc(100%-120px)]`;
-    const [show, setShow] = useState<boolean>(false);
+const Card = React.memo((
+    props : {children: any,
+        header: string,
+        headerSize: number,
+        labelColor: string} , context) =>{
+    const showStyle = {
+        bottom: 0
+    }
+    const hideStyle = {
+        top: `calc(100% - ${props.headerSize}px)`,
+    }
+    const [style, setStyle] = useState<any>(hideStyle);
     const card = useRef<HTMLDivElement>(null);
 
     function toggleCard() {
-        setShow(show => {
-            if(card.current != null) {
-                if (show) {
-                    card.current.classList.remove(hideClass);
-
-                } else {
-                    card.current.classList.add(hideClass);
+        setStyle((prev: any) => {
+                if(_.isEqual(prev, hideStyle)){
+                    return showStyle;
                 }
-            }
-            return !show
+                return hideStyle;
         });
     }
 
-    return <div className={`absolute block top-[calc(100%-120px)] lg:w-1/4 w-3/4 h-3/4 left-1/2 -translate-x-1/2 bg-white p-2 rounded-t-xl shadow-xl transition-transform ease-in-out duration-200 will-change-auto`} ref={card}>
-            <button onClick={toggleCard} className="block ml-auto mr-auto w-1/4 h-2 bg-gray-100 rounded-full m-0"></button>
+    return <div style={style}
+            className={`fixed lg:w-1/4 w-full h-3/4 left-1/2 -translate-x-1/2 bg-white rounded-t-xl shadow-t-xl transition-transform ease-in-out duration-200 will-change-auto`} ref={card}>
+            <div style={{background: `${props.labelColor}`}} className="absolute font-bold w-fit px-2 text-xs rounded-b mr-2 right-0">{props.header}</div>
+            <button onClick={toggleCard} className="block ml-auto mr-auto mt-2 w-8 h-2 bg-gray-200 rounded-full m-0"></button>
             <div className="p-2 text-black">{props.children}</div>
         </div>
 

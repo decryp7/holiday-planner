@@ -5,6 +5,7 @@ import CurrentLocation from "@/app/_models/location";
 import Card from "@/app/_components/card";
 import LocationInfo from "@/app/_components/locationInfo";
 import dynamic from 'next/dynamic'
+import CardGroup from "@/app/_components/cardGroup";
 
 const DateTime = dynamic(() => import('@/app/_components/dateTime'), { ssr: false })
 
@@ -18,9 +19,14 @@ export default function Home() {
 
     return <main className={`w-full h-screen`}>
                 <Map currentLocation={currentLocation}/>
-                <Card>
-                    <DateTime/>
-                    <LocationInfo onLocationChanged={handleLocationChanged}/>
-                </Card>
+                <CardGroup>
+                        <Card header="weather" headerSize={40} labelColor="black">
+                            <></>
+                        </Card>
+                        <Card header="search" headerSize={20} labelColor="black">
+                            <DateTime/>
+                            <LocationInfo onLocationChanged={handleLocationChanged}/>
+                        </Card>
+                </CardGroup>
       </main>
 }
