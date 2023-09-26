@@ -22,7 +22,7 @@ const SearchCard = React.memo((props, context) =>{
 
     return <div className="absolute flex left-0 top-0 justify-center w-screen h-screen overflow-hidden">
         <div className={`absolute top-[calc(100%-${reservedSpace})] lg:w-2/3 w-3/4 h-3/4 bg-white p-2 rounded-t-xl shadow-xl transition-transform ease-in-out duration-200 will-change-auto`} ref={card}>
-            <button onClick={toggleCard} className="bg-amber-300">Toggle Card</button>
+            <button onClick={toggleCard} className="block ml-auto mr-auto w-1/4 h-2 bg-gray-100 rounded-full m-0"></button>
         </div>
     </div>
 });
