@@ -31,13 +31,8 @@ const LocationInfo = React.memo((
     useEffect(() => {
         if('geolocation' in navigator) {
             getCurrentLocation();
-            const interval = setInterval(() => {
-                getCurrentLocation();
-            }, 5 * 1000);
-
-            return () => clearInterval(interval);
         }
-    }, [currentLocation]);
+    }, []);
 
     return <div>
         <Fragment>{JSON.stringify(currentLocation)}</Fragment>
