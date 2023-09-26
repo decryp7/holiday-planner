@@ -2,7 +2,6 @@ import React from "react";
 import {MarkerF, GoogleMap, TrafficLayer, TransitLayer, useJsApiLoader} from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
 import CurrentLocation from "@/app/_models/location";
-import MapMarker from "@/app/_components/mapMarker";
 
 const Map = React.memo((
     props : {currentLocation: CurrentLocation}
