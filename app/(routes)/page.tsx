@@ -1,24 +1,9 @@
 'use client'
 import {useState, useEffect} from "react";
-import { GoogleMap, useJsApiLoader, TrafficLayer, TransitLayer} from '@react-google-maps/api';
-import {Library} from "@googlemaps/js-api-loader";
-
-interface LocationData {
-    lat: number;
-    lng: number;
-}
-
-declare type CurrentLocation = LocationData | undefined;
-
-const libraries: Library[] = ["places", "streetView", "core", "journeySharing"]
+import Map from "@/app/_components/map"
+import CurrentLocation from "@/app/_models/location";
 
 export default function Home() {
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-        libraries: libraries
-    })
-
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
 
     useEffect(() => {
@@ -35,19 +20,10 @@ export default function Home() {
         }else{
             alert("geolocation not supported!");
         }
-
-
-
     }, []);
 
     return <main className={`w-full h-screen`}>
-                {isLoaded ? (<GoogleMap
-                    mapContainerStyle={{width: '100%', height: '100%'}}
-                    center={currentLocation !== undefined ? currentLocation : { lat:0, lng: 0 }}
-                    zoom={currentLocation !== undefined ? 14 : 3}>
-                    <TrafficLayer/>
-                    <TransitLayer/>
-                </GoogleMap>) : <></>}
+                <Map currentLocation={currentLocation}/>
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <div className="mt-2">
                         <input
