@@ -20,7 +20,7 @@ const Card = React.memo((props : {children: any} , context) =>{
     }
 
     return <div className="absolute flex left-0 top-0 justify-center w-screen h-screen overflow-hidden pointer-events-none">
-        <div className={`absolute top-[calc(100%-120px)] lg:w-2/3 w-3/4 h-3/4 bg-white p-2 rounded-t-xl shadow-xl transition-transform ease-in-out duration-200 will-change-auto pointer-events-auto`} ref={card}>
+        <div className={`absolute top-[calc(100%-120px)] lg:w-1/4 w-3/4 h-3/4 bg-white p-2 rounded-t-xl shadow-xl transition-transform ease-in-out duration-200 will-change-auto pointer-events-auto`} ref={card}>
             <button onClick={toggleCard} className="block ml-auto mr-auto w-1/4 h-2 bg-gray-100 rounded-full m-0"></button>
             <div className="p-2 text-black">{props.children}</div>
         </div>
