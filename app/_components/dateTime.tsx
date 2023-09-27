@@ -11,7 +11,17 @@ const DateTime = React.memo((props , context) =>{
         return () => clearInterval(interval);
     }, [currentDateTime]);
 
-    return <div className="block">{currentDateTime.toTimeString()}</div>;
+    return <div className="absolute right-[0.5rem] top-[5rem] columns-1 text-gray-800">
+        <div className="columns-1 w-[40px] h-[40px] bg-white text-center shadow">
+            <div className="font-bold text-[1.1rem]/[1.1rem]">{currentDateTime.getDate()}</div>
+            <div className="font-bold text-[0.70rem]/[0.70rem]">{currentDateTime.toLocaleString('default', { month: 'short' })}</div>
+            <div className="relative -bottom-1 w-full font-bold text-[0.70rem]/[0.70rem] text-white bg-gray-800">{currentDateTime.toLocaleString('default', { weekday: 'short' })}</div>
+        </div>
+        <div className="flex-row w-[40px] h-[40px] bg-white text-center pt-0.5 shadow mt-2 justify-center content-center">
+            <div className="font-bold text-[1.1rem]/[1.1rem] h-1/2">{currentDateTime.getHours()}</div>
+            <div className="font-bold text-[1.1rem]/[1.1rem] h-1/2">{currentDateTime.getMinutes()}</div>
+        </div>
+    </div>;
 });
 
 DateTime.displayName = "DateTime";

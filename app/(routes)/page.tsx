@@ -12,11 +12,11 @@ export default function Home() {
     return <RecoilRoot>
     <main className={`w-full h-screen`}>
                 <Map />
+                <DateTime />,
                 <CardGroup cards={[
-                    {header: "search", labelColor:"black", items: [
-                            <DateTime key="0"/>,
-                            <LocationInfo key="1" />]},
-                    {header: "weather", labelColor:"black", items:[
+                    {header: "search", labelColor:"rgb(31 41 55)", items: [
+                            <LocationInfo key="0" />]},
+                    {header: "weather", labelColor:"rgb(31 41 55)", items:[
                             <div key="0">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed ante sit amet lectus rhoncus viverra. Integer bibendum ultrices velit id elementum. Curabitur mattis ex tempor sodales tempor. Curabitur hendrerit purus id rhoncus suscipit. Proin ornare porttitor tincidunt. Proin cursus, orci vitae vehicula ultrices, dui neque interdum dolor, eu egestas elit lacus a nunc. In rutrum lectus at mauris suscipit dictum.
 
@@ -29,7 +29,7 @@ export default function Home() {
                                 Nam euismod fringilla ultrices. Suspendisse fringilla orci ut luctus hendrerit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam vitae dui arcu. Nullam auctor, justo ut suscipit condimentum, nibh ipsum auctor leo, eget tincidunt nibh ex eget erat. Curabitur porta tortor porttitor, maximus nibh viverra, rutrum erat. Sed blandit augue vehicula, tempus eros eget, convallis nisi.
                             </div>,
                         ]},
-                    {header: "places", labelColor:"black"},
+                    {header: "places", labelColor:"rgb(31 41 55)"},
                 ]} />
       </main>
     </RecoilRoot>
