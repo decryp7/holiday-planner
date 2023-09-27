@@ -45,7 +45,7 @@ const CardGroup = React.memo((
     }
 
     return <Fragment>
-        <button className="absolute right-2 bottom-[200px] p-1 w-[40px] h-[40px] bg-white shadow"
+        <button className="absolute right-2 bottom-[200px] p-1 w-[40px] h-[40px] bg-white border border-gray-200 shadow"
                 onClick={toggleVisibility}>
             {visibility === Visibility.visible ?
             <ArchiveBoxArrowDownIcon className="w-auto h-auto text-gray-600 stroke-2" />

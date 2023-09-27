@@ -54,7 +54,7 @@ const Card = React.memo(React.forwardRef((
     }
 
     return <div style={style}
-            className="fixed lg:w-1/2 w-full lg:h-1/2 h-3/4 left-1/2 bottom-0 -translate-x-1/2 bg-white rounded-t-xl shadow-t-lg transition-all ease-in-out duration-500 will-change-auto pointer-events-auto" ref={card}>
+            className="fixed border border-gray-200 lg:w-1/2 w-full lg:h-1/2 h-3/4 left-1/2 bottom-0 -translate-x-1/2 bg-white rounded-t-xl shadow-t-lg transition-all ease-in-out duration-500 will-change-auto pointer-events-auto" ref={card}>
             <div style={{background: `${props.labelColor}`}} className="absolute font-bold w-fit px-2 text-xl rounded-b mr-4 right-0">{props.header}</div>
             <button onClick={toggleCard} className="block ml-auto mr-auto mt-2 w-12 h-2 bg-gray-200 rounded-full m-0"></button>
             <div style={props.coveredSize != null ? {maxHeight: `calc(100% - ${props.coveredSize * 2}px)`} : {}}
