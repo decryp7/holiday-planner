@@ -19,7 +19,7 @@ export default function Home() {
     return <main className={`w-full h-screen`}>
                 <Map currentLocation={currentLocation}/>
                 <CardGroup cards={[
-                    {header: "search", headerSize: 60 + 60, labelColor:"black", items: [
+                    {header: "search", headerSize: 60, labelColor:"black", items: [
                             <DateTime key="0"/>,
                             <LocationInfo key="1" onLocationChanged={handleLocationChanged}/>]},
                     {header: "places", headerSize: 40, labelColor:"black"},

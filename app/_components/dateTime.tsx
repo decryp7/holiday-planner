@@ -11,7 +11,7 @@ const DateTime = React.memo((props , context) =>{
         return () => clearInterval(interval);
     }, [currentDateTime]);
 
-    return <Fragment>{currentDateTime.toTimeString()}</Fragment>;
+    return <div className="block">{currentDateTime.toTimeString()}</div>;
 });
 
 DateTime.displayName = "DateTime";
