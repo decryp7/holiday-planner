@@ -1,18 +1,15 @@
 'use client'
 import React, {useState, useEffect} from "react";
 import Map from "@/app/_components/map"
-import CurrentLocation from "@/app/_models/location";
-import Card from "@/app/_components/card";
 import LocationInfo from "@/app/_components/locationInfo";
 import dynamic from 'next/dynamic'
 import CardGroup from "@/app/_components/cardGroup";
-import {store} from "@/app/store";
-import {Provider} from "react-redux";
+import {RecoilRoot} from "recoil";
 
 const DateTime = dynamic(() => import('@/app/_components/dateTime'), { ssr: false })
 
 export default function Home() {
-    return <Provider store={store}>
+    return <RecoilRoot>
     <main className={`w-full h-screen`}>
                 <Map />
                 <CardGroup cards={[
@@ -35,5 +32,5 @@ export default function Home() {
                     {header: "places", labelColor:"black"},
                 ]} />
       </main>
-    </Provider>
+    </RecoilRoot>
 }

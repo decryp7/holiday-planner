@@ -1,13 +1,11 @@
 import React, {Fragment,  useState, useEffect} from "react";
-import CurrentLocation from "@/app/_models/location";
 import _ from 'lodash';
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {set} from "@/app/_slices/locationSlice";
+import {useRecoilState} from "recoil";
+import {locationState} from "@/app/_state/locationState";
 
 const LocationInfo = React.memo((
     props : {} , context) =>{
-    const {location} = useAppSelector((state)=> state.location);
-    const dispatch = useAppDispatch();
+    const [location, setLocation] = useRecoilState(locationState);
 
     function getCurrentLocation(){
         if('geolocation' in navigator) {
@@ -16,7 +14,7 @@ const LocationInfo = React.memo((
                 const { latitude, longitude } = coords;
                 const current = {lat: latitude, lng: longitude};
                 if(!_.isEqual(location, current)){
-                    dispatch(set(current));
+                    setLocation(current);
                 }
             }, error =>{
                 console.log(`Unable to get user's location. ${error}`);

@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {MarkerF, GoogleMap, TrafficLayer, TransitLayer, useJsApiLoader} from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
-import CurrentLocation from "@/app/_models/location";
-import {useAppSelector} from "@/app/hooks";
+import {useRecoilState} from "recoil";
+import {locationState} from "@/app/_state/locationState";
 
 const Map = React.memo((
     props : {}
@@ -14,7 +14,7 @@ const Map = React.memo((
       googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
       libraries: libraries
    })
-    const {location} = useAppSelector((state)=> state.location);
+    const [location] = useRecoilState(locationState);
 
     return isLoaded ? (<GoogleMap
           mapContainerStyle={{width: '100%', height: '100%'}}
