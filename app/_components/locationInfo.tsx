@@ -1,10 +1,13 @@
 import React, {Fragment,  useState, useEffect} from "react";
 import CurrentLocation from "@/app/_models/location";
 import _ from 'lodash';
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
+import {set} from "@/app/_slices/locationSlice";
 
 const LocationInfo = React.memo((
-    props : { onLocationChanged: (location: CurrentLocation) => void} , context) =>{
-    const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
+    props : {} , context) =>{
+    const {location} = useAppSelector((state)=> state.location);
+    const dispatch = useAppDispatch();
 
     function getCurrentLocation(){
         if('geolocation' in navigator) {
@@ -12,11 +15,9 @@ const LocationInfo = React.memo((
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 const { latitude, longitude } = coords;
                 const current = {lat: latitude, lng: longitude};
-                if(!_.isEqual(currentLocation, current)){
-                    props.onLocationChanged(current);
+                if(!_.isEqual(location, current)){
+                    dispatch(set(current));
                 }
-
-                setCurrentLocation(current);
             }, error =>{
                 console.log(`Unable to get user's location. ${error}`);
                 alert("Unable to get your current location.");
@@ -33,7 +34,7 @@ const LocationInfo = React.memo((
     }, []);
 
     return <div>
-        <Fragment>{JSON.stringify(currentLocation)}</Fragment>
+        <Fragment>{JSON.stringify(location)}</Fragment>
     </div>
 });
 

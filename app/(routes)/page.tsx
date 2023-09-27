@@ -6,24 +6,22 @@ import Card from "@/app/_components/card";
 import LocationInfo from "@/app/_components/locationInfo";
 import dynamic from 'next/dynamic'
 import CardGroup from "@/app/_components/cardGroup";
+import {store} from "@/app/store";
+import {Provider} from "react-redux";
 
 const DateTime = dynamic(() => import('@/app/_components/dateTime'), { ssr: false })
 
 export default function Home() {
-    const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
-
-    function handleLocationChanged(location:CurrentLocation){
-        setCurrentLocation(location);
-    }
-
-    return <main className={`w-full h-screen`}>
-                <Map currentLocation={currentLocation}/>
+    return <Provider store={store}>
+    <main className={`w-full h-screen`}>
+                <Map />
                 <CardGroup cards={[
                     {header: "search", headerSize: 60, labelColor:"black", items: [
                             <DateTime key="0"/>,
-                            <LocationInfo key="1" onLocationChanged={handleLocationChanged}/>]},
+                            <LocationInfo key="1" />]},
                     {header: "weather", headerSize: 40, labelColor:"black"},
                     {header: "places", headerSize: 20, labelColor:"black"},
                 ]} />
       </main>
+    </Provider>
 }

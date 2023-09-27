@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import {MarkerF, GoogleMap, TrafficLayer, TransitLayer, useJsApiLoader} from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
 import CurrentLocation from "@/app/_models/location";
+import {useAppSelector} from "@/app/hooks";
 
 const Map = React.memo((
-    props : {currentLocation: CurrentLocation}
+    props : {}
     , context)=>{
 
     const [ libraries ] = useState<Library[]>(["places", "streetView", "core", "journeySharing"]);
@@ -13,14 +14,15 @@ const Map = React.memo((
       googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
       libraries: libraries
    })
+    const {location} = useAppSelector((state)=> state.location);
 
     return isLoaded ? (<GoogleMap
           mapContainerStyle={{width: '100%', height: '100%'}}
-          center={props.currentLocation !== undefined ? props.currentLocation : { lat:0, lng: 0 }}
-          zoom={props.currentLocation !== undefined ? 14 : 3}>
+          center={location !== undefined ? location : { lat:0, lng: 0 }}
+          zoom={location !== undefined ? 14 : 3}>
          <TrafficLayer/>
          <TransitLayer/>
-       {props.currentLocation !== undefined ?
+       {location !== undefined ?
            <MarkerF icon={{
                path:
                    "M8 12l-4.7023 2.4721.898-5.236L.3916 5.5279l5.2574-.764L8 0l2.3511 4.764 5.2574.7639-3.8043 3.7082.898 5.236z",
@@ -29,7 +31,7 @@ const Map = React.memo((
                scale: 2,
                strokeColor: "gold",
                strokeWeight: 2,
-           }} position={props.currentLocation}/>
+           }} position={location}/>
            : <></>}
       </GoogleMap>) : <></>;
 });
