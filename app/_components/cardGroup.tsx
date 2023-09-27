@@ -53,7 +53,6 @@ const CardGroup = React.memo((
             }
         </button>
         <div className={Visibility[visibility]}>
-
             {props.cards.map((card, index) => {
                 const numOfCards = props.cards.length;
                 const headerSize = (numOfCards - index) * 20;
