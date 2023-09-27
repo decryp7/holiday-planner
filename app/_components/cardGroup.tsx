@@ -27,7 +27,7 @@ const CardGroup = React.memo((
         }
     }
 
-    return <div className="visible">
+    return <div className="">
         {props.cards.map((card, index) => {
             return (<Card key={index} header={card.header}
                   headerSize={card.headerSize}
