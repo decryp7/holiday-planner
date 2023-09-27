@@ -9,20 +9,20 @@ enum Visibility {
 
 const CardGroup = React.memo((
     props : {cards: CardInfo[]}, context) =>{
-    const childRef = useRef<any[]>([]);
+    const childRef = useRef<{[key:string]: any}>({});
     const [visibility, setVisibility] = useState<Visibility>(Visibility.visible);
 
     function handleShow(header: string){
-        for(const child of childRef.current){
-            if(child.header !== header){
-                child.hide?.();
+        for(const key in childRef.current){
+            if(childRef.current[key] !== header){
+                childRef.current[key].hide?.();
             }
         }
     }
 
     useEffect(() => {
-        for(const child of childRef.current){
-            child.onShow?.(handleShow);
+        for(const key in childRef.current){
+            childRef.current[key].onShow?.(handleShow);
         }
 
         return () => {};
@@ -30,7 +30,7 @@ const CardGroup = React.memo((
 
     function setRef(el: any){
         if(el != null) {
-            childRef.current.push(el);
+            childRef.current[el.header] = el;
         }
     }
 
