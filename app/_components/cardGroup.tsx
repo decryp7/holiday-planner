@@ -4,7 +4,7 @@ import {ArchiveBoxArrowDownIcon, ArchiveBoxIcon} from "@heroicons/react/24/outli
 
 enum Visibility {
     visible,
-    collapse
+    hidden
 }
 
 const CardGroup = React.memo((
@@ -36,11 +36,11 @@ const CardGroup = React.memo((
 
     function toggleVisibility(){
         setVisibility(prev => {
-            if(prev === Visibility.collapse){
+            if(prev === Visibility.hidden){
                 return Visibility.visible;
             }
 
-            return Visibility.collapse;
+            return Visibility.hidden;
         })
     }
 
