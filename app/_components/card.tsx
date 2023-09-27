@@ -1,8 +1,15 @@
-import React, {useEffect, useImperativeHandle, useRef, useState} from "react";
+import React, {ComponentType, useEffect, useImperativeHandle, useRef, useState} from "react";
 import _ from 'lodash';
 
+export interface CardInfo {
+    header: string;
+    headerSize: number;
+    labelColor: string;
+    items?: any[];
+}
+
 const Card = React.memo(React.forwardRef((
-    props : {children: any,
+    props : {items: any,
         header: string,
         headerSize: number,
         labelColor: string} , ref) =>{
@@ -31,11 +38,14 @@ const Card = React.memo(React.forwardRef((
     const card = useRef<HTMLDivElement>(null);
 
     function toggleCard() {
+        if(_.isEqual(style, hideStyle)){
+            for(const listener of showListeners){
+                listener(props.header);
+            }
+        }
+
         setStyle((prev: any) => {
                 if(_.isEqual(prev, hideStyle)){
-                    for(const listener of showListeners){
-                        listener(props.header);
-                    }
                     return showStyle;
                 }
                 return hideStyle;
@@ -46,7 +56,7 @@ const Card = React.memo(React.forwardRef((
             className={`fixed lg:w-1/2 w-full lg:h-1/2 h-3/4 left-1/2 -translate-x-1/2 bg-white rounded-t-xl shadow-t-xl transition-transform ease-in-out duration-500 will-change-auto`} ref={card}>
             <div style={{background: `${props.labelColor}`}} className="absolute font-bold w-fit px-2 text-xl rounded-b mr-10 right-0">{props.header}</div>
             <button onClick={toggleCard} className="block ml-auto mr-auto mt-2 w-12 h-2 bg-gray-200 rounded-full m-0"></button>
-            <div className="p-2 text-black">{props.children}</div>
+            <div className="p-2 text-black">{props.items}</div>
         </div>
 
 }));

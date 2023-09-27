@@ -1,18 +1,9 @@
 import React, {Children, Fragment, ReactNode, useEffect, useRef, useState} from "react";
-import Card from "@/app/_components/card";
+import Card, {CardInfo} from "@/app/_components/card";
 
-const CardGroup = React.memo((props : {children: any} , context) =>{
-    const childRef = useRef<any>([]);
-
-    const renderChildren = () => {
-        return React.Children.map(props.children, (child, index) => {
-            return React.cloneElement(child, {
-                ref: ((el: typeof Card) => {
-                    childRef.current[index] = el;
-                }),
-            });
-        });
-    };
+const CardGroup = React.memo((
+    props : {cards: CardInfo[]}, context) =>{
+    const childRef = useRef<any[]>([]);
 
     function handleShow(header: string){
         for(const child of childRef.current){
@@ -30,7 +21,21 @@ const CardGroup = React.memo((props : {children: any} , context) =>{
         return () => {};
     }, []);
 
-    return <Fragment>{renderChildren()}</Fragment>;
+    function setRef(el: any){
+        if(el != null) {
+            childRef.current.push(el);
+        }
+    }
+
+    return <Fragment>
+        {props.cards.map((card, index) => {
+            return (<Card key={index} header={card.header}
+                  headerSize={card.headerSize}
+                  labelColor={card.labelColor}
+                  items={card.items}
+                  ref={setRef}/>);
+        })}
+    </Fragment>;
 });
 
 CardGroup.displayName = "CardGroup";
