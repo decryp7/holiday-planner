@@ -29,10 +29,13 @@ const CardGroup = React.memo((
 
     return <div className="">
         {props.cards.map((card, index) => {
+            const numOfCards = props.cards.length;
+            const headerSize = (numOfCards - index) * 20;
             return (<Card key={index} header={card.header}
-                  headerSize={card.headerSize}
+                  headerSize={headerSize}
                   labelColor={card.labelColor}
                   items={card.items}
+                          coveredSize={numOfCards * 20}
                   ref={setRef}/>);
         })}
     </div>;

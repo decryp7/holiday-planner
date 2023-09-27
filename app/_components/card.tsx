@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 export interface CardInfo {
     header: string;
-    headerSize: number;
     labelColor: string;
     items?: any[];
 }
@@ -12,6 +11,7 @@ const Card = React.memo(React.forwardRef((
     props : {items: any,
         header: string,
         headerSize: number,
+        coveredSize?: number,
         labelColor: string} , ref) =>{
     const [showListeners, setShowListeners] = useState<((header: string) => void)[]>([]);
 
@@ -36,6 +36,7 @@ const Card = React.memo(React.forwardRef((
     }
     const [style, setStyle] = useState<any>(hideStyle);
     const card = useRef<HTMLDivElement>(null);
+    const cardContent = useRef<HTMLDivElement>(null);
 
     function toggleCard() {
         if(_.isEqual(style, hideStyle)){
@@ -56,7 +57,8 @@ const Card = React.memo(React.forwardRef((
             className="fixed lg:w-1/2 w-full lg:h-1/2 h-3/4 left-1/2 bottom-0 -translate-x-1/2 bg-white rounded-t-xl shadow-t-xl transition-all ease-in-out duration-500 will-change-auto pointer-events-auto" ref={card}>
             <div style={{background: `${props.labelColor}`}} className="absolute font-bold w-fit px-2 text-xl rounded-b mr-10 right-0">{props.header}</div>
             <button onClick={toggleCard} className="block ml-auto mr-auto mt-2 w-12 h-2 bg-gray-200 rounded-full m-0"></button>
-            <div className="flex p-2 text-black">{props.items}</div>
+            <div style={props.coveredSize != null ? {maxHeight: `calc(100% - ${props.coveredSize * 2}px)`} : {}}
+                 className="flex p-5 mt-5 text-black overflow-auto" ref={cardContent}>{props.items}</div>
         </div>
 
 }));
