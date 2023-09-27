@@ -19,6 +19,9 @@ export default function Home() {
     return <main className={`w-full h-screen`}>
                 <Map currentLocation={currentLocation}/>
                 <CardGroup>
+                        <Card header="places" headerSize={60} labelColor="black">
+                            <></>
+                        </Card>
                         <Card header="weather" headerSize={40} labelColor="black">
                             <></>
                         </Card>
