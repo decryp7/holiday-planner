@@ -11,14 +11,12 @@ const LocationInfo = React.memo((
             // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
             navigator.geolocation.getCurrentPosition(({ coords }) => {
                 const { latitude, longitude } = coords;
-                let prevValue: CurrentLocation = undefined;
-                setCurrentLocation(prev => {
-                    const current = {lat: latitude, lng: longitude};
-                    if(!_.isEqual(prev, current)){
-                        props.onLocationChanged(current);
-                    }
-                    return {lat:latitude, lng:longitude};
-                });
+                const current = {lat: latitude, lng: longitude};
+                if(!_.isEqual(currentLocation, current)){
+                    props.onLocationChanged(current);
+                }
+
+                setCurrentLocation(current);
             }, error =>{
                 console.log(`Unable to get user's location. ${error}`);
                 alert("Unable to get your current location.");

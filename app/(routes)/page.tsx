@@ -13,7 +13,6 @@ export default function Home() {
     const [currentLocation, setCurrentLocation] = useState<CurrentLocation>(undefined);
 
     function handleLocationChanged(location:CurrentLocation){
-        console.log("location changed!")
         setCurrentLocation(location);
     }
 
