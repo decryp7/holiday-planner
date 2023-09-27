@@ -27,7 +27,7 @@ const CardGroup = React.memo((
         }
     }
 
-    return <Fragment>
+    return <div className="visible">
         {props.cards.map((card, index) => {
             return (<Card key={index} header={card.header}
                   headerSize={card.headerSize}
@@ -35,7 +35,7 @@ const CardGroup = React.memo((
                   items={card.items}
                   ref={setRef}/>);
         })}
-    </Fragment>;
+    </div>;
 });
 
 CardGroup.displayName = "CardGroup";
