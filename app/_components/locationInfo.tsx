@@ -1,11 +1,11 @@
 import React, {Fragment,  useState, useEffect} from "react";
 import _ from 'lodash';
 import {useRecoilState} from "recoil";
-import {locationState} from "@/app/_state/locationState";
+import {currentLocationState} from "@/app/_state/currentLocationState";
 
 const LocationInfo = React.memo((
     props : {} , context) =>{
-    const [location, setLocation] = useRecoilState(locationState);
+    const [location, setLocation] = useRecoilState(currentLocationState);
 
     function getCurrentLocation(){
         if('geolocation' in navigator) {

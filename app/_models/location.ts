@@ -1,8 +1,8 @@
-export interface LocationData {
+export interface LocationInfo {
     lat: number;
     lng: number;
 }
 
-declare type CurrentLocation = LocationData | undefined;
+declare type Location = LocationInfo | undefined;
 
-export default CurrentLocation;
+export default Location;
