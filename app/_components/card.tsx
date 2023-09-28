@@ -46,16 +46,12 @@ const Card = React.memo(React.forwardRef((
             for(const listener of showListeners){
                 listener(props.header);
             }
+            setActiveCard(props.header);
+            setStyle(showStyle);
+        }else{
+            setActiveCard("");
+            setStyle(hideStyle);
         }
-
-        setStyle((prev: any) => {
-                if(_.isEqual(prev, hideStyle)){
-                    setActiveCard(props.header);
-                    return showStyle;
-                }
-                setActiveCard("");
-                return hideStyle;
-        });
     }
 
     return <div style={style}
