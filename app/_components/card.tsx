@@ -1,5 +1,7 @@
 import React, {ComponentType, useEffect, useImperativeHandle, useRef, useState} from "react";
 import _ from 'lodash';
+import {useSetRecoilState} from "recoil";
+import {activeCardState} from "@/app/_state/activeCardState";
 
 export interface CardInfo {
     header: string;
@@ -14,6 +16,7 @@ const Card = React.memo(React.forwardRef((
         coveredSize?: number,
         labelColor: string} , ref) =>{
     const [showListeners, setShowListeners] = useState<((header: string) => void)[]>([]);
+    const setActiveCard = useSetRecoilState(activeCardState);
 
     useImperativeHandle(ref, ()=>{
        return {
@@ -47,8 +50,10 @@ const Card = React.memo(React.forwardRef((
 
         setStyle((prev: any) => {
                 if(_.isEqual(prev, hideStyle)){
+                    setActiveCard(props.header);
                     return showStyle;
                 }
+                setActiveCard("");
                 return hideStyle;
         });
     }

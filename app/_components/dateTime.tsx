@@ -1,7 +1,10 @@
-import React, {Fragment, useState, useEffect} from "react";
+import React, {Fragment, useState, useEffect, MouseEventHandler} from "react";
+import {useSetRecoilState} from "recoil";
+import {activeCardState} from "@/app/_state/activeCardState";
 
 const DateTime = React.memo((props , context) =>{
     const [currentDateTime, setCurrentDateTime] = useState(new Date());
+    const setActiveTab = useSetRecoilState(activeCardState);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -11,8 +14,12 @@ const DateTime = React.memo((props , context) =>{
         return () => clearInterval(interval);
     }, [currentDateTime]);
 
+    function handleDateClick(event: React.MouseEvent){
+        setActiveTab("weather");
+    }
+
     return <div className="absolute right-[0.5rem] top-[5rem] columns-1 text-gray-800">
-        <div className="columns-1 w-[40px] h-[40px] bg-white text-center shadow rounded-[2px]">
+        <div className="columns-1 w-[40px] h-[40px] bg-white text-center shadow rounded-[2px] cursor-pointer" onClick={handleDateClick}>
             <div className="font-bold text-[1.1rem]/[1.1rem]">{currentDateTime.getDate()}</div>
             <div className="font-bold text-[0.70rem]/[0.70rem]">{currentDateTime.toLocaleString('default', { month: 'short' })}</div>
             <div className="relative -bottom-1 w-full font-bold text-[0.70rem]/[0.70rem] text-white bg-gray-800 rounded-b-[2px]">{currentDateTime.toLocaleString('default', { weekday: 'short' })}</div>
