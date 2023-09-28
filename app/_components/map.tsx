@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {MarkerF, GoogleMap, TrafficLayer, TransitLayer, useJsApiLoader} from "@react-google-maps/api";
+import {MarkerF, GoogleMap, TrafficLayer, TransitLayer, useJsApiLoader, InfoWindow} from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
 import {useRecoilState} from "recoil";
 import {currentLocationState} from "@/app/_state/currentLocationState";
@@ -23,13 +23,14 @@ const Map = React.memo((
          <TrafficLayer/>
          <TransitLayer/>
        {location !== undefined ?
-           <MarkerF icon={{
+               <MarkerF icon={{
                path:
                    "M6 18L18 6M6 6l12 12",
                scale: 2,
                strokeColor: "Crimson",
                strokeWeight: 8,
-           }} position={location}/>
+               }} position={location}>
+               </MarkerF>
            : <></>}
       </GoogleMap>) : <></>;
 });
