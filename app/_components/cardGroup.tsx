@@ -1,6 +1,8 @@
 import React, {Children, Fragment, ReactNode, useEffect, useRef, useState} from "react";
 import Card, {CardInfo} from "@/app/_components/card";
 import {ArchiveBoxArrowDownIcon, ArchiveBoxIcon} from "@heroicons/react/24/outline";
+import {useRecoilCallback, useRecoilState, useRecoilValue} from "recoil";
+import {activeCardState} from "@/app/_state/activeCardState";
 
 enum Visibility {
     visible,
@@ -11,14 +13,25 @@ const CardGroup = React.memo((
     props : {cards: CardInfo[]}, context) =>{
     const childRef = useRef<{[key:string]: any}>({});
     const [visibility, setVisibility] = useState<Visibility>(Visibility.visible);
+    const activeCard = useRecoilValue(activeCardState);
 
     function handleShow(header: string){
         for(const key in childRef.current){
-            if(childRef.current[key] !== header){
+            if(key !== header){
                 childRef.current[key].hide?.();
             }
         }
     }
+
+    useEffect(() => {
+        for(const key in childRef.current){
+            if(key === activeCard){
+                childRef.current[key].show?.();
+            }else{
+                childRef.current[key].hide?.();
+            }
+        }
+    }, [activeCard]);
 
     useEffect(() => {
         for(const key in childRef.current){
