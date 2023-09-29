@@ -1,7 +1,6 @@
-An application to check the weather and direction of curated places during holiday. 
+An application to check the weather and direction of curated places when traveling. 
 
 #### Getting Started
-
 To run the development server, please run the following command.
 
 ```bash
