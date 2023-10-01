@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = (process.env.CODE_SERVER == undefined) ? {
+const nextConfig = (process.env.CODE_SERVER === undefined) ? {
     output: 'standalone',
 } :
 {
