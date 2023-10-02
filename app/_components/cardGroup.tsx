@@ -68,7 +68,7 @@ const CardGroup = React.memo((
         <div className={Visibility[visibility]}>
             {props.cards.map((card, index) => {
                 const numOfCards = props.cards.length;
-                const headerSize = (numOfCards - index) * 20;
+                const headerSize = ((numOfCards - index) * 20) + 20;
                 return (<Card key={index} header={card.header}
                       headerSize={headerSize}
                       labelColor={card.labelColor}
