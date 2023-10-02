@@ -9,21 +9,19 @@ export const forecastElementCode : {[key: string]: string} = {
     temperature: "T"
 }
 
-export interface LocationForecast {
-    locationName: string,
-    geocode: number,
-    lat: number,
-    lon: number,
-    forecast: {
-        startTime: Date,
-        endTime: Date,
-        description: string,
-        icon: string,
-    }[]
+export interface wxElement {
+    startTime: string;
+    endTime: string;
+    elementValue: {
+        value: string,
+    }[];
 }
 
-export interface WeatherForecastModel {
-    locations: LocationForecast[]
+export interface tElement {
+    dataTime: string;
+    elementValue: {
+        value: string,
+    }[];
 }
 
 export interface CWAForecast {
@@ -40,49 +38,94 @@ export interface CWAForecast {
                 weatherElement: {
                     elementName: string,
                     description: string,
-                    time: {
-                        startTime: string,
-                        endTime: string,
-                        elementValue: {
-                            value: string
-                        }[]
-                    }[]
+                    time: Array<wxElement | tElement>
                 }[]
             }[]
         }[]};
 }
 
+export abstract class ForecastInfo {
+    protected constructor(public value: string) {
+    }
+
+    abstract toString(): string;
+}
+
+export class WeatherForecastInfo extends ForecastInfo{
+
+    constructor(public startTime: Date,
+                public endTime: Date,
+                value: string,
+                public icon: string) {
+        super(value);
+    }
+
+    override toString(): string {
+        return this.value;
+    }
+}
+
+export class TemperatureForecastInfo extends ForecastInfo{
+
+    constructor(public dataTime: Date,
+                value: string) {
+        super(value);
+    }
+
+    override toString(): string {
+        return `${this.value} °C`;
+    }
+}
+
+export interface LocationForecast {
+    locationName: string,
+    geocode: number,
+    lat: number,
+    lon: number,
+    forecast: ForecastInfo[]
+}
+
+export interface WeatherForecastModel {
+    locations: LocationForecast[]
+}
+
 export class WeatherForecast implements WeatherForecastModel{
-    locations: {
-        locationName: string;
-        geocode: number;
-        lat: number;
-        lon: number;
-        forecast: {
-            startTime: Date;
-            endTime: Date;
-            description: string;
-            icon: string
-        }[]
-    }[] = [];
+    locations: LocationForecast[] = [];
 
     constructor(cwaForecast: CWAForecast, date?: Date){
         for(const location of cwaForecast.records.locations[0].location){
-            const timings = [];
-            for(const t of location.weatherElement[0].time){
-                const startTime = new Date(t.startTime);
-                const endTime = new Date(t.endTime);
+            const forecastInfos: ForecastInfo[] = [];
 
-                if(date != undefined && !(startTime < date && endTime > date)){
-                    continue;
+            for(const weatherElement of location.weatherElement){
+                switch (weatherElement.elementName){
+                    case forecastElementCode.weather:
+                        for(const t  of weatherElement.time as Array<wxElement>){
+                            const startTime = new Date(t.startTime);
+                            const endTime = new Date(t.endTime);
+
+                            if(date != undefined && !(startTime < date && endTime > date)){
+                                continue;
+                            }
+
+                            forecastInfos.push(new WeatherForecastInfo(startTime,
+                                endTime,
+                                t.elementValue[0].value,
+                                t.elementValue[1].value));
+                        }
+                        break;
+                    case forecastElementCode.temperature:
+                        for(const t of weatherElement.time as Array<tElement>){
+                            const dataTime = new Date(t.dataTime);
+
+                            if(date != undefined && date > dataTime){
+                                forecastInfos.push(new TemperatureForecastInfo(dataTime, t.elementValue[0].value));
+                                break;
+                            }else{
+                                forecastInfos.push(new TemperatureForecastInfo(dataTime, t.elementValue[0].value));
+                            }
+                        }
+                        break;
                 }
-
-                timings.push({
-                    startTime: new Date(t.startTime),
-                    endTime: new Date(t.endTime),
-                    description: t.elementValue[0].value,
-                    icon: t.elementValue[1].value
-                });
             }
 
             this.locations.push(
@@ -91,7 +134,7 @@ export class WeatherForecast implements WeatherForecastModel{
                     geocode: location.geocode,
                     lat: location.lat,
                     lon: location.lon,
-                    forecast: timings
+                    forecast: forecastInfos
                 }
             )
         }
