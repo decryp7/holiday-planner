@@ -38,7 +38,8 @@ const Map = React.memo((
     }, []);
 
     function handleClick(event: MapMouseEvent){
-        console.log(event, typeof  event);
+        console.log(event);
+        console.log(event.latLng);
     }
 
     return isLoaded ? (<GoogleMap
@@ -47,7 +48,8 @@ const Map = React.memo((
           zoom={location !== undefined ? 14 : 3}>
          <TrafficLayer/>
          <TransitLayer/>
-        <KmlLayer url="https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps" onClick={handleClick}/>
+        <KmlLayer url="https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps"
+                  onClick={handleClick} options={{suppressInfoWindows: true}}/>
        {location !== undefined ?
                <MarkerF icon={{
                path:
