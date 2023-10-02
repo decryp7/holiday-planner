@@ -38,17 +38,16 @@ const Map = React.memo((
     }, []);
 
     function handleClick(event: MapMouseEvent){
-        console.log(event.latLng, typeof event);
+        console.log(event, typeof  event);
     }
 
     return isLoaded ? (<GoogleMap
           mapContainerStyle={{width: '100%', height: '100%'}}
           center={location !== undefined ? location : { lat:0, lng: 0 }}
-          zoom={location !== undefined ? 14 : 3}
-          onClick={handleClick}>
+          zoom={location !== undefined ? 14 : 3}>
          <TrafficLayer/>
          <TransitLayer/>
-        <KmlLayer url="https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps" />
+        <KmlLayer url="https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps" onClick={handleClick}/>
        {location !== undefined ?
                <MarkerF icon={{
                path:
