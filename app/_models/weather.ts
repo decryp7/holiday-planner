@@ -102,14 +102,13 @@ export class WeatherForecast implements WeatherForecastModel{
                             const startTime = new Date(t.startTime);
                             const endTime = new Date(t.endTime);
 
-                            if(date != undefined && !(startTime < date && endTime > date)){
-                                continue;
+                            if(date != undefined && (startTime < date && endTime > date)){
+                                forecastInfos.push(new WeatherForecastInfo(startTime,
+                                    endTime,
+                                    t.elementValue[0].value,
+                                    t.elementValue[1].value));
+                                break;
                             }
-
-                            forecastInfos.push(new WeatherForecastInfo(startTime,
-                                endTime,
-                                t.elementValue[0].value,
-                                t.elementValue[1].value));
                         }
                         break;
                     case forecastElementCode.temperature:
