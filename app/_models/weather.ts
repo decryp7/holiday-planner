@@ -92,6 +92,8 @@ export class WeatherForecast implements WeatherForecastModel{
     locations: LocationForecast[] = [];
 
     constructor(cwaForecast: CWAForecast, date?: Date){
+        console.log(cwaForecast.records.locations[0].location[0].weatherElement[0].time[0].startTime);
+        console.log(new Date(cwaForecast.records.locations[0].location[0].weatherElement[0].time[0].startTime));
         for(const location of cwaForecast.records.locations[0].location){
             const forecastInfos: ForecastInfo[] = [];
 
@@ -99,8 +101,8 @@ export class WeatherForecast implements WeatherForecastModel{
                 switch (weatherElement.elementName){
                     case forecastElementCode.weather:
                         for(const t  of weatherElement.time as Array<wxElement>){
-                            const startTime = new Date(`${t.startTime} GMT+8`);
-                            const endTime = new Date(`${t.endTime} GMT+8`);
+                            const startTime = new Date(`${t.startTime}`);
+                            const endTime = new Date(`${t.endTime}`);
 
                             if(date != undefined){
                                 if(startTime > date){
@@ -120,7 +122,7 @@ export class WeatherForecast implements WeatherForecastModel{
                         break;
                     case forecastElementCode.temperature:
                         for(const t of weatherElement.time as Array<tElement>){
-                            const dataTime = new Date(`${t.dataTime} GMT+8`);
+                            const dataTime = new Date(`${t.dataTime}`);
 
                             if(date != undefined){
                                 if(dataTime > date) {
