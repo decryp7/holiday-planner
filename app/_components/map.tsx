@@ -16,6 +16,7 @@ import getWeatherForecast from "@/app/_libraries/weather";
 import Image from "next/image";
 import {plainToClass, plainToInstance} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
+import MapMouseEvent = google.maps.MapMouseEvent;
 
 const Map = React.memo((
     props : {}
@@ -36,10 +37,15 @@ const Map = React.memo((
             .then(setLocationForecast);
     }, []);
 
+    function handleClick(event: MapMouseEvent){
+        console.log(event);
+    }
+
     return isLoaded ? (<GoogleMap
           mapContainerStyle={{width: '100%', height: '100%'}}
           center={location !== undefined ? location : { lat:0, lng: 0 }}
-          zoom={location !== undefined ? 14 : 3}>
+          zoom={location !== undefined ? 14 : 3}
+          onClick={handleClick}>
          <TrafficLayer/>
          <TransitLayer/>
         <KmlLayer url="https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps" />
