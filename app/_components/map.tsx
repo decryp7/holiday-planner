@@ -38,7 +38,7 @@ const Map = React.memo((
     }, []);
 
     function handleClick(event: MapMouseEvent){
-        console.log(event);
+        console.log(event.latLng, typeof event);
     }
 
     return isLoaded ? (<GoogleMap
