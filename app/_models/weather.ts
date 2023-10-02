@@ -99,10 +99,8 @@ export class WeatherForecast implements WeatherForecastModel{
                 switch (weatherElement.elementName){
                     case forecastElementCode.weather:
                         for(const t  of weatherElement.time as Array<wxElement>){
-                            const startTime = new Date(t.startTime);
-                            const endTime = new Date(t.endTime);
-
-                            console.log(`${date}, ${startTime}, ${endTime}`);
+                            const startTime = new Date(`${t.startTime} GMT+8`);
+                            const endTime = new Date(`${t.endTime} GMT+8`);
 
                             if(date != undefined && (startTime < date && endTime > date)){
                                 forecastInfos.push(new WeatherForecastInfo(startTime,
@@ -115,7 +113,7 @@ export class WeatherForecast implements WeatherForecastModel{
                         break;
                     case forecastElementCode.temperature:
                         for(const t of weatherElement.time as Array<tElement>){
-                            const dataTime = new Date(t.dataTime);
+                            const dataTime = new Date(`${t.dataTime} GMT+8`);
 
                             if(date != undefined && date > dataTime){
                                 forecastInfos.push(new TemperatureForecastInfo(dataTime, t.elementValue[0].value));
