@@ -40,3 +40,7 @@ next-env.d.ts
 
 #prisma
 /prisma/*.db*
+
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js
