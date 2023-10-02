@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 import {LocationForecast} from "@/app/_models/weather";
-import getWeatherForecast from "@/app/(routes)/weather/weather";
+import getWeatherForecast from "@/app/_libraries/weather";
 
 export async function GET() {
     let weatherForecasts: LocationForecast[] = [];

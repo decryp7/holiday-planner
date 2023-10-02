@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {LocationForecast} from "@/app/_models/weather";
-import getWeatherForecast from "@/app/(routes)/weather/weather";
+import getWeatherForecast from "@/app/_libraries/weather";
 
 export async function GET(request: NextRequest, { params } : { params: {datetime: string}}) {
     const datetime = new Date(+params.datetime);

@@ -2,6 +2,7 @@ export const forecastCode : {[key: string]: string} = {
     yilan2: "F-D0047-001",
     taoyuan2: "F-D0047-005",
     taipei2: "F-D0047-061",
+    keelung2: "F-D0047-049"
 }
 
 export const forecastElementCode : {[key: string]: string} = {
@@ -48,7 +49,9 @@ export abstract class ForecastInfo {
     protected constructor(public value: string) {
     }
 
-    abstract toString(): string;
+    toString(): string {
+        return this.value;
+    }
 }
 
 export class WeatherForecastInfo extends ForecastInfo{
@@ -58,10 +61,6 @@ export class WeatherForecastInfo extends ForecastInfo{
                 value: string,
                 public icon: string) {
         super(value);
-    }
-
-    override toString(): string {
-        return this.value;
     }
 }
 
@@ -73,7 +72,7 @@ export class TemperatureForecastInfo extends ForecastInfo{
     }
 
     override toString(): string {
-        return `${this.value} °C`;
+        return `${this.value}°C`;
     }
 }
 
@@ -81,7 +80,7 @@ export interface LocationForecast {
     locationName: string,
     geocode: number,
     lat: number,
-    lon: number,
+    lng: number,
     forecast: ForecastInfo[]
 }
 
@@ -133,7 +132,7 @@ export class WeatherForecast implements WeatherForecastModel{
                     locationName: location.locationName,
                     geocode: location.geocode,
                     lat: location.lat,
-                    lon: location.lon,
+                    lng: location.lon,
                     forecast: forecastInfos
                 }
             )
