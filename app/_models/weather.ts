@@ -103,7 +103,7 @@ export class WeatherForecast implements WeatherForecastModel{
                             const endTime = new Date(`${t.endTime} GMT+8`);
 
                             if(date != undefined){
-                                if(startTime < date && endTime > date){
+                                if(startTime > date){
                                     forecastInfos.push(new WeatherForecastInfo(startTime,
                                         endTime,
                                         t.elementValue[0].value,
@@ -123,7 +123,7 @@ export class WeatherForecast implements WeatherForecastModel{
                             const dataTime = new Date(`${t.dataTime} GMT+8`);
 
                             if(date != undefined){
-                                if(date > dataTime) {
+                                if(dataTime > date) {
                                     forecastInfos.push(new TemperatureForecastInfo(dataTime, t.elementValue[0].value));
                                     break;
                                 }

@@ -32,7 +32,9 @@ const Map = React.memo((
    const [locationForecasts, setLocationForecast] = useState<LocationForecast[]>([]);
 
     useEffect(() => {
-        fetch(`/api/weather/${new Date().getTime()}`)
+        const url = `/api/weather/${new Date().getTime()}`;
+        console.log(url);
+        fetch(url)
             .then(res => res.json())
             .then(setLocationForecast);
     }, []);
@@ -63,6 +65,9 @@ const Map = React.memo((
         {locationForecasts.map((locationForecast, index) => {
             const weatherForecastInfo = locationForecast.forecast[0] as WeatherForecastInfo;
             const temperatureForecastInfo = plainToClass(TemperatureForecastInfo, locationForecast.forecast[1]);
+            if(weatherForecastInfo == undefined && temperatureForecastInfo == undefined){
+                return <></>;
+            }
             return <OverlayView
                 key={index}
                 position={{lat: locationForecast.lat, lng: locationForecast.lng}}
