@@ -1,9 +1,8 @@
-import {NextRequest, NextResponse} from "next/server";
-import {CWAForecast, elementCode, forecastCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
-import {forEach} from "lodash";
+import {NextResponse} from "next/server";
+import {LocationForecast} from "@/app/_models/weather";
 import getWeatherForecast from "@/app/(routes)/weather/weather";
 
-export async function GET(request: NextRequest, { params } : any) {
+export async function GET() {
     let weatherForecasts: LocationForecast[] = [];
 
     try {
