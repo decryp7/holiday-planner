@@ -6,7 +6,7 @@ import {
     TransitLayer,
     useJsApiLoader,
     InfoWindow,
-    OverlayView
+    OverlayView, KmlLayer
 } from "@react-google-maps/api";
 import {Library} from "@googlemaps/js-api-loader";
 import {useRecoilState} from "recoil";
@@ -42,6 +42,7 @@ const Map = React.memo((
           zoom={location !== undefined ? 14 : 3}>
          <TrafficLayer/>
          <TransitLayer/>
+        <KmlLayer url="https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps" />
        {location !== undefined ?
                <MarkerF icon={{
                path:
