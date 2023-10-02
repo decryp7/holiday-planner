@@ -15,7 +15,10 @@ const DateTime = React.memo((props , context) =>{
     }, [currentDateTime]);
 
     function handleDateClick(event: React.MouseEvent){
-        setActiveTab("weather");
+        //setActiveTab("weather");
+        fetch(`/api/weather/${new Date().getTime()}`)
+            .then(res => res.json())
+            .then(r => console.log(r));
     }
 
     return <div className="absolute right-[0.5rem] top-[5rem] columns-1 text-gray-800">
