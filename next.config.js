@@ -12,7 +12,7 @@ const nextConfig = (process.env.CODE_SERVER === undefined) ? {
                 protocol: 'https',
                 hostname: 'www.cwa.gov.tw',
                 port: '',
-                pathname: '/V8/assets/img/weather_icons/weathers/svg_icon/day/**',
+                pathname: '/V8/assets/img/weather_icons/weathers/svg_icon/**',
             },
         ],
     }
