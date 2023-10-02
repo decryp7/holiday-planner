@@ -16,7 +16,9 @@ const DateTime = React.memo((props , context) =>{
 
     function handleDateClick(event: React.MouseEvent){
         //setActiveTab("weather");
-        fetch(`/api/weather/${new Date().getTime()}`)
+        const now = new Date().getTime();
+        console.log(now);
+        fetch(`/api/weather/${now}`)
             .then(res => res.json())
             .then(r => console.log(r));
     }
