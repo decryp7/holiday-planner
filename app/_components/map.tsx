@@ -31,7 +31,7 @@ const Map = React.memo((
    const [locationForecasts, setLocationForecast] = useState<LocationForecast[]>([]);
 
     useEffect(() => {
-        fetch(`/weather/${new Date().getTime()}`)
+        fetch(`/api/weather/${new Date().getTime()}`)
             .then(res => res.json())
             .then(setLocationForecast);
     }, []);
