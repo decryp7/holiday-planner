@@ -1,7 +1,6 @@
 import {forecastElementCode, forecastCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
 
 export default async function getWeatherForecast(date?: Date) : Promise<LocationForecast[]>{
-    console.log(date);
     const fetches: Promise<Response>[] = [];
     for(const key in forecastCode){
         fetches.push(fetch(`https://opendata.cwa.gov.tw/api/v1/rest/datastore/` +
