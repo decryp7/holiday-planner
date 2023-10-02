@@ -102,12 +102,19 @@ export class WeatherForecast implements WeatherForecastModel{
                             const startTime = new Date(`${t.startTime} GMT+8`);
                             const endTime = new Date(`${t.endTime} GMT+8`);
 
-                            if(date != undefined && (startTime < date && endTime > date)){
+                            if(date != undefined){
+                                if(startTime < date && endTime > date){
+                                    forecastInfos.push(new WeatherForecastInfo(startTime,
+                                        endTime,
+                                        t.elementValue[0].value,
+                                        t.elementValue[1].value));
+                                    break;
+                                }
+                            }else{
                                 forecastInfos.push(new WeatherForecastInfo(startTime,
                                     endTime,
                                     t.elementValue[0].value,
                                     t.elementValue[1].value));
-                                break;
                             }
                         }
                         break;
@@ -115,9 +122,11 @@ export class WeatherForecast implements WeatherForecastModel{
                         for(const t of weatherElement.time as Array<tElement>){
                             const dataTime = new Date(`${t.dataTime} GMT+8`);
 
-                            if(date != undefined && date > dataTime){
-                                forecastInfos.push(new TemperatureForecastInfo(dataTime, t.elementValue[0].value));
-                                break;
+                            if(date != undefined){
+                                if(date > dataTime) {
+                                    forecastInfos.push(new TemperatureForecastInfo(dataTime, t.elementValue[0].value));
+                                    break;
+                                }
                             }else{
                                 forecastInfos.push(new TemperatureForecastInfo(dataTime, t.elementValue[0].value));
                             }
