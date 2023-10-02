@@ -1,4 +1,4 @@
-import {elementCode, forecastCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
+import {forecastElementCode, forecastCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
 
 export default async function getWeatherForecast(date?: Date) : Promise<LocationForecast[]>{
     const fetches: Promise<Response>[] = [];
@@ -6,7 +6,7 @@ export default async function getWeatherForecast(date?: Date) : Promise<Location
         fetches.push(fetch(`https://opendata.cwa.gov.tw/api/v1/rest/datastore/` +
             `${forecastCode[key]}?` +
             `Authorization=${process.env.CWA_API_KEY}` +
-            `&elementName=${[elementCode.weather, elementCode.weather].join(',')}`));
+            `&elementName=${[forecastElementCode.weather, forecastElementCode.temperature].join(',')}`));
     }
 
     const responses = await Promise.all(fetches);

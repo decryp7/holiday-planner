@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {CWAForecast, elementCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
+import {LocationForecast} from "@/app/_models/weather";
 import getWeatherForecast from "@/app/(routes)/weather/weather";
 
 export async function GET(request: NextRequest, { params } : { params: {datetime: string}}) {

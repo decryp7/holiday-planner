@@ -4,7 +4,7 @@ export const forecastCode : {[key: string]: string} = {
     taipei2: "F-D0047-061",
 }
 
-export const elementCode : {[key: string]: string} = {
+export const forecastElementCode : {[key: string]: string} = {
     weather: "Wx",
     temperature: "T"
 }
