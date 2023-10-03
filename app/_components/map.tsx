@@ -8,6 +8,7 @@ import Image from "next/image";
 import {plainToClass, plainToInstance} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
 import { DateTime } from "luxon";
+import MyMarker from "@/app/_components/myMarker";
 
 const Map = React.memo((
     props : {}
@@ -74,6 +75,8 @@ const Map = React.memo((
                 value={weatherForecastInfo.value}
                 temperature={temperatureForecastInfo.toString()} />
         })}
+
+        {location !== undefined && <MyMarker lat={location.lat} lng={location.lng} size={"4em"} color={"red"} />}
             </GoogleMap>;
 });
 
