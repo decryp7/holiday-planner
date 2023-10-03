@@ -14,14 +14,14 @@ const WeatherMarker = React.memo((props : {
     return <div className="flex flex-col w-16 h-16">
         <div className="relative w-[90%] h-[90%] mx-auto">
             <Image
-                className="drop-shadow-md"
+                className="drop-shadow-[0px_0px_2px_white]"
                 src={`https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/${now}/${props.icon}.svg`}
                 alt={props.value}
                 fill={true}
                 style={{objectFit:"contain"}}/>
             <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[1em] text-black font-bold">{props.temperature}</div>
         </div>
-        <div className="text-[1em] mx-auto text-black font-bold drop-shadow-[0_0_1px_white]">{props.value}</div>
+        <div className="text-[1em] mx-auto text-black font-bold drop-shadow-[0px_0px_2px_white]">{props.value}</div>
     </div>
 });
 
