@@ -4,7 +4,8 @@ export const forecastCode : {[key: string]: string} = {
     yilan2: "F-D0047-001",
     taoyuan2: "F-D0047-005",
     taipei2: "F-D0047-061",
-    keelung2: "F-D0047-049"
+    keelung2: "F-D0047-049",
+    newTaipei2: "F-D0047-069",
 }
 
 export const forecastElementCode : {[key: string]: string} = {
