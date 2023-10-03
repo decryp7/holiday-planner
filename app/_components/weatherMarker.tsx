@@ -19,9 +19,9 @@ const WeatherMarker = React.memo((props : {
                 alt={props.value}
                 fill={true}
                 style={{objectFit:"contain"}}/>
-            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[1em] text-black font-bold">{props.temperature}</div>
+            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[1em] text-black font-black">{props.temperature}</div>
         </div>
-        <div className="text-[1em] mx-auto text-black font-bold drop-shadow-[0px_0px_2px_white]">{props.value}</div>
+        <div className="text-[1em] mx-auto text-black font-black drop-shadow-[0px_0px_2px_white]">{props.value}</div>
     </div>
 });
 
