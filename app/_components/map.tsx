@@ -1,14 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {
-    MarkerF,
-    GoogleMap,
-    TrafficLayer,
-    TransitLayer,
-    useJsApiLoader,
-    InfoWindow,
-    OverlayView, KmlLayer
-} from "@react-google-maps/api";
-import {Library} from "@googlemaps/js-api-loader";
+import React, {useEffect, useRef, useState} from "react";
+import GoogleMap from "google-maps-react-markers";
 import {useRecoilState} from "recoil";
 import {currentLocationState} from "@/app/_state/currentLocationState";
 import {LocationForecast, TemperatureForecastInfo, WeatherForecast, WeatherForecastInfo} from "@/app/_models/weather";
@@ -16,67 +7,74 @@ import getWeatherForecast from "@/app/_libraries/weather";
 import Image from "next/image";
 import {plainToClass, plainToInstance} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
-import MapMouseEvent = google.maps.MapMouseEvent;
 import { DateTime } from "luxon";
 
 const Map = React.memo((
     props : {}
     , context)=>{
 
-    const [ libraries ] = useState<Library[]>(["places", "streetView", "core", "journeySharing"]);
-   const { isLoaded } = useJsApiLoader({
-      id: 'google-map-script',
-      googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-      libraries: libraries
-   })
     const [location] = useRecoilState(currentLocationState);
    const [locationForecasts, setLocationForecast] = useState<LocationForecast[]>([]);
+    const mapRef = useRef<google.maps.Map | null>(null)
+    const [mapReady, setMapReady] = useState(false)
 
     useEffect(() => {
         const url = `/api/weather/${DateTime.now().toUTC().toMillis()}`;
-        console.log(url);
         fetch(url)
             .then(res => res.json())
             .then(setLocationForecast);
     }, []);
 
-    function handleClick(event: MapMouseEvent){
+    const onGoogleApiLoaded = ({ map, maps } : {map: google.maps.Map, maps: google.maps.MapsLibrary}) => {
+        mapRef.current = map;
+        setMapReady(true);
+
+        //add kml
+        const kmlLayer = new google.maps.KmlLayer({
+            url: "https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps",
+            suppressInfoWindows: true,
+            map: map,
+        })
+        kmlLayer.addListener('click', handleKMLLayerClick.bind(kmlLayer));
+    }
+
+    useEffect(() => {
+        if(mapRef.current == null ||
+        location == undefined ||
+        !mapReady){
+            return;
+        }
+        mapRef.current?.setCenter({ lat: location!.lat, lng: location!.lng });
+        mapRef.current?.setZoom(15);
+    }, [mapRef, mapReady, location]);
+
+    function handleKMLLayerClick(event : google.maps.KmlMouseEvent){
         console.log(event);
         console.log(event.latLng?.lat(), event.latLng?.lng());
     }
 
-    return isLoaded ? (<GoogleMap
-          mapContainerStyle={{width: '100%', height: '100%'}}
-          center={location !== undefined ? location : { lat:0, lng: 0 }}
-          zoom={location !== undefined ? 14 : 3}>
-         <TrafficLayer/>
-         <TransitLayer/>
-        <KmlLayer url="https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps"
-                  onClick={handleClick} options={{suppressInfoWindows: true}}/>
-       {location !== undefined ?
-               <MarkerF icon={{
-               path:
-                   "M6 18L18 6M6 6l12 12",
-               scale: 2,
-               strokeColor: "Crimson",
-               strokeWeight: 8,
-               }} position={location}>
-               </MarkerF>
-           : <></>}
+    return <GoogleMap
+                apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+                defaultCenter={{ lat: 0, lng: 0 }}
+                defaultZoom={3}
+                mapMinHeight="100vh"
+                onGoogleApiLoaded={onGoogleApiLoaded}
+            >
         {locationForecasts.map((locationForecast, index) => {
             const weatherForecastInfo = locationForecast.forecast[0] as WeatherForecastInfo;
             const temperatureForecastInfo = plainToClass(TemperatureForecastInfo, locationForecast.forecast[1]);
             if(weatherForecastInfo == undefined && temperatureForecastInfo == undefined){
                 return <></>;
             }
-            return <OverlayView
+            return <WeatherMarker
                 key={index}
-                position={{lat: locationForecast.lat, lng: locationForecast.lng}}
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
-                <WeatherMarker icon={weatherForecastInfo.icon} value={weatherForecastInfo.value} temperature={temperatureForecastInfo.toString()} />
-            </OverlayView>
+                lat={locationForecast.lat}
+                lng={locationForecast.lng}
+                icon={weatherForecastInfo.icon}
+                value={weatherForecastInfo.value}
+                temperature={temperatureForecastInfo.toString()} />
         })}
-      </GoogleMap>) : <></>;
+            </GoogleMap>;
 });
 
 Map.displayName = "Map";
