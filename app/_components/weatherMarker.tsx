@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { DateTime } from "luxon";
 
 const WeatherMarker = React.memo((props : {
     icon: string,
@@ -9,7 +10,7 @@ const WeatherMarker = React.memo((props : {
     lng: number
 } , context) =>{
 
-    const now = new Date().getHours() > 20 ? 'night' : 'day';
+    const now = DateTime.now().hour > 19 ? 'night' : 'day';
 
     return <div className="flex flex-col w-16 h-16">
         <div className="relative w-[90%] h-[90%] left-1/2 -translate-x-1/2">
