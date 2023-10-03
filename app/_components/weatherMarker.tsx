@@ -12,7 +12,7 @@ const WeatherMarker = React.memo((props : {
     const now = new Date().getHours() > 20 ? 'night' : 'day';
 
     return <div className="flex flex-col w-16 h-16">
-        <div className="relative w-[90%] h-[90%] mx-auto">
+        <div className="relative w-[90%] h-[90%] left-1/2 -translate-x-1/2">
             <Image
                 className="drop-shadow-[0px_0px_2px_white]"
                 src={`https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/${now}/${props.icon}.svg`}
