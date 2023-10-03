@@ -1,6 +1,7 @@
 import {forecastElementCode, forecastCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
+import { DateTime } from "luxon";
 
-export default async function getWeatherForecast(date?: Date) : Promise<LocationForecast[]>{
+export default async function getWeatherForecast(date?: DateTime) : Promise<LocationForecast[]>{
     const fetches: Promise<Response>[] = [];
     for(const key in forecastCode){
         fetches.push(fetch(`https://opendata.cwa.gov.tw/api/v1/rest/datastore/` +
@@ -21,7 +22,8 @@ export default async function getWeatherForecast(date?: Date) : Promise<Location
 
         try {
             json = await response.json();
-            weatherForecasts.push(new WeatherForecast(json, date));
+            //weather API return datetime in the format "yyyy-MM-dd HH:mm:ss" and UTC+8
+            weatherForecasts.push(new WeatherForecast(json, "yyyy-MM-dd HH:mm:ss", "UTC+8", date));
         }catch (e: any){
             throw new Error(`Get weather forecast error. ${e.message}. JSON: ${json}`);
         }

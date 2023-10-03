@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export const forecastCode : {[key: string]: string} = {
     yilan2: "F-D0047-001",
     taoyuan2: "F-D0047-005",
@@ -56,8 +58,8 @@ export abstract class ForecastInfo {
 
 export class WeatherForecastInfo extends ForecastInfo{
 
-    constructor(public startTime: Date,
-                public endTime: Date,
+    constructor(public startTime: DateTime,
+                public endTime: DateTime,
                 value: string,
                 public icon: string) {
         super(value);
@@ -66,7 +68,7 @@ export class WeatherForecastInfo extends ForecastInfo{
 
 export class TemperatureForecastInfo extends ForecastInfo{
 
-    constructor(public dataTime: Date,
+    constructor(public dataTime: DateTime,
                 value: string) {
         super(value);
     }
@@ -91,9 +93,7 @@ export interface WeatherForecastModel {
 export class WeatherForecast implements WeatherForecastModel{
     locations: LocationForecast[] = [];
 
-    constructor(cwaForecast: CWAForecast, date?: Date){
-        console.log(cwaForecast.records.locations[0].location[0].weatherElement[0].time[0].startTime);
-        console.log(new Date(cwaForecast.records.locations[0].location[0].weatherElement[0].time[0].startTime));
+    constructor(cwaForecast: CWAForecast, format:string,  zone: string, date?: DateTime){
         for(const location of cwaForecast.records.locations[0].location){
             const forecastInfos: ForecastInfo[] = [];
 
@@ -101,11 +101,11 @@ export class WeatherForecast implements WeatherForecastModel{
                 switch (weatherElement.elementName){
                     case forecastElementCode.weather:
                         for(const t  of weatherElement.time as Array<wxElement>){
-                            const startTime = new Date(`${t.startTime}`);
-                            const endTime = new Date(`${t.endTime}`);
+                            const startTime = DateTime.fromFormat(t.startTime, format, {zone: zone});
+                            const endTime = DateTime.fromFormat(t.endTime, format, {zone: zone});
 
                             if(date != undefined){
-                                if(startTime > date){
+                                if(date > startTime && date < endTime){
                                     forecastInfos.push(new WeatherForecastInfo(startTime,
                                         endTime,
                                         t.elementValue[0].value,
@@ -122,7 +122,7 @@ export class WeatherForecast implements WeatherForecastModel{
                         break;
                     case forecastElementCode.temperature:
                         for(const t of weatherElement.time as Array<tElement>){
-                            const dataTime = new Date(`${t.dataTime}`);
+                            const dataTime = DateTime.fromFormat(t.dataTime, format, {zone: zone});
 
                             if(date != undefined){
                                 if(dataTime > date) {

@@ -1,9 +1,10 @@
 import {NextRequest, NextResponse} from "next/server";
 import {LocationForecast} from "@/app/_models/weather";
 import getWeatherForecast from "@/app/_libraries/weather";
+import { DateTime } from "luxon";
 
 export async function GET(request: NextRequest, { params } : { params: {datetime: string}}) {
-    const datetime = new Date(+params.datetime);
+    const datetime = DateTime.fromMillis(+params.datetime);
     if(isNaN(+datetime)){
         return NextResponse.json(`Datetime is not in correct format! datetime: ${params.datetime}`,
             {status: 400, statusText: "Datetime is not in correct format!"});

@@ -17,6 +17,7 @@ import Image from "next/image";
 import {plainToClass, plainToInstance} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
 import MapMouseEvent = google.maps.MapMouseEvent;
+import { DateTime } from "luxon";
 
 const Map = React.memo((
     props : {}
@@ -32,7 +33,7 @@ const Map = React.memo((
    const [locationForecasts, setLocationForecast] = useState<LocationForecast[]>([]);
 
     useEffect(() => {
-        const url = `/api/weather/${new Date().getTime()}`;
+        const url = `/api/weather/${DateTime.now().toUTC().toMillis()}`;
         console.log(url);
         fetch(url)
             .then(res => res.json())
