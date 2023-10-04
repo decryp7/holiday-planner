@@ -126,7 +126,7 @@ class PlaceDataRetriever{
             throw new Error(`Google find place API error! ${await res.text()}`)
         }
 
-        console.log(await res.json());
+        console.log(res.status);
         const placeCandidates = await res.json() as GooglePlaceCandidates;
 
         const placeId = placeCandidates.candidates[0]?.place_id;
