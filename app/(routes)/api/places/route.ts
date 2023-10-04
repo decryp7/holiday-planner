@@ -1,9 +1,10 @@
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+    console.log(request.nextUrl.searchParams);
     const result = await prisma.place.findMany({
         include: {
             tags: {
