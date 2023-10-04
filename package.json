@@ -24,9 +24,11 @@
     "@types/react-dom": "18.2.8",
     "autoprefixer": "10.4.16",
     "class-transformer": "^0.5.1",
+    "decompress": "^4.2.1",
     "dotenv": "^16.3.1",
     "eslint": "8.49.0",
     "eslint-config-next": "^13.5.2",
+    "fast-xml-parser": "^4.3.2",
     "google-maps-react-markers": "^2.0.0",
     "lodash": "^4.17.21",
     "luxon": "^3.4.3",
@@ -41,6 +43,7 @@
     "tailwindcss": "3.3.3"
   },
   "devDependencies": {
+    "@types/decompress": "^4.2.5",
     "@types/google.maps": "^3.54.3",
     "@types/lodash": "^4.14.199",
     "@types/luxon": "^3.3.2",

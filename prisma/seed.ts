@@ -1,24 +1,17 @@
 import { PrismaClient } from '@prisma/client'
-import {Day, DayFlags} from "./models";
-import { Places } from "./seedData";
+import {PlacesGenerator} from "./google/dataRetriever";
 
 const prisma = new PrismaClient();
 
 async function main(){
-    //insert default days
-    for (const day of DayFlags){
-        const result =  await prisma.day.create({
-            data: {
-                name: Day[day],
-            }
-        });
-        console.log(`Added ${JSON.stringify(result)} in Day table.`);
-    }
-
-    const places = Places.map(p => p.ToPlaceCreateInput());
+    const places = await new PlacesGenerator().getPlaces();
     for(const place of places){
-        const result = await prisma.place.create({data: place});
-        console.log(`Added ${JSON.stringify(result)} in Place table.`);
+        try {
+            const result = await prisma.place.create({data: place.ToPlaceCreateInput()});
+            console.log(`Added ${JSON.stringify(result)} in Place table.`);
+        }catch (e: any){
+            console.log(`Failed to add ${JSON.stringify(place)} to Place table. ${e.message}`);
+        }
     }
 }
 

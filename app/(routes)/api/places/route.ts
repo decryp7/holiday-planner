@@ -11,11 +11,16 @@ export async function GET() {
                     tagName: true
                 }
             },
-            openingHours: {
+            openHours: {
                 select: {
-                    dayName: true,
-                    from: true,
-                    to: true
+                    day: true,
+                    time: true,
+                }
+            },
+            closeHours: {
+                select: {
+                    day: true,
+                    time: true,
                 }
             }
         }

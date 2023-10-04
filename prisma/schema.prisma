@@ -9,31 +9,38 @@ datasource db {
 
 model Place {
   name         String
+  gplaceid String
   description  String
   address      String
   url          String
   lat          Decimal
   lng          Decimal
-  openingHours OpeningHour[]
+  openHours OpenHour[]
+  closeHours CloseHour[]
   tags         PlaceTag[]
-  @@id([lat, lng])
+  @@id([lat, lng, name])
 }
 
-model Day {
-  name        String @id
-  OpeningHour OpeningHour[]
+model OpenHour {
+  day  Decimal
+  time      String
+  placeLng Decimal
+  placeLat Decimal
+  placeName String
+  Place     Place  @relation(fields: [placeLat, placeLng, placeName], references: [lat, lng, name])
+
+  @@unique([placeLat, placeLng, placeName, day, time])
 }
 
-model OpeningHour {
-  dayName  String
-  from      String
-  to        String
-  placelng Decimal
-  placelat Decimal
-  Place     Place  @relation(fields: [placelat, placelng], references: [lat, lng])
-  day       Day    @relation(fields: [dayName], references: [name])
+model CloseHour {
+  day  Decimal
+  time      String
+  placeLng Decimal
+  placeLat Decimal
+  placeName String
+  Place     Place  @relation(fields: [placeLat, placeLng, placeName], references: [lat, lng, name])
 
-  @@unique([placelat, placelng, dayName, from, to])
+  @@unique([placeLat, placeLng, placeName, day, time])
 }
 
 model Tag {
@@ -44,9 +51,10 @@ model Tag {
 model PlaceTag {
   tagName   String
   tag       Tag    @relation(fields: [tagName], references: [name])
-  placelng Decimal
-  placelat Decimal
-  Place     Place  @relation(fields: [placelat, placelng], references: [lat, lng])
+  placeLng Decimal
+  placeLat Decimal
+  placeName String
+  Place     Place  @relation(fields: [placeLat, placeLng, placeName], references: [lat, lng, name])
 
-  @@unique([placelat, placelng, tagName])
+  @@unique([placeLat, placeLng, placeName, tagName])
 }

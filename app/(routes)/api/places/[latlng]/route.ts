@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params } : {params: {latlng: s
             {status: 400, statusText: "latlng is not in correct format!"});
     }
 
-    const place = await prisma.place.findFirst({
+    const place = await prisma.place.findMany({
         where: { lat: +latlng[0], lng: +latlng[1] },
         include: {
             tags: {
@@ -20,11 +20,16 @@ export async function GET(request: NextRequest, { params } : {params: {latlng: s
                     tagName: true
                 }
             },
-            openingHours: {
+            openHours: {
                 select: {
-                    dayName: true,
-                    from: true,
-                    to: true
+                    day: true,
+                    time: true,
+                }
+            },
+            closeHours: {
+                select: {
+                    day: true,
+                    time: true,
                 }
             }
         }});

@@ -1,7 +1,8 @@
 import {Prisma} from ".prisma/client";
 import PlaceCreateInput = Prisma.PlaceCreateInput;
 import PlaceTagCreateWithoutPlaceInput = Prisma.PlaceTagCreateWithoutPlaceInput;
-import OpeningHourCreateWithoutPlaceInput = Prisma.OpeningHourCreateWithoutPlaceInput;
+import OpenHourCreateWithoutPlaceInput = Prisma.OpenHourCreateWithoutPlaceInput;
+import CloseHourCreateWithoutPlaceInput = Prisma.CloseHourCreateWithoutPlaceInput;
 
 export enum Tag {
     Accommodation,
@@ -15,42 +16,39 @@ export enum Tag {
     YiLan
 }
 
-export enum Day {
-    Sun = 1 << 0,
-    Mon = 1 << 1,
-    Tue = 1 << 2,
-    Wed = 1 << 3,
-    Thu = 1 << 4,
-    Fri = 1 << 5,
-    Sat = 1 << 6,
- }
- export const EveryDay : Day = Day.Sun | Day.Mon | Day.Tue | Day.Wed | Day.Thu | Day.Fri | Day.Sat;
-
-export const DayFlags = Object.values(Day)
-    .filter((value): value is number => typeof value === "number");
-
-export interface OpeningHourData {
-    day: Day;
-    from: string;
-    to: string;
+export interface OpenHourData {
+    day: number;
+    time: string;
 }
 
-export class OpeningHour implements OpeningHourData {
-    constructor(public day: Day,
-                public from: string,
-                public to: string) {
+export class OpenHour implements OpenHourData {
+    constructor(public day: number,
+                public time: string) {
+    }
+}
+
+export interface CloseHourData {
+    day: number;
+    time: string;
+}
+
+export class CloseHour implements CloseHourData {
+    constructor(public day: number,
+                public time: string) {
     }
 }
 
 export interface PlaceData {
     name: string;
     description: string;
+    gplaceid: string;
     address: string;
     url: string;
     lat: number;
     lng: number;
-    tags: Tag[];
-    openingHours: OpeningHour[];
+    tags: string[];
+    openHours?: OpenHourData[];
+    closeHours?: CloseHourData[]
 
     ToPlaceCreateInput(): PlaceCreateInput;
 }
@@ -58,12 +56,14 @@ export interface PlaceData {
 export class Place implements PlaceData {
     constructor(public name: string,
                 public description: string,
+                public gplaceid: string,
                 public url: string,
                 public address: string,
                 public lat: number,
                 public lng: number,
-                public tags: Tag[],
-                public openingHours: OpeningHourData[]) {
+                public tags: string[],
+                public openHours?: OpenHourData[],
+                public closeHours?: CloseHourData[]) {
     }
 
     ToPlaceCreateInput(): PlaceCreateInput{
@@ -72,28 +72,36 @@ export class Place implements PlaceData {
             placeTags.push({
                 tag: {
                     connectOrCreate: {
-                        where: {name: Tag[tag]},
-                        create: {name: Tag[tag]}
+                        where: {name: tag.toLowerCase()},
+                        create: {name: tag.toLowerCase()}
                     }
                 }
             });
         }
 
-        const placeOpeningHours: OpeningHourCreateWithoutPlaceInput[] = [];
-        for(const openingHour of this.openingHours){
-            for(const day of DayFlags){
-                if((day & openingHour.day) === day){
-                    placeOpeningHours.push({
-                        day: {connect: {name: Day[day]}},
-                        from: openingHour.from,
-                        to: openingHour.to
-                    });
-                }
+        let placeOpenHours: OpenHourCreateWithoutPlaceInput[] = [];
+        if(this.openHours != undefined) {
+            for (const openHour of this.openHours) {
+                placeOpenHours.push({
+                    day: openHour.day,
+                    time: openHour.time,
+                });
+            }
+        }
+
+        let placeCloseHours: CloseHourCreateWithoutPlaceInput[] = [];
+        if(this.closeHours != undefined) {
+            for (const closeHour of this.closeHours) {
+                placeCloseHours.push({
+                    day: closeHour.day,
+                    time: closeHour.time,
+                });
             }
         }
 
         return  {
             name: this.name,
+            gplaceid: this.gplaceid,
             description: this.description,
             url: this.url,
             address: this.address,
@@ -102,9 +110,12 @@ export class Place implements PlaceData {
             tags: {
                 create: placeTags
             },
-            openingHours: {
-                create: placeOpeningHours
-            }
+            ...(OpenHour != undefined && {openHours: {
+                create: placeOpenHours
+            }}),
+            ...(CloseHour != undefined && {closeHours: {
+                create: placeCloseHours
+            }}),
         };
     }
 }
