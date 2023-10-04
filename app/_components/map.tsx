@@ -73,6 +73,7 @@ const Map = React.memo((
                 lng={locationForecast.lng}
                 icon={weatherForecastInfo.icon}
                 value={weatherForecastInfo.value}
+                startTime={weatherForecastInfo.startTime}
                 temperature={temperatureForecastInfo.toString()} />
         })}
 

@@ -106,7 +106,7 @@ export class WeatherForecast implements WeatherForecastModel{
                             const endTime = DateTime.fromFormat(t.endTime, format, {zone: zone});
 
                             if(date != undefined){
-                                if(startTime > date){
+                                if(endTime > date){
                                     forecastInfos.push(new WeatherForecastInfo(startTime,
                                         endTime,
                                         t.elementValue[0].value,
