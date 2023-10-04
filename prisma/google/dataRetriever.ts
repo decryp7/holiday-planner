@@ -69,6 +69,9 @@ class KMLDataRetriever {
     private tempFolder = path.resolve(".", "temp");
 
     constructor() {
+        if(!fs.existsSync(this.tempFolder)){
+            fs.mkdirSync(this.tempFolder);
+        }
     }
 
     async getPlaces(): Promise<KMLPlace[]> {
