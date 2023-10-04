@@ -144,7 +144,7 @@ class PlaceDataRetriever{
         const placeDetails = await res.json() as GooglePlaceDetails
 
         res = await fetch(`https://maps.googleapis.com/maps/api/place/photo?` +
-        `maxwidth=400` +
+        `maxwidth=800` +
         `&photo_reference=${placeDetails.result.photos[0].photo_reference}` +
         `&key=${this.apiKey}`);
 
@@ -218,10 +218,10 @@ export class PlacesGenerator {
     }
 }
 
-new PlacesGenerator().getPlaces()
-    .then(r => {
-        fs.writeFileSync(path.resolve(".","temp","places.json"), JSON.stringify(r));
-    })
-    .catch(e => {
-        console.log(e);
-    });
+// new PlacesGenerator().getPlaces()
+//     .then(r => {
+//         fs.writeFileSync(path.resolve(".","temp","places.json"), JSON.stringify(r));
+//     })
+//     .catch(e => {
+//         console.log(e);
+//     });
