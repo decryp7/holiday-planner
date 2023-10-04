@@ -3,6 +3,12 @@ FROM node:18-alpine AS base
 ARG NEXT_PUBLIC_GOOGLE_MAP_API_KEY
 ARG GOOGLE_MAP_API_KEY
 
+# if GOOGLE_MAP_API_KEY not supplied stop the build process
+RUN if [ -z "$GOOGLE_MAP_API_KEY" ]; then exit 1 ; fi
+
+# if NEXT_PUBLIC_GOOGLE_MAP_API_KEY not supplied stop the build process
+RUN if [ -z "$NEXT_PUBLIC_GOOGLE_MAP_API_KEY" ]; then exit 1 ; fi
+
 # Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
@@ -31,6 +37,8 @@ COPY . .
 # ENV NEXT_TELEMETRY_DISABLED 1
 ENV NEXT_PUBLIC_GOOGLE_MAP_API_KEY=$NEXT_PUBLIC_GOOGLE_MAP_API_KEY
 ENV GOOGLE_MAP_API_KEY=$GOOGLE_MAP_API_KEY
+
+RUN printenv
 
 RUN yarn build
 
