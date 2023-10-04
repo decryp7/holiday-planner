@@ -5,7 +5,8 @@ export const Places: PlaceData[] = [
         "test",
         "",
         "",
-        0, 0,
+        25.0442451,
+        121.5247397,
         [Tag.Attraction, Tag.Taipei, Tag.Accommodation],
         [
             new OpeningHour(EveryDay, "09:00", "23:00"),
@@ -15,7 +16,8 @@ export const Places: PlaceData[] = [
         "test",
         "",
         "",
-        0, 0,
+        25.05201288294568,
+        121.54595375061035,
         [Tag.Attraction, Tag.Food, Tag.Taipei],
         [new OpeningHour(Day.Mon, "09:00", "23:00")]),
 ];

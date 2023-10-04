@@ -8,7 +8,6 @@ datasource db {
 }
 
 model Place {
-  id Int @id @default(autoincrement())
   name         String
   description  String
   address      String
@@ -17,6 +16,7 @@ model Place {
   lng          Decimal
   openingHours OpeningHour[]
   tags         PlaceTag[]
+  @@id([lat, lng])
 }
 
 model Day {
@@ -28,11 +28,12 @@ model OpeningHour {
   dayName  String
   from      String
   to        String
-  placeId Int
-  Place     Place  @relation(fields: [placeId], references: [id])
+  placelng Decimal
+  placelat Decimal
+  Place     Place  @relation(fields: [placelat, placelng], references: [lat, lng])
   day       Day    @relation(fields: [dayName], references: [name])
 
-  @@unique([placeId, dayName, from, to])
+  @@unique([placelat, placelng, dayName, from, to])
 }
 
 model Tag {
@@ -41,10 +42,11 @@ model Tag {
 }
 
 model PlaceTag {
-  placeId Int
   tagName   String
   tag       Tag    @relation(fields: [tagName], references: [name])
-  place     Place  @relation(fields: [placeId], references: [id])
+  placelng Decimal
+  placelat Decimal
+  Place     Place  @relation(fields: [placelat, placelng], references: [lat, lng])
 
-  @@unique([placeId, tagName])
+  @@unique([placelat, placelng, tagName])
 }
