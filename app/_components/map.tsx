@@ -32,7 +32,7 @@ const Map = React.memo((
 
         //add kml
         const kmlLayer = new google.maps.KmlLayer({
-            url: "https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps",
+            url: `https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps&${DateTime.now().minute}`,
             suppressInfoWindows: true,
             map: map,
         })
