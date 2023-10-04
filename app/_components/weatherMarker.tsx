@@ -11,6 +11,7 @@ const WeatherMarker = React.memo((props : {
     startTime: DateTime
 } , context) =>{
 
+
     const now = DateTime.now().hour > 19 ? 'night' : 'day';
 
     return <div className="flex flex-col w-16 h-16">
