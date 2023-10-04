@@ -77,7 +77,7 @@ class KMLDataRetriever {
     async getPlaces(): Promise<KMLPlace[]> {
         const res = await fetch("https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps");
 
-        if(!res.ok){
+        if(!res.ok || res.status != 200){
             throw new Error("Failed to download kmz");
         }
 
@@ -95,15 +95,11 @@ class KMLDataRetriever {
             const parser = new XMLParser();
             const kmlData = parser.parse(xmlFile) as KMLData;
 
-            //console.dir(kmlData.kml.Document.Folder[0].Placemark[0], {depth: null});
-
             for(const folder of kmlData.kml.Document.Folder){
                 for(const placemark of folder.Placemark){
                     kmlPlaces.push(new KMLPlace(folder.name, placemark.name, placemark.Point.coordinates));
                 }
             }
-
-            //fs.writeFileSync(path.resolve(this.tempFolder, "test.json"), JSON.stringify(kmlData));
         }catch (e: any){
             throw new Error(`Failed to get places. ${e.message}` , e);
         }
@@ -126,7 +122,7 @@ class PlaceDataRetriever{
         let res = await fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/` +
             `json?input=${name}&inputtype=textquery&key=${this.apiKey}`);
 
-        if (!res.ok) {
+        if (!res.ok || res.status != 200) {
             throw new Error(`Google find place API error! ${await res.text()}`)
         }
 
@@ -141,7 +137,7 @@ class PlaceDataRetriever{
         res = await fetch(`https://maps.googleapis.com/maps/api/place/details/` +
             `json?place_id=${placeId}&key=${this.apiKey}`);
 
-        if (!res.ok) {
+        if (!res.ok || res.status != 200) {
             throw new Error(`Google place details API error! name:${name} ${await res.text()}`)
         }
 
@@ -152,7 +148,7 @@ class PlaceDataRetriever{
         `&photo_reference=${placeDetails.result.photos[0].photo_reference}` +
         `&key=${this.apiKey}`);
 
-        if(!res.ok){
+        if(!res.ok || res.status != 200){
             throw new Error(`Google place photo API error! name:${name}. Status: ${res.statusText}`)
         }
 
@@ -199,9 +195,9 @@ export class PlacesGenerator {
                     placeData.push(new Place(
                         kmlPlace.name,
                         place.result.editorial_summary != undefined ? place.result.editorial_summary.overview : "",
+                        place.result.place_id,
                         place.result.url,
                         place.result.formatted_address,
-                        place.result.place_id,
                         +lat,
                         +lng,
                         [kmlPlace.folder, ...place.result.types],
