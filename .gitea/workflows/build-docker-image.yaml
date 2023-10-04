@@ -36,5 +36,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          build-args: GOOGLE_MAP_API_KEY=${{ secrets.GOOGLE_MAP_API_KEY }} NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_API_KEY }}
+          build-args: NEXT_PUBLIC_GOOGLE_MAP_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_API_KEY }}
           tags: dev.decryptology.net/decryp7/holiday-planner:latest
