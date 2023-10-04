@@ -109,7 +109,7 @@ class KMLDataRetriever {
 }
 
 class PlaceDataRetriever{
-    private apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
+    private apiKey = process.env.GOOGLE_MAP_API_KEY;
     private placeImgFolder = path.resolve(".", "public", "place-img");
 
     constructor() {

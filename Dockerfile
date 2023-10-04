@@ -1,5 +1,6 @@
 FROM node:18-alpine AS base
 
+ARG NEXT_PUBLIC_GOOGLE_MAP_API_KEY
 ARG GOOGLE_MAP_API_KEY
 
 # Install dependencies only when needed
@@ -28,7 +29,8 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-ENV NEXT_PUBLIC_GOOGLE_MAP_API_KEY=$GOOGLE_MAP_API_KEY
+ENV NEXT_PUBLIC_GOOGLE_MAP_API_KEY=$NEXT_PUBLIC_GOOGLE_MAP_API_KEY
+ENV GOOGLE_MAP_API_KEY=$GOOGLE_MAP_API_KEY
 
 RUN yarn build
 
