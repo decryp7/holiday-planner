@@ -47,9 +47,9 @@ const DetailsCard = React.memo((props : {} , context) =>{
                 width="0"
                 height="0"
                 sizes="100vw"
-                className="w-fit h-auto"/>
+                className="w-full h-auto"/>
         }
-        <div>{details?.IsOpen().toString()}</div></div>
+        <div className="h-fit">{JSON.stringify(details)}</div></div>
 });
 
 DetailsCard.displayName = "DetailsCard";

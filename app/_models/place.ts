@@ -70,7 +70,6 @@ export class Place implements PlaceData {
 
     IsOpen(): boolean {
         const now = DateTime.now().setZone("Asia/Taipei");
-        console.log(now);
 
         return true;
     }
