@@ -26,18 +26,20 @@ const WeatherMarker = React.memo((props : {
         setSelectedWeatherMarker(weatherMarkerRef.current.dataset.location);
     }
 
-    return <div data-start-time={props.startTime} data-location={props.location} className="flex flex-col w-16 h-16 hover:cursor-pointer"
+    return <div data-start-time={props.startTime} data-location={props.location} className="flex flex-col w-16 h-fit hover:cursor-pointer"
                 onClick={handleClick} ref={weatherMarkerRef}>
-        <div className="relative w-[90%] h-[90%] left-1/2 -translate-x-1/2">
+        <div className="relative w-[100%] h-fit left-1/2 -translate-x-1/2">
             <Image
-                className=""
+                className="w-full h-auto opacity-90"
                 src={`https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/${now}/${props.icon}.svg`}
                 alt={props.value}
-                fill={true}
-                style={{objectFit:"contain"}}/>
-            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[1em] text-black font-black">{props.temperature}</div>
+                width="0"
+                height="0"
+                sizes="100vw" />
+            <div className="absolute w-full top-1/2 -translate-y-1/2 text-[1em] text-center text-gray-800 font-black">
+                {props.value}
+            </div>
         </div>
-        <div className="text-[1em] mx-auto text-black font-black">{props.value}</div>
     </div>
 });
 

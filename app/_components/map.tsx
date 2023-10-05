@@ -43,16 +43,6 @@ const Map = React.memo((
         new google.maps.TrafficLayer({map: map});
     }
 
-    useEffect(() => {
-        if(mapRef.current == null ||
-        location == undefined ||
-        !mapReady){
-            return;
-        }
-        mapRef.current?.setCenter({ lat: location!.lat, lng: location!.lng });
-        mapRef.current?.setZoom(15);
-    }, [mapRef, mapReady, location]);
-
     function handleKMLLayerClick(event : google.maps.KmlMouseEvent){
         if(event.featureData == undefined){
             console.log("KML Marker feature data is missing!");
@@ -63,7 +53,7 @@ const Map = React.memo((
     return <GoogleMap
                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
                 defaultCenter={{ lat: 0, lng: 0 }}
-                defaultZoom={3}
+                defaultZoom={12}
                 mapMinHeight="100vh"
                 onGoogleApiLoaded={onGoogleApiLoaded}
             >
