@@ -1,19 +1,14 @@
 import React, {Children, Fragment, ReactNode, useEffect, useRef, useState} from "react";
 import Card, {CardInfo} from "@/app/_components/card";
-import {ArchiveBoxArrowDownIcon, ArchiveBoxIcon} from "@heroicons/react/24/outline";
 import {useRecoilCallback, useRecoilState, useRecoilValue} from "recoil";
 import {activeCardState} from "@/app/_state/activeCardState";
-
-enum Visibility {
-    visible,
-    hidden
-}
+import {cardGroupVisibleState} from "@/app/_state/cardGroupVisibleState";
 
 const CardGroup = React.memo((
     props : {cards: CardInfo[]}, context) =>{
     const childRef = useRef<{[key:string]: any}>({});
-    const [visibility, setVisibility] = useState<Visibility>(Visibility.visible);
     const activeCard = useRecoilValue(activeCardState);
+    const cardGroupVisible = useRecoilValue(cardGroupVisibleState);
 
     function handleShow(header: string){
         for(const key in childRef.current){
@@ -47,25 +42,8 @@ const CardGroup = React.memo((
         }
     }
 
-    function toggleVisibility(){
-        setVisibility(prev => {
-            if(prev === Visibility.hidden){
-                return Visibility.visible;
-            }
-
-            return Visibility.hidden;
-        })
-    }
-
     return <Fragment>
-        <button className="absolute right-[0.5rem] bottom-[200px] p-1 w-[40px] h-[40px] bg-white shadow rounded-[2px]"
-                onClick={toggleVisibility}>
-            {visibility === Visibility.visible ?
-            <ArchiveBoxArrowDownIcon className="w-auto h-auto text-gray-800 stroke-2" />
-                : <ArchiveBoxIcon className="w-auto h-auto text-gray-800 stroke-2" />
-            }
-        </button>
-        <div className={Visibility[visibility]}>
+        <div className={cardGroupVisible ? "visible": "hidden"}>
             {props.cards.map((card, index) => {
                 const numOfCards = props.cards.length;
                 const headerSize = ((numOfCards - index) * 20) + 20;

@@ -3,6 +3,7 @@ import CloseHourCreateWithoutPlaceInput = Prisma.CloseHourCreateWithoutPlaceInpu
 import PlaceCreateInput = Prisma.PlaceCreateInput;
 import PlaceTagCreateWithoutPlaceInput = Prisma.PlaceTagCreateWithoutPlaceInput;
 import OpenHourCreateWithoutPlaceInput = Prisma.OpenHourCreateWithoutPlaceInput;
+import {DateTime} from "luxon";
 
 export enum Tag {
     Accommodation,
@@ -51,6 +52,7 @@ export interface PlaceData {
     closeHours?: CloseHourData[]
 
     ToPlaceCreateInput(): PlaceCreateInput;
+    IsOpen(): boolean;
 }
 
 export class Place implements PlaceData {
@@ -64,6 +66,13 @@ export class Place implements PlaceData {
                 public tags: string[],
                 public openHours?: OpenHourData[],
                 public closeHours?: CloseHourData[]) {
+    }
+
+    IsOpen(): boolean {
+        const now = DateTime.now().setZone("Asia/Taipei");
+        console.log(now);
+
+        return true;
     }
 
     ToPlaceCreateInput(): PlaceCreateInput{

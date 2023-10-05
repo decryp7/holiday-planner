@@ -1,18 +1,34 @@
-import React, {useEffect} from "react";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import React, {useEffect, useState} from "react";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {activeCardState} from "@/app/_state/activeCardState";
-import {locationForecastState} from "@/app/_state/locationForecastState";
+import {selectedWeatherMarkerState} from "@/app/_state/selectedWeatherMarkerState";
+import {LocationForecast} from "@/app/_models/weather";
 
 
 const WeatherCard = React.memo((props : {} , context) =>{
-    const setActiveCard = useSetRecoilState(activeCardState);
-    const locationForecast = useRecoilValue(locationForecastState);
+    const [activeCard, setActiveCard] = useRecoilState(activeCardState);
+    const [selectedWeatherMarker, setSelectedWeatherMarker] = useRecoilState(selectedWeatherMarkerState);
+    const [locationForecast, setLocationForecast] = useState<LocationForecast>();
 
     useEffect(() => {
-        if(locationForecast != undefined) {
-            setActiveCard("weather");
+        if(selectedWeatherMarker === undefined) {
+            return;
         }
-    }, [locationForecast]);
+
+        setActiveCard("weather");
+
+        const url = `/api/weather/location?${selectedWeatherMarker}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(setLocationForecast);
+
+    }, [selectedWeatherMarker]);
+
+    useEffect(() => {
+        if(activeCard != "details"){
+            setSelectedWeatherMarker(undefined);
+        }
+    }, [activeCard]);
 
     return <div>{JSON.stringify(locationForecast)}</div>
 });

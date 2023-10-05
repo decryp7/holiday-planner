@@ -2,33 +2,42 @@ import React, {useEffect, useState} from "react";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {activeCardState} from "@/app/_state/activeCardState";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
-import {PlaceData} from "@/app/_models/place";
+import {Place, PlaceData} from "@/app/_models/place";
 import Image from "next/image";
+import { Badge } from "@tremor/react";
+import {plainToClass, plainToInstance} from "class-transformer";
 
 const DetailsCard = React.memo((props : {} , context) =>{
     const [activeCard, setActiveCard] = useRecoilState(activeCardState);
-    const selectedMarker = useRecoilValue(selectedMarkerState);
+    const [selectedMarker, setSelectedMarker] = useRecoilState(selectedMarkerState);
     const [details, setDetails] = useState<PlaceData>();
     const [imgPath, setImgPath] = useState<string>();
 
     useEffect(() => {
-        if(selectedMarker != undefined) {
-            setActiveCard("details");
-
-            console.log(selectedMarker);
-            const url = `/api/places/name?${selectedMarker}`;
-            fetch(url)
-                .then(async res => await res.json() as PlaceData[])
-                .then(pd => {
-                    if(pd.length < 1){
-                        console.log(`Cannot find any data for ${selectedMarker}`);
-                        return;
-                    }
-                    setImgPath(`/place-img/${pd[0].gplaceid}.jpg`);
-                    setDetails(pd[0]);
-                });
+        if(selectedMarker === undefined){
+            return;
         }
+
+        setActiveCard("details");
+
+        const url = `/api/places/name?${selectedMarker}`;
+        fetch(url)
+            .then(async res => plainToInstance(Place, await res.json()))
+            .then(pd => {
+                if(pd.length < 1){
+                    console.log(`Cannot find any data for ${selectedMarker}`);
+                    return;
+                }
+                setImgPath(`/place-img/${pd[0].gplaceid}.jpg`);
+                setDetails(pd[0]);
+            });
     }, [selectedMarker]);
+
+    useEffect(() => {
+        if(activeCard != "details"){
+            setSelectedMarker(undefined);
+        }
+    }, [activeCard]);
 
     return <div className="flex flex-col">
         { imgPath != undefined  && details != undefined &&
@@ -40,7 +49,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
                 sizes="100vw"
                 className="w-fit h-auto"/>
         }
-        <div>{JSON.stringify(details)}</div></div>
+        <div>{details?.IsOpen().toString()}</div></div>
 });
 
 DetailsCard.displayName = "DetailsCard";

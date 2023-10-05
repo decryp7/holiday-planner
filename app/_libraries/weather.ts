@@ -23,7 +23,7 @@ export default async function getWeatherForecast(date?: DateTime) : Promise<Loca
         try {
             json = await response.json();
             //weather API return datetime in the format "yyyy-MM-dd HH:mm:ss" and UTC+8
-            weatherForecasts.push(new WeatherForecast(json, "yyyy-MM-dd HH:mm:ss", "UTC+8", date));
+            weatherForecasts.push(new WeatherForecast(json, "yyyy-MM-dd HH:mm:ss", "Asia/Taipei", date));
         }catch (e: any){
             throw new Error(`Get weather forecast error. ${e.message}. JSON: ${json}`);
         }

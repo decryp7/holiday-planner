@@ -7,6 +7,8 @@ import CardGroup from "@/app/_components/cardGroup";
 import {RecoilRoot} from "recoil";
 import WeatherCard from "@/app/_components/weatherCard";
 import DetailsCard from "@/app/_components/detailsCard";
+import SideTray from "@/app/_components/sideTray";
+import ToggleCardsButton from "@/app/_components/toggleCardsButton";
 
 const DateTime = dynamic(() => import('@/app/_components/dateTime'), { ssr: false })
 
@@ -14,7 +16,12 @@ export default function Home() {
     return <RecoilRoot>
     <main className={`w-full h-screen`}>
                 <Map />
-                <DateTime />,
+
+                <SideTray>
+                    <DateTime />
+                    <ToggleCardsButton />
+                </SideTray>
+
                 <CardGroup cards={[
                     {header: "search", labelColor:"rgb(31 41 55)"},
                     {header: "weather", labelColor:"rgb(31 41 55)", items:[
