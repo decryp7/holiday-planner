@@ -47,7 +47,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
                 width="0"
                 height="0"
                 sizes="100vw"
-                className="w-full h-auto rounded-xl"/>
+                className="w-full h-auto rounded-xl grayscale"/>
         }
         <pre className="whitespace-pre-wrap">{JSON.stringify(details, null, 2)}</pre></div>
 });
