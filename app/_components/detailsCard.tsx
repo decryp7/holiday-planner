@@ -47,7 +47,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
                 width="0"
                 height="0"
                 sizes="100vw"
-                className="w-full h-auto"/>
+                className="w-full h-auto rounded"/>
         }
         <div className="h-fit">{JSON.stringify(details)}</div></div>
 });
