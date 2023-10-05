@@ -39,6 +39,8 @@ const Map = React.memo((
             map: map,
         })
         kmlLayer.addListener('click', handleKMLLayerClick.bind(kmlLayer));
+
+        new google.maps.TrafficLayer({map: map});
     }
 
     useEffect(() => {
