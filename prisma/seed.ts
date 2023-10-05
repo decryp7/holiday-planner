@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import {PlacesGenerator} from "./google/dataRetriever";
+import {PlacesGenerator} from "../app/_libraries/google/dataRetriever";
 
 const prisma = new PrismaClient();
 
