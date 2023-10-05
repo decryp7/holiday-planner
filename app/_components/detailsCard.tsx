@@ -49,7 +49,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
                 sizes="100vw"
                 className="w-full h-auto rounded-xl"/>
         }
-        <div className="h-fit">{JSON.stringify(details)}</div></div>
+        <pre className="whitespace-pre-wrap">{JSON.stringify(details, null, 2)}</pre></div>
 });
 
 DetailsCard.displayName = "DetailsCard";

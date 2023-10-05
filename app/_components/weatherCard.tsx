@@ -30,7 +30,7 @@ const WeatherCard = React.memo((props : {} , context) =>{
         }
     }, [activeCard]);
 
-    return <div>{JSON.stringify(locationForecast)}</div>
+    return <pre className="whitespace-pre-wrap">{JSON.stringify(locationForecast, null, 2)}</pre>
 });
 
 WeatherCard.displayName = "WeatherCard";
