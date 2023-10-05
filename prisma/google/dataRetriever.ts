@@ -228,7 +228,8 @@ export class PlacesGenerator {
             throw new Error(`Failed to generate places data. ${e.message}`, e);
         }
 
-        console.log(`Generated data for ${placeData.length} places. Result: ${kmlPlaces.length === placeData.length ? 'OK' : 'NOT OK!'}`);
+        console.log(`Generated data for ${placeData.length} places from ${kmlPlaces.length} places in KML.` +
+            `Result: ${kmlPlaces.length === placeData.length ? 'OK' : 'NOT OK!'}`);
         return placeData;
     }
 }
