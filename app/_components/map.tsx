@@ -20,7 +20,7 @@ const Map = React.memo((
     const [mapReady, setMapReady] = useState(false)
 
     useEffect(() => {
-        const url = `/api/weather/${DateTime.now().toUTC().toMillis()}`;
+        const url = `/api/weather/datetime?${DateTime.now().toUTC().toMillis()}`;
         fetch(url)
             .then(res => res.json())
             .then(setLocationForecast);
@@ -69,6 +69,7 @@ const Map = React.memo((
             }
             return <WeatherMarker
                 key={index}
+                location={locationForecast.locationName}
                 lat={locationForecast.lat}
                 lng={locationForecast.lng}
                 icon={weatherForecastInfo.icon}

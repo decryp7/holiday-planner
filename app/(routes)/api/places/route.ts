@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
-    console.log(request.nextUrl.searchParams);
+    console.log(Array.from(request.nextUrl.searchParams.keys()));
     const result = await prisma.place.findMany({
         include: {
             tags: {
