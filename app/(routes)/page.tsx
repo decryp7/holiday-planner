@@ -5,6 +5,8 @@ import LocationInfo from "@/app/_components/locationInfo";
 import dynamic from 'next/dynamic'
 import CardGroup from "@/app/_components/cardGroup";
 import {RecoilRoot} from "recoil";
+import WeatherCard from "@/app/_components/weatherCard";
+import DetailsCard from "@/app/_components/detailsCard";
 
 const DateTime = dynamic(() => import('@/app/_components/dateTime'), { ssr: false })
 
@@ -15,8 +17,12 @@ export default function Home() {
                 <DateTime />,
                 <CardGroup cards={[
                     {header: "search", labelColor:"rgb(31 41 55)"},
-                    {header: "weather", labelColor:"rgb(31 41 55)"},
-                    {header: "places", labelColor:"rgb(31 41 55)"},
+                    {header: "weather", labelColor:"rgb(31 41 55)", items:[
+                            <WeatherCard key={0} />
+                        ]},
+                    {header: "details", labelColor:"rgb(31 41 55)", items:[
+                            <DetailsCard key={0} />
+                        ]},
                 ]} />
       </main>
     </RecoilRoot>

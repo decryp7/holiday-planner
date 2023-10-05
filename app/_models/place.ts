@@ -1,8 +1,8 @@
 import {Prisma} from ".prisma/client";
+import CloseHourCreateWithoutPlaceInput = Prisma.CloseHourCreateWithoutPlaceInput;
 import PlaceCreateInput = Prisma.PlaceCreateInput;
 import PlaceTagCreateWithoutPlaceInput = Prisma.PlaceTagCreateWithoutPlaceInput;
 import OpenHourCreateWithoutPlaceInput = Prisma.OpenHourCreateWithoutPlaceInput;
-import CloseHourCreateWithoutPlaceInput = Prisma.CloseHourCreateWithoutPlaceInput;
 
 export enum Tag {
     Accommodation,
@@ -111,11 +111,11 @@ export class Place implements PlaceData {
                 create: placeTags
             },
             ...(OpenHour != undefined && {openHours: {
-                create: placeOpenHours
-            }}),
+                    create: placeOpenHours
+                }}),
             ...(CloseHour != undefined && {closeHours: {
-                create: placeCloseHours
-            }}),
+                    create: placeCloseHours
+                }}),
         };
     }
 }

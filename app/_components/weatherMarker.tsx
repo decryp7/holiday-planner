@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useRef} from "react";
 import Image from "next/image";
 import { DateTime } from "luxon";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {locationForecastState} from "@/app/_state/locationForecastState";
 
 const WeatherMarker = React.memo((props : {
     location: string,
@@ -12,10 +14,27 @@ const WeatherMarker = React.memo((props : {
     startTime: DateTime
 } , context) =>{
 
+    const weatherMarkerRef = useRef<HTMLDivElement>(null);
+    const setLocationForecast = useSetRecoilState(locationForecastState);
     const currentHour = DateTime.now().hour;
     const now = currentHour < 7 && currentHour > 19 ? 'night' : 'day';
 
-    return <div data-start-time={props.startTime} data-location={props.location} className="flex flex-col w-16 h-16">
+    function handleClick(){
+        if(weatherMarkerRef.current == null){
+            return;
+        }
+
+        const location = weatherMarkerRef.current.dataset.location;
+        if(location){
+            const url = `/api/weather/location?${location}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(setLocationForecast);
+        }
+    }
+
+    return <div data-start-time={props.startTime} data-location={props.location} className="flex flex-col w-16 h-16 hover:cursor-pointer"
+                onClick={handleClick} ref={weatherMarkerRef}>
         <div className="relative w-[90%] h-[90%] left-1/2 -translate-x-1/2">
             <Image
                 className="drop-shadow-[0px_0px_2px_white]"

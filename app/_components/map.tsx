@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import GoogleMap from "google-maps-react-markers";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {currentLocationState} from "@/app/_state/currentLocationState";
 import {LocationForecast, TemperatureForecastInfo, WeatherForecast, WeatherForecastInfo} from "@/app/_models/weather";
 import getWeatherForecast from "@/app/_libraries/weather";
@@ -9,6 +9,7 @@ import {plainToClass, plainToInstance} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
 import { DateTime } from "luxon";
 import MyMarker from "@/app/_components/myMarker";
+import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
 
 const Map = React.memo((
     props : {}
@@ -18,6 +19,7 @@ const Map = React.memo((
    const [locationForecasts, setLocationForecast] = useState<LocationForecast[]>([]);
     const mapRef = useRef<google.maps.Map | null>(null)
     const [mapReady, setMapReady] = useState(false)
+    const setSelectedMarker = useSetRecoilState(selectedMarkerState);
 
     useEffect(() => {
         const url = `/api/weather/datetime?${DateTime.now().toUTC().toMillis()}`;
@@ -50,8 +52,10 @@ const Map = React.memo((
     }, [mapRef, mapReady, location]);
 
     function handleKMLLayerClick(event : google.maps.KmlMouseEvent){
-        console.log(event);
-        console.log(event.latLng?.lat(), event.latLng?.lng());
+        if(event.featureData == undefined){
+            console.log("KML Marker feature data is missing!");
+        }
+        setSelectedMarker(event.featureData!.name);
     }
 
     return <GoogleMap
