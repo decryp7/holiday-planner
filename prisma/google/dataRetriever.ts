@@ -120,11 +120,11 @@ class KMLDataRetriever {
 
 class PlaceDataRetriever{
     private apiKey = process.env.GOOGLE_MAP_API_KEY;
-    private placeImgFolder = path.resolve(".", "public", "place-img");
+    private placePhotosFolder = path.resolve(".", "public", "place-photos");
 
     constructor() {
-        if(!fs.existsSync(this.placeImgFolder)){
-            fs.mkdirSync(this.placeImgFolder);
+        if(!fs.existsSync(this.placePhotosFolder)){
+            fs.mkdirSync(this.placePhotosFolder);
         }
     }
 
@@ -154,19 +154,26 @@ class PlaceDataRetriever{
         }
 
         const placeDetails = await res.json() as GooglePlaceDetails
-
-        res = await fetch(`https://maps.googleapis.com/maps/api/place/photo?` +
-        `maxwidth=800` +
-        `&photo_reference=${placeDetails.result.photos[0].photo_reference}` +
-        `&key=${this.apiKey}`);
-
-        if(!res.ok || res.status != 200){
-            throw new Error(`Google place photo API error! name:${name}. Status: ${res.statusText}`)
+        const photoFolder = path.resolve(this.placePhotosFolder, placeDetails.result.place_id);
+        if(!fs.existsSync(photoFolder)){
+            fs.mkdirSync(photoFolder);
         }
 
-        const destination = path.resolve(this.placeImgFolder, `${placeId}.jpg`);
-        const fileStream = fs.createWriteStream(destination, {flags: 'w'});
-        await finished(Readable.fromWeb(res.body as ReadableStream).pipe(fileStream));
+        let photoIndex = 0;
+        for (const photo of placeDetails.result.photos) {
+            res = await fetch(`https://maps.googleapis.com/maps/api/place/photo?` +
+                `maxwidth=800` +
+                `&photo_reference=${photo.photo_reference}` +
+                `&key=${this.apiKey}`);
+
+            if (!res.ok || res.status != 200) {
+                throw new Error(`Google place photo API error! name:${name}. Status: ${res.statusText}`)
+            }
+
+            const destination = path.resolve(photoFolder, `${photoIndex++}.jpg`);
+            const fileStream = fs.createWriteStream(destination, {flags: 'w'});
+            await finished(Readable.fromWeb(res.body as ReadableStream).pipe(fileStream));
+        }
         console.log(`Completed fetching details for ${name}\n`);
 
         return placeDetails;

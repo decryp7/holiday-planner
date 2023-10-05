@@ -11,7 +11,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
     const [activeCard, setActiveCard] = useRecoilState(activeCardState);
     const [selectedMarker, setSelectedMarker] = useRecoilState(selectedMarkerState);
     const [details, setDetails] = useState<PlaceData>();
-    const [imgPath, setImgPath] = useState<string>();
+    const [placePhotoPaths, setPlacePhotoPaths] = useState<string[]>();
 
     useEffect(() => {
         if(selectedMarker === undefined){
@@ -28,8 +28,16 @@ const DetailsCard = React.memo((props : {} , context) =>{
                     console.log(`Cannot find any data for ${selectedMarker}`);
                     return;
                 }
-                setImgPath(`/place-img/${pd[0].gplaceid}.jpg`);
                 setDetails(pd[0]);
+                return pd[0].gplaceid;
+            })
+            .then(p => {
+                const url = `/api/places/photos?${p}`;
+                fetch(url)
+                    .then(async res => JSON.parse(await res.json()))
+                    .then(r => {
+                        setPlacePhotoPaths(r);
+                    });
             });
     }, [selectedMarker]);
 
@@ -39,16 +47,24 @@ const DetailsCard = React.memo((props : {} , context) =>{
         }
     }, [activeCard]);
 
-    return <div className="flex flex-col">
-        { imgPath != undefined  && details != undefined &&
-            <Image
+    function Photos(){
+        if(placePhotoPaths != undefined  && details != undefined){
+            return <>{placePhotoPaths.map((p, index) => <Image
+                key={index}
                 alt={details!.name}
-                src={imgPath}
+                src={p}
                 width="0"
                 height="0"
                 sizes="100vw"
-                className="w-full h-auto rounded-xl grayscale"/>
+                className="w-full h-auto rounded-xl grayscale"/>)}
+            </>
         }
+
+        return <></>
+    }
+
+    return <div className="flex flex-col">
+        <Photos />
         <pre className="whitespace-pre-wrap">{JSON.stringify(details, null, 2)}</pre></div>
 });
 
