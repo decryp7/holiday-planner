@@ -54,7 +54,12 @@ interface KMLData {
                     Point: {
                         coordinates: string
                     }
-                }[]
+                }[] | {
+                    name: string,
+                    Point: {
+                        coordinates: string
+                    }
+                }
             }[],
         }
     }
@@ -96,14 +101,19 @@ class KMLDataRetriever {
             const kmlData = parser.parse(xmlFile) as KMLData;
 
             for(const folder of kmlData.kml.Document.Folder){
-                for(const placemark of folder.Placemark){
-                    kmlPlaces.push(new KMLPlace(folder.name, placemark.name, placemark.Point.coordinates));
+                if(Array.isArray(folder.Placemark)) {
+                    for (const placemark of folder.Placemark) {
+                        kmlPlaces.push(new KMLPlace(folder.name, placemark.name, placemark.Point.coordinates));
+                    }
+                }else{
+                    kmlPlaces.push(new KMLPlace(folder.name, folder.Placemark.name, folder.Placemark.Point.coordinates));
                 }
             }
         }catch (e: any){
             throw new Error(`Failed to get places. ${e.message}` , e);
         }
 
+        console.log(`Retrieved ${kmlPlaces.length} places from kml file.`)
         return kmlPlaces;
     }
 }
@@ -119,6 +129,7 @@ class PlaceDataRetriever{
     }
 
     async getPlace(name: string): Promise<GooglePlaceDetails> {
+        console.log(`Fetching details for ${name}`);
         let res = await fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/` +
             `json?input=${name}&inputtype=textquery&key=${this.apiKey}`);
 
@@ -130,6 +141,7 @@ class PlaceDataRetriever{
 
         const placeId = placeCandidates.candidates[0]?.place_id;
 
+        console.log(`Place id :${placeId}`);
         if (placeId == undefined) {
             throw new Error(`Google find place result error. name:${name}!`)
         }
@@ -155,6 +167,7 @@ class PlaceDataRetriever{
         const destination = path.resolve(this.placeImgFolder, `${placeId}.jpg`);
         const fileStream = fs.createWriteStream(destination, {flags: 'w'});
         await finished(Readable.fromWeb(res.body as ReadableStream).pipe(fileStream));
+        console.log(`Completed fetching details for ${name}\n`);
 
         return placeDetails;
     }
@@ -166,11 +179,12 @@ export class PlacesGenerator {
 
     async getPlaces(): Promise<PlaceData[]> {
         const placeData : PlaceData[] = [];
+        let kmlPlaces: KMLPlace[];
 
         try{
             const placeDataRetriever = new PlaceDataRetriever();
 
-            const kmlPlaces = await new KMLDataRetriever().getPlaces();
+            kmlPlaces = await new KMLDataRetriever().getPlaces();
             for(const kmlPlace of kmlPlaces){
                 try{
                     const place = await placeDataRetriever.getPlace(kmlPlace.name);
@@ -214,6 +228,7 @@ export class PlacesGenerator {
             throw new Error(`Failed to generate places data. ${e.message}`, e);
         }
 
+        console.log(`Generated data for ${placeData.length} places. Result: ${kmlPlaces.length === placeData.length ? 'OK' : 'NOT OK!'}`);
         return placeData;
     }
 }
