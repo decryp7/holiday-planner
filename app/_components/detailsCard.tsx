@@ -4,7 +4,7 @@ import {activeCardState} from "@/app/_state/activeCardState";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
 import {Place, PlaceData, Weekday} from "@/app/_models/place";
 import Image from "next/image";
-import {Badge, Divider, Title, Text, Metric, Card, Subtitle} from "@tremor/react";
+import {Badge, Divider, Title, Text, Metric, Card, Subtitle, Italic} from "@tremor/react";
 import {plainToClass, plainToInstance} from "class-transformer";
 import {DateTime} from "luxon";
 
@@ -29,6 +29,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
                     console.log(`Cannot find any data for ${selectedMarker}`);
                     return;
                 }
+
                 setDetails(pd[0]);
                 return pd[0].gplaceid;
             })
@@ -82,9 +83,16 @@ const DetailsCard = React.memo((props : {} , context) =>{
                 <Title className="text-2xl">{details.name}</Title>
                 <Badge color={details.IsOpen() ? "green" : "red"}>{details.IsOpen() ? "Open" : "Closed"}</Badge>
             </div>
-            <Photos/>
+            <Text><Italic>{details.address}</Italic></Text>
+            <Divider />
             {details.description === undefined ? <></> :
-                <Fragment><Divider/><Text>{details.description}</Text></Fragment>}
+                <Text>{details.description}</Text>}
+            <Photos/>
+            <div className="flex flex-row gap-2">
+            {details.tags.map((tag, index) =>
+                <Badge key={index}>{tag.toString()}</Badge>
+            )}
+            </div>
             <Card className="bg-gray-50">
                 <Title className="px-2">Opening Hours</Title>
                 <div className="flex flex-col space-y-2">

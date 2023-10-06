@@ -82,6 +82,8 @@ export class Place implements PlaceData {
     openHours?: OpenHourData[]
     @Transform(params => plainToInstance(CloseHour, params.value))
     closeHours?: CloseHourData[]
+    @Transform(params => (params.value as {tagName: string}[]).map(t => t.tagName))
+    tags: string[]
 
     constructor(public name: string,
                 public description: string,
@@ -90,18 +92,17 @@ export class Place implements PlaceData {
                 public address: string,
                 public lat: number,
                 public lng: number,
-                public tags: string[],
+                tags: string[],
                 openHours?: OpenHourData[],
                 closeHours?: CloseHourData[]) {
         this.openHours = openHours;
         this.closeHours = closeHours;
+        this.tags = tags;
     }
 
     IsOpen(): boolean {
         const now = DateTime.now().setZone("Asia/Taipei");
         const weekday = now.weekday;
-        const time24Hr = +(now.hour.toLocaleString(undefined, {minimumIntegerDigits: 2}) +
-            now.minute.toLocaleString(undefined, {minimumIntegerDigits: 2}));
 
         if(this.openHours == undefined || this.openHours.length == 0){
             return true;
@@ -117,10 +118,7 @@ export class Place implements PlaceData {
             return false;
         }
 
-        const openingHour = +openHour.time;
-        const closingHour = +closeHour.time < +openHour.time ? +closeHour.time + 2400: +closeHour.time;
-
-        return time24Hr >= openingHour && time24Hr <= closingHour;
+        return true;
     }
 
     getOpeningHours(): OpeningHour[] {
