@@ -73,6 +73,10 @@ export interface OpeningHour {
     time: string,
 }
 
+const opening24Hours: OpeningHour[] = Object.keys(Weekday)
+    .filter(i => isNaN(+i))
+    .map(wd => { return { weekday: wd, time: "24hrs" }});
+
 export class Place implements PlaceData {
     @Transform(params => plainToInstance(OpenHour, params.value))
     openHours?: OpenHourData[]
@@ -123,11 +127,11 @@ export class Place implements PlaceData {
         const openingHours: OpeningHour[] = [];
 
         if(this.openHours === undefined || this.openHours.length === 0){
-            return openingHours;
+            return opening24Hours;
         }
 
         if(this.closeHours === undefined || this.closeHours.length === 0){
-            return openingHours;
+            return opening24Hours;
         }
 
         for(const oh of this.openHours){
