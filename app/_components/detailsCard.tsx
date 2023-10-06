@@ -52,18 +52,17 @@ const DetailsCard = React.memo((props : {} , context) =>{
     function Photos(){
         if(placePhotoPaths != undefined  && details != undefined){
             return <div className="flex h-full">
-                        <div className="flex flex-row snap-x snap-mandatory gap-2 overflow-auto">
+                        <div className="flex flex-row overflow-auto snap-x snap-mandatory">
                         {placePhotoPaths.map((p, index) =>
-                            <div key={index} className="snap-center w-fit snap-always shrink-0 flex-grow-0">
-                                <img className="w-auto h-full rounded saturate-200" src={p} alt={details.name} />
-                                {/*<Image*/}
-                                {/*    alt={details!.name}*/}
-                                {/*    src={p}*/}
-                                {/*    width="0"*/}
-                                {/*    height="0"*/}
-                                {/*    sizes="100vw"*/}
-                                {/*    className="w-auto h-full rounded saturate-200"/>*/}
-                            </div>)}
+                            <Image
+                                key={index}
+                                alt={details!.name}
+                                src={p}
+                                width="0"
+                                height="0"
+                                sizes="100vw"
+                                className="w-fit h-full snap-center saturate-200"/>
+                                )}
                         </div>
                 </div>
         }
