@@ -78,7 +78,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
         const openingHours = details.getOpeningHours();
         const weekday = DateTime.now().weekday;
 
-        return <div className="flex flex-col space-y-2">
+        return <div className="flex flex-col space-y-2 w-full">
             <div className="flex flex-row space-x-2">
                 <Title className="text-2xl">{details.name}</Title>
                 <Badge color={details.IsOpen() ? "green" : "red"}>{details.IsOpen() ? "Open" : "Closed"}</Badge>
@@ -88,7 +88,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
             {details.description === undefined ? <></> :
                 <Text>{details.description}</Text>}
             <Photos/>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row flex-wrap gap-2">
             {details.tags.map((tag, index) =>
                 <Badge key={index}>{tag.toString()}</Badge>
             )}
