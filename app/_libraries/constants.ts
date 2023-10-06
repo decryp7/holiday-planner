@@ -1,4 +1,8 @@
-import {DateTimeFormatOptions} from "luxon";
+import {DateTime, DateTimeFormatOptions} from "luxon";
+
+export const Time24HrFormat = "HHmm";
+
+export const SimpleTimeFormat: DateTimeFormatOptions = {...DateTime.TIME_SIMPLE, hourCycle: "h12"};
 
 export const DateTimeFormat : DateTimeFormatOptions = {
     weekday: "short",

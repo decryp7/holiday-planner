@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {Fragment, useEffect, useRef, useState} from "react";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {activeCardState} from "@/app/_state/activeCardState";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
-import {Place, PlaceData} from "@/app/_models/place";
+import {Place, PlaceData, Weekday} from "@/app/_models/place";
 import Image from "next/image";
-import {Badge, Title} from "@tremor/react";
+import {Badge, Divider, Title, Text, Metric, Card, Subtitle} from "@tremor/react";
 import {plainToClass, plainToInstance} from "class-transformer";
-import {findDOMNode} from "react-dom";
+import {DateTime} from "luxon";
 
 const DetailsCard = React.memo((props : {} , context) =>{
     const [activeCard, setActiveCard] = useRecoilState(activeCardState);
@@ -74,10 +74,31 @@ const DetailsCard = React.memo((props : {} , context) =>{
             return <></>;
         }
 
+        const openingHours = details.getOpeningHours();
+        const weekday = DateTime.now().weekday;
+        console.log(weekday);
+
         return <div className="flex flex-col space-y-2">
-            <Title className="text-2xl">{details.name}</Title>
-            <Photos />
-        </div>
+            <div className="flex flex-row space-x-2">
+                <Title className="text-2xl">{details.name}</Title>
+                <Badge color={details.IsOpen() ? "green" : "red"}>{details.IsOpen() ? "Open" : "Closed"}</Badge>
+            </div>
+            <Photos/>
+            {details.description === undefined ? <></> :
+                <Fragment><Divider/><Text>{details.description}</Text></Fragment>}
+            <Card className="bg-gray-50">
+                <Title className="px-2">Opening Hours</Title>
+                <div className="flex flex-col space-y-2">
+                    {openingHours.map((oh, index) =>
+                        <div key={index}>
+                            <Subtitle
+                                className={`w-fit px-2 ${+Weekday[oh.weekday as keyof typeof Weekday]=== weekday ? "text-gray-800 bg-yellow-300" : ""}`}>{oh.weekday}</Subtitle>
+                            <Text
+                                className={`w-fit px-2 ${+Weekday[oh.weekday as keyof typeof Weekday]=== weekday ? "text-gray-800 bg-yellow-300" : ""}`}>{oh.time}</Text>
+                        </div>)}
+                </div>
+            </Card>
+        </div>;
     }
 
     return <Details />
