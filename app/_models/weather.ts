@@ -1,4 +1,6 @@
 import { DateTime } from "luxon";
+import {Transform, Type} from "class-transformer";
+import {da} from "date-fns/locale";
 
 export const forecastCode : {[key: string]: string} = {
     yilan2: "F-D0047-001",
@@ -59,19 +61,30 @@ export abstract class ForecastInfo {
 
 export class WeatherForecastInfo extends ForecastInfo{
 
-    constructor(public startTime: DateTime,
-                public endTime: DateTime,
+    @Transform(params => DateTime.fromISO(params.value))
+    startTime: DateTime;
+
+    @Transform(params => DateTime.fromISO(params.value))
+    endTime:DateTime;
+
+    constructor(startTime: DateTime,
+                endTime: DateTime,
                 value: string,
                 public icon: string) {
         super(value);
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 }
 
 export class TemperatureForecastInfo extends ForecastInfo{
+    @Transform(params => DateTime.fromISO(params.value))
+    dataTime: DateTime;
 
-    constructor(public dataTime: DateTime,
+    constructor(dataTime: DateTime,
                 value: string) {
         super(value);
+        this.dataTime = dataTime;
     }
 
     override toString(): string {
