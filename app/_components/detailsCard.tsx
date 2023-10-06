@@ -76,7 +76,6 @@ const DetailsCard = React.memo((props : {} , context) =>{
 
         const openingHours = details.getOpeningHours();
         const weekday = DateTime.now().weekday;
-        console.log(weekday);
 
         return <div className="flex flex-col space-y-2">
             <div className="flex flex-row space-x-2">
