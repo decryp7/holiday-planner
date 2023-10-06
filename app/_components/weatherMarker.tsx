@@ -37,7 +37,8 @@ const WeatherMarker = React.memo((props : {
                 height="0"
                 sizes="100vw" />
             <div className="absolute w-full top-1/2 -translate-y-1/2 text-[1em] text-center text-gray-800 font-black">
-                {props.value}
+                <div>{props.value}</div>
+                <div>{props.temperature}</div>
             </div>
         </div>
     </div>
