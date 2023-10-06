@@ -47,6 +47,7 @@ const Map = React.memo((
         if(event.featureData == undefined){
             console.log("KML Marker feature data is missing!");
         }
+
         setSelectedMarker(event.featureData!.name);
     }
 

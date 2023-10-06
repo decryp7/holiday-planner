@@ -3,6 +3,7 @@ import Image from "next/image";
 import { DateTime } from "luxon";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {selectedWeatherMarkerState} from "@/app/_state/selectedWeatherMarkerState";
+import event = google.maps.event;
 
 const WeatherMarker = React.memo((props : {
     location: string,
@@ -19,10 +20,11 @@ const WeatherMarker = React.memo((props : {
     const currentHour = DateTime.now().hour;
     const now = currentHour < 7 && currentHour > 19 ? 'night' : 'day';
 
-    function handleClick(){
+    function handleClick(event: React.MouseEvent<HTMLDivElement>){
         if(weatherMarkerRef.current == null){
             return;
         }
+        event.stopPropagation();
         setSelectedWeatherMarker(weatherMarkerRef.current.dataset.location);
     }
 
