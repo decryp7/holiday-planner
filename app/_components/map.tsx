@@ -58,7 +58,7 @@ const Map = React.memo((
                 mapMinHeight="100vh"
                 onGoogleApiLoaded={onGoogleApiLoaded}
             >
-        {locationForecasts.map((locationForecast, index) => {
+        {locationForecasts !== undefined && locationForecasts.map((locationForecast, index) => {
             const weatherForecastInfo = locationForecast.forecast[0] as WeatherForecastInfo;
             const temperatureForecastInfo = plainToClass(TemperatureForecastInfo, locationForecast.forecast[1]);
             if(weatherForecastInfo == undefined && temperatureForecastInfo == undefined){
