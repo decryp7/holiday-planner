@@ -61,7 +61,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
                                 width="0"
                                 height="0"
                                 sizes="100vw"
-                                className="w-fit h-full snap-center saturate-200"/>
+                                className="w-auto h-full snap-center saturate-200"/>
                                 )}
                         </div>
                 </div>
