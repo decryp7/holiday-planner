@@ -10,33 +10,35 @@ import {DateTimeFormat} from "@/app/_libraries/constants";
 import {DateTime} from "luxon";
 import { Grid, Col } from "@tremor/react";
 import Image from "next/image";
+import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 
 const WeatherCard = React.memo((props : {} , context) =>{
     const [activeCard, setActiveCard] = useRecoilState(activeCardState);
     const [selectedWeatherMarker, setSelectedWeatherMarker] = useRecoilState(selectedWeatherMarkerState);
-    const [locationForecast, setLocationForecast] = useState<LocationForecast>();
+    //const [locationForecast, setLocationForecast] = useState<LocationForecast>();
 
     useEffect(() => {
         if(selectedWeatherMarker === undefined) {
             return;
         }
-
         setActiveCard("weather");
-
-        const url = `/api/weather/location?${selectedWeatherMarker}`;
-        fetch(url)
-            .then(res => res.json())
-            .then(setLocationForecast);
-
     }, [selectedWeatherMarker]);
 
     useEffect(() => {
-        if(activeCard != "details"){
+        if(activeCard != "weather"){
             setSelectedWeatherMarker(undefined);
         }
     }, [activeCard]);
 
-    function WeatherDetails() {
+    async function WeatherDetails() {
+        if(selectedWeatherMarker === undefined){
+            return <></>;
+        }
+
+        const url = `/api/weather/location?${selectedWeatherMarker}`;
+        const locationForecast = await fetch(url)
+            .then(res => res.json()) as LocationForecast;
+
         if(locationForecast === undefined){
             return <></>;
         }
@@ -84,7 +86,9 @@ const WeatherCard = React.memo((props : {} , context) =>{
     }
 
     return <div className="flex flex-col space-y-2 w-full">
+        <Suspense fallback={<LoadingSkeleton/>}>
             <WeatherDetails/>
+        </Suspense>
         </div>
 });
 
