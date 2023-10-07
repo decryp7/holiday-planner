@@ -41,7 +41,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
                                 src={p}
                                 width="0"
                                 height="0"
-                                sizes="20vh"
+                                sizes="10vh"
                                 quality={100}
                                 className="w-auto h-full snap-center saturate-200"/>
                                 )}
