@@ -8,13 +8,11 @@ import {Badge, Divider, Title, Text, Metric, Card, Subtitle, Italic} from "@trem
 import {plainToClass, plainToInstance} from "class-transformer";
 import {DateTime} from "luxon";
 import LoadingSkeleton from "@/app/_components/loadingSkeleton";
+import PhotoCarousel from "@/app/_components/photoCarousel";
 
 const DetailsCard = React.memo((props : {} , context) =>{
     const [activeCard, setActiveCard] = useRecoilState(activeCardState);
     const [selectedMarker, setSelectedMarker] = useRecoilState(selectedMarkerState);
-    //const [details, setDetails] = useState<PlaceData>();
-    //const [placePhotoPaths, setPlacePhotoPaths] = useState<string[]>();
-    let placePhotos: string[] = [];
     let place: Place;
 
     useEffect(() => {
@@ -30,33 +28,12 @@ const DetailsCard = React.memo((props : {} , context) =>{
         }
     }, [activeCard]);
 
-    function Photos(){
-        if(placePhotos != undefined  && place != undefined){
-            return <div className="flex h-full">
-                        <div className="flex flex-row overflow-auto snap-x snap-mandatory">
-                        {placePhotos.map((p, index) =>
-                            <Image
-                                key={index}
-                                alt={place.name}
-                                src={p}
-                                width="0"
-                                height="0"
-                                sizes="10vh"
-                                quality={100}
-                                className="w-auto h-full snap-center saturate-200"/>
-                                )}
-                        </div>
-                </div>
-        }
-        return <></>
-    }
-
     async function Details(){
         if(selectedMarker == null){
             return <></>;
         }
 
-        let url = `/api/places/name?${selectedMarker}`;
+        const url = `/api/places/name?${selectedMarker}`;
         const places = await fetch(url)
             .then(async res => plainToInstance(Place, await res.json()));
         if(places.length < 1){
@@ -64,14 +41,10 @@ const DetailsCard = React.memo((props : {} , context) =>{
         }
         place = places[0];
 
-        url = `/api/places/photos?${place.gplaceid}`;
-        placePhotos = await fetch(url)
-            .then(async res => JSON.parse(await res.json())) as string[];
-
         const openingHours = place.getOpeningHours();
         const weekday = DateTime.now().weekday;
 
-        return <div className="flex flex-col space-y-2 w-full">
+        return <div className="flex flex-col space-y-2 w-full h-full">
             <div className="flex flex-row space-x-2">
                 <Title className="text-2xl">{place.name}</Title>
                 <Badge color={place.IsOpen() ? "green" : "red"}>{place.IsOpen() ? "Open" : "Closed"}</Badge>
@@ -85,8 +58,8 @@ const DetailsCard = React.memo((props : {} , context) =>{
             <Divider />
             {place.description === undefined ? <></> :
                 <Text>{place.description}</Text>}
-            <Photos/>
-            <Card className="bg-gray-50">
+            <PhotoCarousel placeName={place.name} placeId={place.gplaceid}/>
+            <Card className="bg-gray-50 p-3">
                 <Title className="px-2">Opening Hours</Title>
                 <div className="flex flex-row flex-wrap gap-2">
                     {openingHours.map((oh, index) =>
