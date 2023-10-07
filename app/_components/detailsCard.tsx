@@ -84,15 +84,15 @@ const DetailsCard = React.memo((props : {} , context) =>{
                 <Badge color={details.IsOpen() ? "green" : "red"}>{details.IsOpen() ? "Open" : "Closed"}</Badge>
             </div>
             <Text><Italic>{details.address}</Italic></Text>
+            <div className="flex flex-row flex-wrap gap-2">
+                {details.tags.map((tag, index) =>
+                    <Badge key={index}>{tag.toString()}</Badge>
+                )}
+            </div>
             <Divider />
             {details.description === undefined ? <></> :
                 <Text>{details.description}</Text>}
             <Photos/>
-            <div className="flex flex-row flex-wrap gap-2">
-            {details.tags.map((tag, index) =>
-                <Badge key={index}>{tag.toString()}</Badge>
-            )}
-            </div>
             <Card className="bg-gray-50">
                 <Title className="px-2">Opening Hours</Title>
                 <div className="flex flex-col space-y-2">
