@@ -18,7 +18,7 @@ const PhotoCarousel = React.memo((
                     src={p}
                     width="0"
                     height="0"
-                    sizes="100vw"
+                    sizes="100vh"
                     className="w-auto saturate-200"></Image>
             )}
         </div>
