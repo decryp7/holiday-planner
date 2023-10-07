@@ -107,7 +107,6 @@ const DetailsCard = React.memo((props : {} , context) =>{
             </Card>
         </div>;
     }
-
     return <Details />
 });
 
