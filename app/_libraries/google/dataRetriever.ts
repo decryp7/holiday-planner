@@ -162,7 +162,7 @@ class PlaceDataRetriever{
         let photoIndex = 0;
         for (const photo of placeDetails.result.photos) {
             res = await fetch(`https://maps.googleapis.com/maps/api/place/photo?` +
-                `maxwidth=800` +
+                `maxwidth=1600` +
                 `&photo_reference=${photo.photo_reference}` +
                 `&key=${this.apiKey}`);
 
