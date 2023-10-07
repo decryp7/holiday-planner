@@ -95,7 +95,7 @@ const DetailsCard = React.memo((props : {} , context) =>{
             <Photos/>
             <Card className="bg-gray-50">
                 <Title className="px-2">Opening Hours</Title>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-row flex-wrap gap-2">
                     {openingHours.map((oh, index) =>
                         <div key={index}>
                             <Subtitle
