@@ -103,6 +103,8 @@ export class Place implements PlaceData {
     IsOpen(): boolean {
         const now = DateTime.now().setZone("Asia/Taipei");
         const weekday = now.weekday;
+        const now24hr = +(now.hour.toLocaleString(undefined, {minimumIntegerDigits: 2})
+            + now.minute.toLocaleString(undefined, {minimumIntegerDigits: 2}));
 
         if(this.openHours == undefined || this.openHours.length == 0){
             return true;
@@ -118,7 +120,20 @@ export class Place implements PlaceData {
             return false;
         }
 
-        return true;
+        const oh = +openHour.time
+        const ch = +closeHour.time > oh ? +closeHour.time : +closeHour.time + 2400;
+
+        if(now24hr >= oh && now24hr <= ch){
+            return true;
+        }
+
+        const adjustedNow24Hr = now24hr + 2400;
+
+        if(adjustedNow24Hr >= oh && adjustedNow24Hr <= ch){
+            return true;
+        }
+
+        return false;
     }
 
     getOpeningHours(): OpeningHour[] {
