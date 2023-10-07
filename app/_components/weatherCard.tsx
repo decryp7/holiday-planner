@@ -61,6 +61,7 @@ const WeatherCard = React.memo((props : {} , context) =>{
 
         return <>
             <Title className="text-2xl">{locationForecast.locationName}</Title>
+            <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
             {forecastInfos.map((forecastInfo, index)=>
                 <Card key={index} className="bg-gray-50">
                     <div className="grid grid-cols-3 gap-5">
@@ -70,7 +71,7 @@ const WeatherCard = React.memo((props : {} , context) =>{
                                 alt={forecastInfo.weather.value}
                                 width="0"
                                 height="0"
-                                sizes="100vw" />
+                                sizes="100vh" />
                         <div className="col-span-2">
                             <Title className="">{forecastInfo.weather.startTime.toLocaleString(DateTimeFormat)}</Title>
                             <Metric className="">{`${forecastInfo.weather.value} (${forecastInfo.temperature.toString()})`}</Metric>
@@ -78,6 +79,7 @@ const WeatherCard = React.memo((props : {} , context) =>{
                     </div>
                 </Card>
                 )}
+            </div>
         </>
     }
 
