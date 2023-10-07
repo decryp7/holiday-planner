@@ -18,7 +18,7 @@ const WeatherMarker = React.memo((props : {
     const weatherMarkerRef = useRef<HTMLDivElement>(null);
     const setSelectedWeatherMarker = useSetRecoilState(selectedWeatherMarkerState);
     const currentHour = DateTime.now().hour;
-    const now = currentHour < 7 && currentHour > 19 ? 'night' : 'day';
+    const now = currentHour > 7 && currentHour < 19 ? 'day' : 'night';
 
     function handleClick(event: React.MouseEvent<HTMLDivElement>){
         if(weatherMarkerRef.current == null){

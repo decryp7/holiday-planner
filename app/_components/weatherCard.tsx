@@ -61,6 +61,9 @@ const WeatherCard = React.memo((props : {} , context) =>{
             }
         }
 
+        const currentHour = DateTime.now().hour;
+        const now = currentHour > 7 && currentHour < 19 ? 'day' : 'night';
+
         return <>
             <Title className="text-2xl">{locationForecast.locationName}</Title>
             <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
@@ -69,7 +72,7 @@ const WeatherCard = React.memo((props : {} , context) =>{
                     <div className="grid grid-cols-3 gap-5">
                             <Image
                                 className="w-full h-full col-span-1"
-                                src={`https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/day/${forecastInfo.weather.icon}.svg`}
+                                src={`https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/${now}/${forecastInfo.weather.icon}.svg`}
                                 alt={forecastInfo.weather.value}
                                 width="0"
                                 height="0"
