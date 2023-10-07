@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
-import { PrismaClient } from '@prisma/client'
+import DBClient from "@/app/_libraries/dbClient";
 
-const prisma = new PrismaClient();
+const prisma = DBClient.Instance;
 
 export async function GET(request: NextRequest) {
     console.log(Array.from(request.nextUrl.searchParams.keys()));

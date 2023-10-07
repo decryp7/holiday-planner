@@ -1,9 +1,9 @@
 import {NextRequest, NextResponse} from "next/server";
-import { PrismaClient } from '@prisma/client'
 import fs from 'fs';
 import path from "path";
+import DBClient from "@/app/_libraries/dbClient";
 
-const prisma = new PrismaClient();
+const prisma = DBClient.Instance;
 
 async function HandleLatLngRequest(searchParams: URLSearchParams) {
     if(searchParams.size < 1){
