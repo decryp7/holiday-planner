@@ -10,7 +10,7 @@ const PhotoCarousel = React.memo((
         const placePhotos = await fetch(url)
             .then(async res => JSON.parse(await res.json())) as string[];
 
-        return <div className="flex flex-row h-full overflow-auto">
+        return <div className="flex flex-row h-full snap-x snap-mandatory overflow-auto">
             {placePhotos.map((p, index) =>
                 <Image
                     key={index}
@@ -19,7 +19,7 @@ const PhotoCarousel = React.memo((
                     width="0"
                     height="0"
                     sizes="100vh"
-                    className="w-auto h-full saturate-200"></Image>
+                    className="w-auto h-full snap-center saturate-200"></Image>
             )}
         </div>
     }
