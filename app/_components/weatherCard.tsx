@@ -10,50 +10,36 @@ import Image from "next/image";
 import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 
 async function WeatherDetails(props: {location: string}){
-    const [forecastInfos, setForecastInfos]
-        = useState<{weather: WeatherForecastInfo, temperature: TemperatureForecastInfo}[]>([]);
-
-    async function fetchLocationForecast(){
-        const url = `/api/weather/location?${props.location}`;
-        const locationForecast = await fetch(url)
-            .then(res => res.json()) as LocationForecast;
-
-        if(locationForecast === undefined){
-            return;
-        }
-
-        const weatherForecastInfos: WeatherForecastInfo[] = [];
-        const temperatureForecastInfos: TemperatureForecastInfo[] = [];
-
-        for(const forecast of locationForecast.forecast){
-            if('icon' in forecast){
-                weatherForecastInfos.push(plainToInstance(WeatherForecastInfo, forecast));
-            }else{
-                temperatureForecastInfos.push(plainToInstance(TemperatureForecastInfo, forecast));
-            }
-        }
-
-        const forecastInfos: {weather: WeatherForecastInfo, temperature: TemperatureForecastInfo}[] = [];
-        for(let i=0;i<weatherForecastInfos.length;i++){
-            const temperatureForecast = temperatureForecastInfos[i];
-            if(temperatureForecast != undefined){
-                forecastInfos.push({ weather: weatherForecastInfos[i], temperature: temperatureForecast})
-            }
-        }
-
-        setForecastInfos(forecastInfos);
+    if(!props.location){
+        return <></>;
     }
 
-    useEffect(() => {
-        if(props.location === undefined){
-            return;
-        }
+    const url = `/api/weather/location?${props.location}`;
+    const locationForecast = await fetch(url)
+        .then(res => res.json()) as LocationForecast;
 
-        fetchLocationForecast()
-            .catch((e: any) =>{
-                console.log(`Error occurred when fetching weather forecast for ${props.location}. Error: ${e}`);
-            });
-    }, [props.location]);
+    if(locationForecast === undefined){
+        return <></>;
+    }
+
+    const weatherForecastInfos: WeatherForecastInfo[] = [];
+    const temperatureForecastInfos: TemperatureForecastInfo[] = [];
+
+    for(const forecast of locationForecast.forecast){
+        if('icon' in forecast){
+            weatherForecastInfos.push(plainToInstance(WeatherForecastInfo, forecast));
+        }else{
+            temperatureForecastInfos.push(plainToInstance(TemperatureForecastInfo, forecast));
+        }
+    }
+
+    const forecastInfos: {weather: WeatherForecastInfo, temperature: TemperatureForecastInfo}[] = [];
+    for(let i=0;i<weatherForecastInfos.length;i++){
+        const temperatureForecast = temperatureForecastInfos[i];
+        if(temperatureForecast != undefined){
+            forecastInfos.push({ weather: weatherForecastInfos[i], temperature: temperatureForecast})
+        }
+    }
 
     const currentHour = DateTime.now().hour;
     const now = currentHour > 7 && currentHour < 19 ? 'day' : 'night';

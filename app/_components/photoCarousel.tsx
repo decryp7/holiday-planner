@@ -3,26 +3,13 @@ import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 import Image from "next/image";
 
 async function Photos(props: {placeId: string, placeName: string}){
-    const [placePhotos, setPlacePhotos] = useState<string[]>([]);
-
-    async function fetchPhotos(){
-        const url = `/api/places/photos?${props.placeId}`;
-        const placePhotos = await fetch(url)
-            .then(async res => JSON.parse(await res.json())) as string[];
-        setPlacePhotos(placePhotos);
+    if(!props.placeId || !props.placeName){
+        return <></>;
     }
 
-    useEffect(() => {
-        if(props.placeId === undefined ||
-            props.placeName === undefined){
-            return;
-        }
-
-        fetchPhotos()
-            .catch((e: any) =>{
-                console.log(`Error occurred when fetching details for ${props.placeName}. Error: ${e}`);
-            });
-    }, [props.placeId]);
+    const url = `/api/places/photos?${props.placeId}`;
+    const placePhotos = await fetch(url)
+        .then(async res => JSON.parse(await res.json())) as string[];
 
     return <div className="flex flex-row h-full snap-x snap-mandatory overflow-auto">
         {placePhotos.map((p, index) =>

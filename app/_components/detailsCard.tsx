@@ -9,30 +9,17 @@ import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 import PhotoCarousel from "@/app/_components/photoCarousel";
 
 async function Details(props: {placeName: string}){
-    const [place, setPlace] = useState<Place>();
-
-    async function fetchDetails(){
-        const url = `/api/places/name?${props.placeName}`;
-        const places = await fetch(url)
-            .then(async res => plainToInstance(Place, await res.json()));
-        if(places.length < 1 || places[0] === undefined){
-            return;
-        }
-        const place = places[0];
-        setPlace(place);
-    }
-
-    useEffect(() => {
-        fetchDetails()
-            .catch((e: any) =>{
-                console.log(`Error occurred when fetching details for ${props.placeName}. Error: ${e}`);
-            });
-    }, [props.placeName]);
-
-    if(props.placeName === undefined){
+    if(!props.placeName){
         return <></>;
     }
 
+    const url = `/api/places/name?${props.placeName}`;
+    const places = await fetch(url)
+        .then(async res => plainToInstance(Place, await res.json()));
+    if(places.length < 1 || places[0] === undefined){
+        return;
+    }
+    const place = places[0];
     const weekday = DateTime.now().weekday;
 
     return <Fragment>{place != undefined && <div className="flex flex-col space-y-2 w-full h-full">
