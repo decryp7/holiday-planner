@@ -7,6 +7,7 @@ import path from "path";
 import decompress from "decompress";
 import {XMLParser} from "fast-xml-parser";
 import {ReadableStream} from "stream/web";
+import {plainToInstance} from "class-transformer";
 
 dotenv.config();
 
@@ -184,9 +185,15 @@ export class PlacesGenerator {
     constructor() {
     }
 
-    async getPlaces(): Promise<PlaceData[]> {
-        const placeData : PlaceData[] = [];
+    async getPlaces(readFromCache?: boolean): Promise<PlaceData[]> {
+        let placeData : PlaceData[] = [];
         let kmlPlaces: KMLPlace[];
+        const cachedPlaceDataPath = path.resolve(".","prisma","googleplacedata.json");
+
+        if(readFromCache && fs.existsSync(cachedPlaceDataPath)) {
+            placeData = plainToInstance(Place, JSON.parse(fs.readFileSync(cachedPlaceDataPath, 'utf8')));
+            return placeData;
+        }
 
         try{
             const placeDataRetriever = new PlaceDataRetriever();
@@ -229,7 +236,7 @@ export class PlacesGenerator {
                 }
             }
 
-            //fs.writeFileSync(path.resolve(".","temp","googleplaces.json"), JSON.stringify(places));
+            fs.writeFileSync(cachedPlaceDataPath, JSON.stringify(placeData));
 
         }catch (e: any){
             throw new Error(`Failed to generate places data. ${e.message}`, e);
@@ -240,11 +247,3 @@ export class PlacesGenerator {
         return placeData;
     }
 }
-
-// new PlacesGenerator().getPlaces()
-//     .then(r => {
-//         fs.writeFileSync(path.resolve(".","temp","places.json"), JSON.stringify(r));
-//     })
-//     .catch(e => {
-//         console.log(e);
-//     });

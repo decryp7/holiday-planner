@@ -82,7 +82,12 @@ export class Place implements PlaceData {
     openHours?: OpenHourData[]
     @Transform(params => plainToInstance(CloseHour, params.value))
     closeHours?: CloseHourData[]
-    @Transform(params => (params.value as {tagName: string}[]).map(t => t.tagName))
+    @Transform(params => (params.value as any[]).map(t => {
+        if(t.hasOwnProperty("tagName")){
+            return t.tagName;
+        }
+        return t;
+    }))
     tags: string[]
 
     constructor(public name: string,

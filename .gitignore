@@ -46,4 +46,3 @@ next-env.d.ts
 **/public/worker-*.js*
 
 /temp
-**/public/place-photos

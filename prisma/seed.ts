@@ -4,7 +4,7 @@ import DBClient from "../app/_libraries/dbClient";
 const prisma = DBClient.Instance;
 
 async function main(){
-    const places = await new PlacesGenerator().getPlaces();
+    const places = await new PlacesGenerator().getPlaces(true);
     for(const place of places){
         try {
             const result = await prisma.place.create({data: place.ToPlaceCreateInput()});
