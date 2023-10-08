@@ -1,4 +1,4 @@
-import React, {Fragment, Suspense} from "react";
+import React, {Fragment, Suspense, useEffect, useState} from "react";
 import {useRecoilValue} from "recoil";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
 import {Place, Weekday} from "@/app/_models/place";
@@ -10,20 +10,33 @@ import PhotoCarousel from "@/app/_components/photoCarousel";
 
 const DetailsCard = React.memo((props : {} , context) =>{
     const selectedMarker = useRecoilValue(selectedMarkerState);
-    let place: Place;
+    const [place, setPlace] = useState<Place>();
 
-    async function Details(){
-        if(selectedMarker == null){
-            return <></>;
-        }
-
+    async function fetchDetails(placeName: string){
         const url = `/api/places/name?${selectedMarker}`;
         const places = await fetch(url)
             .then(async res => plainToInstance(Place, await res.json()));
         if(places.length < 1){
             return <></>;
         }
-        place = places[0];
+        setPlace(places[0]);
+    }
+
+    useEffect(() => {
+        if(selectedMarker == null){
+            return;
+        }
+
+        fetchDetails(selectedMarker)
+            .catch((e: any) =>{
+                console.log(`Error occurred when fetching details for ${selectedMarker}. Error: ${e}`);
+            });
+    }, [selectedMarker]);
+
+    async function Details(){
+        if(place === undefined){
+            return <></>;
+        }
 
         const openingHours = place.getOpeningHours();
         const weekday = DateTime.now().weekday;

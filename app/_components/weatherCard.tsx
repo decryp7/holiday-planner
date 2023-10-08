@@ -1,4 +1,4 @@
-import React, {Suspense} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import {useRecoilValue} from "recoil";
 import {selectedWeatherMarkerState} from "@/app/_state/selectedWeatherMarkerState";
 import {LocationForecast, TemperatureForecastInfo, WeatherForecastInfo} from "@/app/_models/weather";
@@ -12,18 +12,32 @@ import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 const WeatherCard = React.memo((props : {} , context) =>{
     const selectedWeatherMarker = useRecoilValue(selectedWeatherMarkerState);
 
-    async function WeatherDetails() {
+    const [locationForecast, setLocationForecast] = useState<LocationForecast>();
+
+    async function fetchLocationForecast(){
+        const url = `/api/weather/location?${selectedWeatherMarker}`;
+        setLocationForecast(await fetch(url)
+            .then(res => res.json()) as LocationForecast);
+    }
+
+    useEffect(() => {
         if(selectedWeatherMarker === undefined){
-            return <></>;
+            return;
         }
 
-        const url = `/api/weather/location?${selectedWeatherMarker}`;
-        const locationForecast = await fetch(url)
-            .then(res => res.json()) as LocationForecast;
+        fetchLocationForecast()
+            .catch((e: any) =>{
+                console.log(`Error occurred when fetching location forecast for ${selectedWeatherMarker}. Error: ${e}`);
+            });
 
+    }, [selectedWeatherMarker]);
+
+    async function WeatherDetails() {
         if(locationForecast === undefined){
             return <></>;
         }
+
+
         const weatherForecastInfos: WeatherForecastInfo[] = [];
         const temperatureForecastInfos: TemperatureForecastInfo[] = [];
 
