@@ -29,7 +29,7 @@ const WeatherCard = React.memo((props : {} , context) =>{
             .catch((e: any) =>{
                 console.log(`Error occurred when fetching location forecast for ${selectedWeatherMarker}. Error: ${e}`);
             });
-    }, []);
+    }, [selectedWeatherMarker]);
 
     async function WeatherDetails() {
         if(locationForecast === undefined){
