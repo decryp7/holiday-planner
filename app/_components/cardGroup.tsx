@@ -1,13 +1,13 @@
-import React, {Children, Fragment, ReactNode, useEffect, useRef, useState} from "react";
+import React, {Fragment, useEffect, useRef} from "react";
 import Card, {CardInfo} from "@/app/_components/card";
-import {useRecoilCallback, useRecoilState, useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {activeCardState} from "@/app/_state/activeCardState";
 import {cardGroupVisibleState} from "@/app/_state/cardGroupVisibleState";
 
 const CardGroup = React.memo((
     props : {cards: CardInfo[]}, context) =>{
     const childRef = useRef<{[key:string]: any}>({});
-    const activeCard = useRecoilValue(activeCardState);
+    const [activeCard, setActiveCard] = useRecoilState(activeCardState);
     const cardGroupVisible = useRecoilValue(cardGroupVisibleState);
 
     function handleShow(header: string){
@@ -16,6 +16,11 @@ const CardGroup = React.memo((
                 childRef.current[key].hide?.();
             }
         }
+        setActiveCard(header);
+    }
+
+    function handleHide(header: string){
+        setActiveCard('');
     }
 
     useEffect(() => {
@@ -31,6 +36,7 @@ const CardGroup = React.memo((
     useEffect(() => {
         for(const key in childRef.current){
             childRef.current[key].onShow?.(handleShow);
+            childRef.current[key].onHide?.(handleHide);
         }
 
         return () => {};

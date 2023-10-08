@@ -1,4 +1,4 @@
-import React, {Fragment,  useState, useEffect} from "react";
+import React, {Fragment, useEffect} from "react";
 import _ from 'lodash';
 import {useRecoilState} from "recoil";
 import {currentLocationState} from "@/app/_state/currentLocationState";

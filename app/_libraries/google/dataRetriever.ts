@@ -1,4 +1,4 @@
-import {Place, PlaceData, OpenHourData, CloseHourData, OpenHour, CloseHour} from "../../_models/place";
+import {CloseHour, CloseHourData, OpenHour, OpenHourData, Place, PlaceData} from "../../_models/place";
 import dotenv from 'dotenv';
 import fs from 'fs';
 import {Readable} from "stream";

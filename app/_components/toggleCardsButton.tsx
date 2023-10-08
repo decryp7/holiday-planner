@@ -1,6 +1,6 @@
 import React from "react";
 import {ArchiveBoxArrowDownIcon, ArchiveBoxIcon} from "@heroicons/react/24/outline";
-import {useRecoilState, useRecoilValue} from "recoil";
+import {useRecoilState} from "recoil";
 import {cardGroupVisibleState} from "@/app/_state/cardGroupVisibleState";
 
 const ToggleCardsButton = React.memo((props , context) =>{

@@ -1,32 +1,16 @@
-import React, {Fragment, Suspense, useEffect, useRef, useState} from "react";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {activeCardState} from "@/app/_state/activeCardState";
+import React, {Fragment, Suspense} from "react";
+import {useRecoilValue} from "recoil";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
-import {Place, PlaceData, Weekday} from "@/app/_models/place";
-import Image from "next/image";
-import {Badge, Divider, Title, Text, Metric, Card, Subtitle, Italic} from "@tremor/react";
-import {plainToClass, plainToInstance} from "class-transformer";
+import {Place, Weekday} from "@/app/_models/place";
+import {Badge, Card, Divider, Italic, Subtitle, Text, Title} from "@tremor/react";
+import {plainToInstance} from "class-transformer";
 import {DateTime} from "luxon";
 import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 import PhotoCarousel from "@/app/_components/photoCarousel";
 
 const DetailsCard = React.memo((props : {} , context) =>{
-    const [activeCard, setActiveCard] = useRecoilState(activeCardState);
-    const [selectedMarker, setSelectedMarker] = useRecoilState(selectedMarkerState);
+    const selectedMarker = useRecoilValue(selectedMarkerState);
     let place: Place;
-
-    useEffect(() => {
-        if(selectedMarker === undefined){
-            return;
-        }
-        setActiveCard("details");
-    }, [selectedMarker]);
-
-    useEffect(() => {
-        if(activeCard != "details"){
-            setSelectedMarker(undefined);
-        }
-    }, [activeCard]);
 
     async function Details(){
         if(selectedMarker == null){

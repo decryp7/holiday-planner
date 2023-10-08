@@ -1,7 +1,5 @@
-import React, {ComponentType, useEffect, useImperativeHandle, useRef, useState} from "react";
+import React, {useImperativeHandle, useRef, useState} from "react";
 import _ from 'lodash';
-import {useSetRecoilState} from "recoil";
-import {activeCardState} from "@/app/_state/activeCardState";
 
 export interface CardInfo {
     header: string;
@@ -16,7 +14,7 @@ const Card = React.memo(React.forwardRef((
         coveredSize?: number,
         labelColor: string} , ref) =>{
     const [showListeners, setShowListeners] = useState<((header: string) => void)[]>([]);
-    const setActiveCard = useSetRecoilState(activeCardState);
+    const [hideListeners, setHideListeners] = useState<((header: string) => void)[]>([]);
 
     useImperativeHandle(ref, ()=>{
        return {
@@ -24,6 +22,9 @@ const Card = React.memo(React.forwardRef((
            hide() { setStyle(hideStyle); },
            onShow(callback: (header: string) => void) {
                setShowListeners(prev => [...prev, callback]);
+           },
+           onHide(callback: (header: string) => void) {
+               setHideListeners(prev => [...prev, callback]);
            },
            get header() {return props.header},
        }
@@ -46,10 +47,11 @@ const Card = React.memo(React.forwardRef((
             for(const listener of showListeners){
                 listener(props.header);
             }
-            setActiveCard(props.header);
             setStyle(showStyle);
         }else{
-            setActiveCard("");
+            for(const listener of hideListeners){
+                listener(props.header);
+            }
             setStyle(hideStyle);
         }
     }

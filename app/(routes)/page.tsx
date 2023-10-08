@@ -1,7 +1,6 @@
 'use client'
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Map from "@/app/_components/map"
-import LocationInfo from "@/app/_components/locationInfo";
 import dynamic from 'next/dynamic'
 import CardGroup from "@/app/_components/cardGroup";
 import {RecoilRoot} from "recoil";

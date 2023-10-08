@@ -1,34 +1,16 @@
-import React, {FC, Suspense, useEffect, useState} from "react";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {activeCardState} from "@/app/_state/activeCardState";
+import React, {Suspense} from "react";
+import {useRecoilValue} from "recoil";
 import {selectedWeatherMarkerState} from "@/app/_state/selectedWeatherMarkerState";
 import {LocationForecast, TemperatureForecastInfo, WeatherForecastInfo} from "@/app/_models/weather";
-import { Card } from "@tremor/react";
-import { Metric, Title, Subtitle, Bold, Italic, Text } from "@tremor/react";
-import {plainToClass, plainToInstance} from "class-transformer";
+import {Card, Metric, Title} from "@tremor/react";
+import {plainToInstance} from "class-transformer";
 import {DateTimeFormat} from "@/app/_libraries/constants";
 import {DateTime} from "luxon";
-import { Grid, Col } from "@tremor/react";
 import Image from "next/image";
 import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 
 const WeatherCard = React.memo((props : {} , context) =>{
-    const [activeCard, setActiveCard] = useRecoilState(activeCardState);
-    const [selectedWeatherMarker, setSelectedWeatherMarker] = useRecoilState(selectedWeatherMarkerState);
-    //const [locationForecast, setLocationForecast] = useState<LocationForecast>();
-
-    useEffect(() => {
-        if(selectedWeatherMarker === undefined) {
-            return;
-        }
-        setActiveCard("weather");
-    }, [selectedWeatherMarker]);
-
-    useEffect(() => {
-        if(activeCard != "weather"){
-            setSelectedWeatherMarker(undefined);
-        }
-    }, [activeCard]);
+    const selectedWeatherMarker = useRecoilValue(selectedWeatherMarkerState);
 
     async function WeatherDetails() {
         if(selectedWeatherMarker === undefined){

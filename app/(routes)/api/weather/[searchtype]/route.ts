@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {LocationForecast} from "@/app/_models/weather";
 import getWeatherForecast from "@/app/_libraries/weather";
-import { DateTime } from "luxon";
+import {DateTime} from "luxon";
 
 async function HandleDatetimeRequest(searchParams: URLSearchParams) {
     if(searchParams.size < 1){

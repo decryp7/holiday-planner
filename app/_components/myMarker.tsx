@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import {BsFillBalloonFill} from "react-icons/bs";
 
 const MyMarker = React.memo((props : {

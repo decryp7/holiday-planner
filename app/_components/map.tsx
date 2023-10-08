@@ -2,24 +2,24 @@ import React, {useEffect, useRef, useState} from "react";
 import GoogleMap from "google-maps-react-markers";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {currentLocationState} from "@/app/_state/currentLocationState";
-import {LocationForecast, TemperatureForecastInfo, WeatherForecast, WeatherForecastInfo} from "@/app/_models/weather";
-import getWeatherForecast from "@/app/_libraries/weather";
-import Image from "next/image";
-import {plainToClass, plainToInstance} from "class-transformer";
+import {LocationForecast, TemperatureForecastInfo, WeatherForecastInfo} from "@/app/_models/weather";
+import {plainToClass} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
-import { DateTime } from "luxon";
+import {DateTime} from "luxon";
 import MyMarker from "@/app/_components/myMarker";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
+import {activeCardState} from "@/app/_state/activeCardState";
 
 const Map = React.memo((
     props : {}
     , context)=>{
 
     const [location] = useRecoilState(currentLocationState);
-   const [locationForecasts, setLocationForecast] = useState<LocationForecast[]>([]);
+    const [locationForecasts, setLocationForecast] = useState<LocationForecast[]>([]);
     const mapRef = useRef<google.maps.Map | null>(null)
     const [mapReady, setMapReady] = useState(false)
     const setSelectedMarker = useSetRecoilState(selectedMarkerState);
+    const [activeCard, setActiveCard] = useRecoilState(activeCardState);
 
     useEffect(() => {
         const url = `/api/weather/datetime?${DateTime.now().toUTC().toMillis()}`;
@@ -48,6 +48,7 @@ const Map = React.memo((
             console.log("KML Marker feature data is missing!");
         }
 
+        setActiveCard("details");
         setSelectedMarker(event.featureData!.name);
     }
 

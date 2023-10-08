@@ -1,5 +1,5 @@
-import {forecastElementCode, forecastCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
-import { DateTime } from "luxon";
+import {forecastCode, forecastElementCode, LocationForecast, WeatherForecast} from "@/app/_models/weather";
+import {DateTime} from "luxon";
 
 export default async function getWeatherForecast(date?: DateTime) : Promise<LocationForecast[]>{
     const fetches: Promise<Response>[] = [];
