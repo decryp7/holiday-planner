@@ -1,38 +1,33 @@
 import React, {Suspense, useEffect, useState} from "react";
 import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 import Image from "next/image";
-
-async function Photos(props: {placeId: string, placeName: string}){
-    if(!props.placeId || !props.placeName){
-        return <></>;
-    }
-
-    const url = `/api/places/photos?${props.placeId}`;
-    const placePhotos = await fetch(url)
-        .then(async res => JSON.parse(await res.json())) as string[];
-
-    return <div className="flex flex-row h-full snap-x snap-mandatory overflow-auto">
-        {placePhotos.map((p, index) =>
-            <Image
-                key={index}
-                alt={props.placeName}
-                src={p}
-                width="0"
-                height="0"
-                sizes="100vh"
-                className="w-auto h-full snap-center saturate-200"></Image>
-        )}
-    </div>;
-}
+import useSWR from "swr";
+import {fetcher} from "@/app/_libraries/constants";
+import {da} from "date-fns/locale";
+import ErrorSkeleton from "@/app/_components/errorSkeleton";
 
 const PhotoCarousel = React.memo((
     props : { placeId: string, placeName: string} , context) =>{
+    const {data, error, isLoading} = useSWR(`/api/places/photos?${props.placeId}`, fetcher);
+
+    if (error) return <ErrorSkeleton message={`Failed to find photos for ${props.placeName}.`} />
+    if (isLoading) return <LoadingSkeleton />
+
+    const placePhotos = JSON.parse(data) as string[];
 
     return <div className="w-full h-[90%]">
-        <Suspense fallback={<LoadingSkeleton/>}>
-            <Photos placeName={props.placeName}
-            placeId={props.placeId} />
-        </Suspense>
+        <div className="flex flex-row h-full snap-x snap-mandatory overflow-auto">
+            {placePhotos.map((p, index) =>
+                <Image
+                    key={index}
+                    alt={props.placeName}
+                    src={p}
+                    width="0"
+                    height="0"
+                    sizes="100vh"
+                    className="w-auto h-full snap-center saturate-200"></Image>
+            )}
+        </div>
     </div>
 });
 

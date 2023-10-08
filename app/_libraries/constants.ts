@@ -12,3 +12,5 @@ export const DateTimeFormat : DateTimeFormatOptions = {
     minute: "2-digit",
     hourCycle: "h12",
 }
+
+export const fetcher = (url: any) => fetch(url).then(res => res.json());

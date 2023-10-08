@@ -4,23 +4,21 @@ import {selectedWeatherMarkerState} from "@/app/_state/selectedWeatherMarkerStat
 import {LocationForecast, TemperatureForecastInfo, WeatherForecastInfo} from "@/app/_models/weather";
 import {Card, Metric, Title} from "@tremor/react";
 import {plainToInstance} from "class-transformer";
-import {DateTimeFormat} from "@/app/_libraries/constants";
+import {DateTimeFormat, fetcher} from "@/app/_libraries/constants";
 import {DateTime} from "luxon";
 import Image from "next/image";
 import LoadingSkeleton from "@/app/_components/loadingSkeleton";
+import useSWR from "swr";
+import ErrorSkeleton from "@/app/_components/errorSkeleton";
 
-async function WeatherDetails(props: {location: string}){
-    if(!props.location){
-        return <></>;
-    }
+const WeatherCard = React.memo((props : {} , context) =>{
+    const selectedWeatherMarker = useRecoilValue(selectedWeatherMarkerState);
+    const {data, error, isLoading} = useSWR(`/api/weather/location?${selectedWeatherMarker}`, fetcher);
 
-    const url = `/api/weather/location?${props.location}`;
-    const locationForecast = await fetch(url)
-        .then(res => res.json()) as LocationForecast;
+    if (error) return <ErrorSkeleton message={`Failed to find weather information for ${selectedWeatherMarker}.`} />
+    if (isLoading) return <LoadingSkeleton />
 
-    if(locationForecast === undefined){
-        return <></>;
-    }
+    const locationForecast = data as LocationForecast;
 
     const weatherForecastInfos: WeatherForecastInfo[] = [];
     const temperatureForecastInfos: TemperatureForecastInfo[] = [];
@@ -44,8 +42,8 @@ async function WeatherDetails(props: {location: string}){
     const currentHour = DateTime.now().hour;
     const now = currentHour > 7 && currentHour < 19 ? 'day' : 'night';
 
-    return <Fragment>
-            <Title className="text-2xl">{props.location}</Title>
+    return <div className="w-full">
+            <Title className="text-2xl">{selectedWeatherMarker}</Title>
             <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
                 {forecastInfos.map((forecastInfo, index) =>
                     <Card key={index} className="bg-gray-50">
@@ -67,17 +65,7 @@ async function WeatherDetails(props: {location: string}){
                     </Card>
                 )}
             </div>
-    </Fragment>;
-}
-
-const WeatherCard = React.memo((props : {} , context) =>{
-    const selectedWeatherMarker = useRecoilValue(selectedWeatherMarkerState);
-
-    return <div className="w-full">
-        {selectedWeatherMarker !== undefined && <Suspense fallback={<LoadingSkeleton/>}>
-            <WeatherDetails location={selectedWeatherMarker}/>
-        </Suspense>}
-        </div>
+        </div>;
 });
 
 WeatherCard.displayName = "WeatherCard";
