@@ -25,7 +25,7 @@ const WeatherMarker = React.memo((props : {
         if(weatherMarkerRef.current == null){
             return;
         }
-        event.stopPropagation();
+
         setActiveCard("weather");
         setSelectedWeatherMarker(weatherMarkerRef.current.dataset.location);
     }

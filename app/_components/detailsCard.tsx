@@ -13,17 +13,17 @@ const DetailsCard = React.memo((props : {} , context) =>{
     const [place, setPlace] = useState<Place>();
 
     async function fetchDetails(placeName: string){
-        const url = `/api/places/name?${selectedMarker}`;
+        const url = `/api/places/name?${placeName}`;
         const places = await fetch(url)
             .then(async res => plainToInstance(Place, await res.json()));
         if(places.length < 1){
-            return <></>;
+            return;
         }
         setPlace(places[0]);
     }
 
     useEffect(() => {
-        if(selectedMarker == null){
+        if(selectedMarker === undefined){
             return;
         }
 

@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useState} from "react";
+import React, {Suspense, useEffect, useMemo, useState} from "react";
 import {useRecoilValue} from "recoil";
 import {selectedWeatherMarkerState} from "@/app/_state/selectedWeatherMarkerState";
 import {LocationForecast, TemperatureForecastInfo, WeatherForecastInfo} from "@/app/_models/weather";
@@ -11,13 +11,13 @@ import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 
 const WeatherCard = React.memo((props : {} , context) =>{
     const selectedWeatherMarker = useRecoilValue(selectedWeatherMarkerState);
-
     const [locationForecast, setLocationForecast] = useState<LocationForecast>();
 
-    async function fetchLocationForecast(){
-        const url = `/api/weather/location?${selectedWeatherMarker}`;
-        setLocationForecast(await fetch(url)
-            .then(res => res.json()) as LocationForecast);
+    async function fetchLocationForecast(location: string){
+        const url = `/api/weather/location?${location}`;
+        const fc = await fetch(url)
+            .then(res => res.json()) as LocationForecast;
+        setLocationForecast(fc);
     }
 
     useEffect(() => {
@@ -25,18 +25,18 @@ const WeatherCard = React.memo((props : {} , context) =>{
             return;
         }
 
-        fetchLocationForecast()
+        fetchLocationForecast(selectedWeatherMarker)
             .catch((e: any) =>{
                 console.log(`Error occurred when fetching location forecast for ${selectedWeatherMarker}. Error: ${e}`);
             });
-
-    }, [selectedWeatherMarker]);
+    }, []);
 
     async function WeatherDetails() {
         if(locationForecast === undefined){
             return <></>;
         }
 
+        console.log(locationForecast.locationName);
 
         const weatherForecastInfos: WeatherForecastInfo[] = [];
         const temperatureForecastInfos: TemperatureForecastInfo[] = [];
@@ -84,7 +84,7 @@ const WeatherCard = React.memo((props : {} , context) =>{
         </>
     }
 
-    return <div className="flex flex-col space-y-2 w-full">
+    return <div className="w-full">
         <Suspense fallback={<LoadingSkeleton/>}>
             <WeatherDetails/>
         </Suspense>
