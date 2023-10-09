@@ -160,20 +160,22 @@ class PlaceDataRetriever{
             fs.mkdirSync(photoFolder);
         }
 
-        let photoIndex = 0;
-        for (const photo of placeDetails.result.photos) {
-            res = await fetch(`https://maps.googleapis.com/maps/api/place/photo?` +
-                `maxwidth=1600` +
-                `&photo_reference=${photo.photo_reference}` +
-                `&key=${this.apiKey}`);
+        if(placeDetails.result.photos != undefined){
+            let photoIndex = 0;
+            for (const photo of placeDetails.result.photos) {
+                res = await fetch(`https://maps.googleapis.com/maps/api/place/photo?` +
+                    `maxwidth=1600` +
+                    `&photo_reference=${photo.photo_reference}` +
+                    `&key=${this.apiKey}`);
 
-            if (!res.ok || res.status != 200) {
-                throw new Error(`Google place photo API error! name:${name}. Status: ${res.statusText}`)
+                if (!res.ok || res.status != 200) {
+                    throw new Error(`Google place photo API error! name:${name}. Status: ${res.statusText}`)
+                }
+
+                const destination = path.resolve(photoFolder, `${photoIndex++}.jpg`);
+                const fileStream = fs.createWriteStream(destination, {flags: 'w'});
+                await finished(Readable.fromWeb(res.body as ReadableStream).pipe(fileStream));
             }
-
-            const destination = path.resolve(photoFolder, `${photoIndex++}.jpg`);
-            const fileStream = fs.createWriteStream(destination, {flags: 'w'});
-            await finished(Readable.fromWeb(res.body as ReadableStream).pipe(fileStream));
         }
         console.log(`Completed fetching details for ${name}\n`);
 
