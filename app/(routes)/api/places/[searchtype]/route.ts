@@ -1,9 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import fs from 'fs';
 import path from "path";
-import DBClient from "@/app/_libraries/dbClient";
-
-const prisma = DBClient.Instance;
+import {prisma} from "@/app/_libraries/prismaExtendedClient";
 
 async function HandleLatLngRequest(searchParams: URLSearchParams) {
     if(searchParams.size < 1){
@@ -22,25 +20,8 @@ async function HandleLatLngRequest(searchParams: URLSearchParams) {
 
     const place = await prisma.place.findMany({
         where: { lat: +latlng[0], lng: +latlng[1] },
-        include: {
-            tags: {
-                select: {
-                    tagName: true
-                }
-            },
-            openHours: {
-                select: {
-                    day: true,
-                    time: true,
-                }
-            },
-            closeHours: {
-                select: {
-                    day: true,
-                    time: true,
-                }
-            }
-        }});
+    });
+
 
     return NextResponse.json(place);
 }
@@ -55,25 +36,7 @@ async function HandleNameRequest(searchParams: URLSearchParams) {
 
     const place = await prisma.place.findMany({
         where: { name: nameParam },
-        include: {
-            tags: {
-                select: {
-                    tagName: true
-                }
-            },
-            openHours: {
-                select: {
-                    day: true,
-                    time: true,
-                }
-            },
-            closeHours: {
-                select: {
-                    day: true,
-                    time: true,
-                }
-            }
-        }});
+    });
 
     return NextResponse.json(place);
 }

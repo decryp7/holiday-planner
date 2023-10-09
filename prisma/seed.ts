@@ -1,7 +1,8 @@
 import {PlacesGenerator} from "../app/_libraries/google/dataRetriever";
-import DBClient from "../app/_libraries/dbClient";
+import {Prisma} from ".prisma/client";
+import {PrismaClient} from "@prisma/client";
 
-const prisma = DBClient.Instance;
+const prisma = new PrismaClient();
 
 async function main(){
     const places = await new PlacesGenerator().getPlaces(true);
