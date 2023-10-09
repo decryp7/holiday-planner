@@ -1,7 +1,5 @@
 import {Prisma, PrismaClient} from "@prisma/client";
 import {GlobalRef} from "@/app/_libraries/globalRef";
-import {plainToInstance} from "class-transformer";
-import {Place} from "@/app/_models/place";
 
 export const selectPlaceIncludeAllData = Prisma.validator<Prisma.PlaceInclude>()({
     tags: {
