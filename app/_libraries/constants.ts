@@ -1,7 +1,4 @@
 import {DateTime, DateTimeFormatOptions} from "luxon";
-import {Prisma} from ".prisma/client";
-import {Simulate} from "react-dom/test-utils";
-import select = Simulate.select;
 
 export const Time24HrFormat = "HHmm";
 
