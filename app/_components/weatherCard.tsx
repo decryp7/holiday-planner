@@ -13,12 +13,16 @@ import ErrorSkeleton from "@/app/_components/errorSkeleton";
 
 const WeatherCard = React.memo((props : {} , context) =>{
     const selectedWeatherMarker = useRecoilValue(selectedWeatherMarkerState);
-    const {data, error, isLoading} = useSWR(`/api/weather/location?${selectedWeatherMarker}`, fetcher);
+    const {data, error, isLoading} = useSWR(`/api/weather?location=${selectedWeatherMarker}`, fetcher);
 
     if (error) return <ErrorSkeleton message={`Failed to find weather information for ${selectedWeatherMarker}.`} />
     if (isLoading) return <LoadingSkeleton />
 
-    const locationForecast = data as LocationForecast;
+    if(data === undefined || data.length === 0){
+        return <></>
+    }
+
+    const locationForecast = data[0] as LocationForecast;
 
     const weatherForecastInfos: WeatherForecastInfo[] = [];
     const temperatureForecastInfos: TemperatureForecastInfo[] = [];

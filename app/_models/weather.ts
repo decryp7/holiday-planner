@@ -106,11 +106,15 @@ export interface WeatherForecastModel {
 export class WeatherForecast implements WeatherForecastModel{
     locations: LocationForecast[] = [];
 
-    constructor(cwaForecast: CWAForecast, format:string,  zone: string, date?: DateTime){
-        for(const location of cwaForecast.records.locations[0].location){
+    constructor(cwaForecast: CWAForecast, format:string,  zone: string, date?: DateTime, location?: string){
+        for(const l of cwaForecast.records.locations[0].location){
+            if(location && l.locationName !== location){
+                continue;
+            }
+
             const forecastInfos: ForecastInfo[] = [];
 
-            for(const weatherElement of location.weatherElement){
+            for(const weatherElement of l.weatherElement){
                 switch (weatherElement.elementName){
                     case forecastElementCode.weather:
                         for(const t  of weatherElement.time as Array<wxElement>){
@@ -152,10 +156,10 @@ export class WeatherForecast implements WeatherForecastModel{
 
             this.locations.push(
                 {
-                    locationName: location.locationName,
-                    geocode: location.geocode,
-                    lat: location.lat,
-                    lng: location.lon,
+                    locationName: l.locationName,
+                    geocode: l.geocode,
+                    lat: l.lat,
+                    lng: l.lon,
                     forecast: forecastInfos
                 }
             )

@@ -22,7 +22,7 @@ const Map = React.memo((
     const [activeCard, setActiveCard] = useRecoilState(activeCardState);
 
     useEffect(() => {
-        const url = `/api/weather/datetime?${DateTime.now().toUTC().toMillis()}`;
+        const url = `/api/weather?datetime=${DateTime.now().toUTC().toMillis()}`;
         fetch(url)
             .then(res => res.json())
             .then(setLocationForecast);
