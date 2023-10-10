@@ -6,6 +6,7 @@ import CloseHourCreateWithoutPlaceInput = Prisma.CloseHourCreateWithoutPlaceInpu
 import PlaceCreateInput = Prisma.PlaceCreateInput;
 import PlaceTagCreateWithoutPlaceInput = Prisma.PlaceTagCreateWithoutPlaceInput;
 import OpenHourCreateWithoutPlaceInput = Prisma.OpenHourCreateWithoutPlaceInput;
+import {selectPlaceIncludeAllData} from "@/app/_libraries/prismaExtendedClient";
 
 export enum Tag {
     Accommodation,
@@ -82,12 +83,6 @@ export class Place implements PlaceData {
     openHours?: OpenHourData[]
     @Transform(params => plainToInstance(CloseHour, params.value))
     closeHours?: CloseHourData[]
-    @Transform(params => (params.value as any[]).map(t => {
-        if(t.hasOwnProperty("tagName")){
-            return t.tagName;
-        }
-        return t;
-    }))
     tags: string[]
 
     constructor(public name: string,
@@ -103,6 +98,21 @@ export class Place implements PlaceData {
         this.openHours = openHours;
         this.closeHours = closeHours;
         this.tags = tags;
+    }
+
+    static fromDbPlace(placeData: PlaceWithAllData) {
+        return new Place(
+            placeData.name,
+            placeData.description,
+            placeData.gplaceid,
+            placeData.url,
+            placeData.address,
+            +placeData.lat,
+            +placeData.lng,
+            placeData.tags.map(t=> t.tagName),
+            placeData.openHours.map(oh => new OpenHour(+oh.day, oh.time)),
+            placeData.closeHours.map(ch => new CloseHour(+ch.day, ch.time))
+        );
     }
 
     IsOpen(): boolean {
@@ -215,3 +225,5 @@ export class Place implements PlaceData {
         };
     }
 }
+
+export type PlaceWithAllData = Prisma.PlaceGetPayload<{ include: typeof selectPlaceIncludeAllData }>;

@@ -2,6 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import fs from 'fs';
 import path from "path";
 import {prisma} from "@/app/_libraries/prismaExtendedClient";
+import {Place, PlaceWithAllData} from "@/app/_models/place";
 
 async function HandleLatLngRequest(searchParams: URLSearchParams) {
     if(searchParams.size < 1){
@@ -18,12 +19,13 @@ async function HandleLatLngRequest(searchParams: URLSearchParams) {
             {status: 400, statusText: "latlng is not in correct format!"});
     }
 
-    const place = await prisma.place.findMany({
+    const result = await prisma.place.findMany({
         where: { lat: +latlng[0], lng: +latlng[1] },
     });
 
+    const places = result.map(p => Place.fromDbPlace(p as PlaceWithAllData));
 
-    return NextResponse.json(place);
+    return NextResponse.json(places);
 }
 
 async function HandleNameRequest(searchParams: URLSearchParams) {
@@ -34,11 +36,12 @@ async function HandleNameRequest(searchParams: URLSearchParams) {
 
     const nameParam = Array.from(searchParams.keys())[0];
 
-    const place = await prisma.place.findMany({
+    const result = await prisma.place.findMany({
         where: { name: nameParam },
     });
+    const places = result.map(p => Place.fromDbPlace(p as PlaceWithAllData));
 
-    return NextResponse.json(place);
+    return NextResponse.json(places);
 }
 
 async function HandlePhotosRequest(searchParams: URLSearchParams) {
