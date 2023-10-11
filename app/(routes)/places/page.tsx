@@ -11,8 +11,12 @@ export default function Page(){
         setSearchRequest(req);
     }
 
-    return <div className="flex flex-col gap-5 w-full h-full p-5 overflow-auto">
-        <SearchPanel onSearch={handleSearch} />
-        <SearchResultsPanel searchRequest={searchRequest} />
+    return <div className="flex flex-col gap-5 w-full h-full align-top overflow-auto">
+        <div className="sticky p-3 top-0 z-10 bg-slate-300">
+            <SearchPanel onSearch={handleSearch} />
+        </div>
+        <div className="px-3">
+            <SearchResultsPanel searchRequest={searchRequest} />
+        </div>
     </div>;
 }
