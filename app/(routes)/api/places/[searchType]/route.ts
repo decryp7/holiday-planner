@@ -14,7 +14,7 @@ async function HandleTagsRequest(request: NextRequest){
     const results = await prisma.tag.findMany({});
     const tags = results ? results.map(r => r.name) : [];
 
-    return NextResponse.json(tags);
+    return NextResponse.json(tags.sort());
 }
 
 async function HandleDetailsRequest(request: NextRequest){
