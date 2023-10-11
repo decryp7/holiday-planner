@@ -13,23 +13,24 @@ export interface PhotoCarouselProps extends HTMLAttributes<HTMLDivElement>{
 
 const PhotoCarousel = React.memo((
     props : PhotoCarouselProps, context) =>{
-    const {data, error, isLoading} = useSWR(`/api/places/photos?id=${props.placeId}`, fetcher);
+    const {placeId, placeName, ...rest} = props;
+    const {data, error, isLoading} = useSWR(`/api/places/photos?id=${placeId}`, fetcher);
 
     if (error) {
-        return <div className={props.className}>
-            <ErrorSkeleton message={`Failed to find photos for ${props.placeName}.`} />
+        return <div {...rest}>
+            <ErrorSkeleton message={`Failed to find photos for ${placeName}.`} />
         </div>
     }
     if (isLoading) return <LoadingSkeleton />
 
     const placePhotos = JSON.parse(data) as string[];
 
-    return <div {...props}>
+    return <div {...rest}>
         <div className="flex flex-row h-full snap-x snap-mandatory overflow-auto">
             {placePhotos.map((p, index) =>
                 <Image
                     key={index}
-                    alt={props.placeName}
+                    alt={placeName}
                     src={p}
                     width="0"
                     height="0"

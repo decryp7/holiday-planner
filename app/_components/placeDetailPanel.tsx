@@ -9,29 +9,30 @@ export interface PlaceDetailPanelProps extends HTMLAttributes<HTMLDivElement>{
 }
 
 const PlaceDetailPanel = React.memo((props: PlaceDetailPanelProps, context) =>{
+    const {place, ...rest} = props;
     const weekday = DateTime.now().weekday;
 
-    return <div {...props}>
+    return <div {...rest}>
         <div className="flex flex-col space-y-2">
             <div className="flex flex-row space-x-2">
-                <Title className="text-2xl">{props.place.name}</Title>
-                <Badge color={props.place.IsOpen() ? "green" : "red"}>{props.place.IsOpen() ? "Open" : "Closed"}</Badge>
+                <Title className="text-2xl">{place.name}</Title>
+                <Badge color={place.IsOpen() ? "green" : "red"}>{place.IsOpen() ? "Open" : "Closed"}</Badge>
             </div>
-            <Text><Italic>{props.place.address}</Italic></Text>
+            <Text><Italic>{place.address}</Italic></Text>
             <div className="flex flex-row flex-wrap gap-2">
-                {props.place.tags.map((tag, index) =>
+                {place.tags.map((tag, index) =>
                     <Badge key={index}>{tag.toString()}</Badge>
                 )}
             </div>
             <Divider/>
-            {props.place.description === undefined ? <></> :
-                <Text>{props.place.description}</Text>}
+            {place.description === undefined ? <></> :
+                <Text>{place.description}</Text>}
             <Divider/>
-            <PhotoCarousel className="h-52" placeName={props.place.name} placeId={props.place.gplaceid}/>
+            <PhotoCarousel className="h-52" placeName={place.name} placeId={place.gplaceid}/>
             <Card className="p-3">
                 <Title className="px-2">Opening Hours</Title>
                 <div className="flex flex-row flex-wrap gap-2">
-                    {props.place.getOpeningHours().map((oh, index) =>
+                    {place.getOpeningHours().map((oh, index) =>
                         <div key={index}>
                             <Subtitle
                                 className={`w-fit px-2 ${+Weekday[oh.weekday as keyof typeof Weekday] === weekday ? "text-gray-800 bg-yellow-300" : ""}`}>{oh.weekday}</Subtitle>
