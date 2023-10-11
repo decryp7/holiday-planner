@@ -15,7 +15,11 @@ const PhotoCarousel = React.memo((
     props : PhotoCarouselProps, context) =>{
     const {data, error, isLoading} = useSWR(`/api/places/photos?id=${props.placeId}`, fetcher);
 
-    if (error) return <ErrorSkeleton message={`Failed to find photos for ${props.placeName}.`} />
+    if (error) {
+        return <div className={props.className}>
+            <ErrorSkeleton message={`Failed to find photos for ${props.placeName}.`} />
+        </div>
+    }
     if (isLoading) return <LoadingSkeleton />
 
     const placePhotos = JSON.parse(data) as string[];
