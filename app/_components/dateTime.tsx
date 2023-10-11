@@ -14,12 +14,8 @@ const DateTime = React.memo((props , context) =>{
         return () => clearInterval(interval);
     }, [currentDateTime]);
 
-    function handleDateClick(event: React.MouseEvent){
-        setActiveTab("weather");
-    }
-
     return <div className="flex flex-col space-y-3">
-        <div className="flex flex-col space-y-0 w-[40px] h-[40px] bg-white text-center shadow rounded-[2px] cursor-pointer" onClick={handleDateClick}>
+        <div className="flex flex-col space-y-0 w-[40px] h-[40px] bg-white text-center shadow rounded-[2px] cursor-pointer">
             <div className="font-black text-[1rem]/[1rem]">{currentDateTime.getDate().toLocaleString(undefined, {minimumIntegerDigits: 2})}</div>
             <div className="font-bold text-[0.70rem]/[1rem]">{currentDateTime.toLocaleString('default', { month: 'short' }).toUpperCase()}</div>
             <div className="w-full h-full align-middle font-bold text-[0.70rem]/[1rem] text-white bg-gray-800 rounded-b-[2px]">{currentDateTime.toLocaleString('default', { weekday: 'short' }).toUpperCase()}</div>
