@@ -10,7 +10,7 @@ import {SearchRequest} from "@/app/_models/searchRequest";
 import SearchResultsPanel from "@/app/_components/searchResultsPanel";
 
 const SearchCard = React.memo((props : {} , context) =>{
-    const [searchRequest, setSearchRequest] = useState<SearchRequest>();
+    const [searchRequest, setSearchRequest] = useState<SearchRequest>({ tags: [] });
 
     function handleSearch(req: SearchRequest) {
         setSearchRequest(req);

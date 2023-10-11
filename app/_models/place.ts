@@ -8,18 +8,6 @@ import PlaceTagCreateWithoutPlaceInput = Prisma.PlaceTagCreateWithoutPlaceInput;
 import OpenHourCreateWithoutPlaceInput = Prisma.OpenHourCreateWithoutPlaceInput;
 import {selectPlaceIncludeAllData} from "@/app/_libraries/prismaExtendedClient";
 
-export enum Tag {
-    Accommodation,
-    Attraction,
-    Food,
-    Taipei,
-    JiuFen,
-    ShiFen,
-    Badouzi,
-    Tamsui,
-    YiLan
-}
-
 export interface OpenHourData {
     day: number;
     time: string;

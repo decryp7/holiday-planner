@@ -7,8 +7,8 @@ export async function GET(request: NextRequest) {
     const tagsParam = placesParams.get("tags");
 
     let result = null;
-    if(tagsParam !== null){
-        const tags = tagsParam.split(",");
+    if(tagsParam !== null && tagsParam.trim().length > 0){
+        const tags = tagsParam.trim().split(",");
         const tagClauses: {tags: {some: { tagName: string }}}[] = []
 
         for(const tag of tags){
