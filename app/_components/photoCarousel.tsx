@@ -24,7 +24,7 @@ const PhotoCarousel = React.memo((
 
     const placePhotos = JSON.parse(data) as string[];
 
-    return <div className={props.className}>
+    return <div {...props}>
         <div className="flex flex-row h-full snap-x snap-mandatory overflow-auto">
             {placePhotos.map((p, index) =>
                 <Image
