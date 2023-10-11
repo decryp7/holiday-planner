@@ -9,13 +9,15 @@ export async function GET(request: NextRequest) {
     let result = null;
     if(tagsParam !== null && tagsParam.trim().length > 0){
         const tags = tagsParam.trim().split(",");
-        const tagClauses: {tags: {some: { tagName: string }}}[] = []
+        const tagClauses: {tags: {some: { tag: {name: string }}}}[] = []
 
         for(const tag of tags){
             tagClauses.push({
                 tags: {
                     some: {
-                        tagName: tag
+                        tag: {
+                            name: tag
+                        }
                     }
                 }
             })
