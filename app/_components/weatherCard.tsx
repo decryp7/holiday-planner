@@ -12,8 +12,14 @@ import useSWR from "swr";
 import ErrorSkeleton from "@/app/_components/errorSkeleton";
 
 const WeatherCard = React.memo((props : {} , context) =>{
+    const [mounted, setMounted] = useState(false);
     const selectedWeatherMarker = useRecoilValue(selectedWeatherMarkerState);
-    const {data, error, isLoading} = useSWR(`/api/weather?location=${selectedWeatherMarker}`, fetcher);
+    const {data, error, isLoading} =
+        useSWR(mounted ? `/api/weather?location=${selectedWeatherMarker}` : null, fetcher);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     if (error) return <ErrorSkeleton message={`Failed to find weather information for ${selectedWeatherMarker}.`} />
     if (isLoading) return <LoadingSkeleton />

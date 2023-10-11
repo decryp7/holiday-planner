@@ -12,11 +12,22 @@ import {fetcher} from "@/app/_libraries/constants";
 import ErrorSkeleton from "@/app/_components/errorSkeleton";
 
 const DetailsCard = React.memo((props : {} , context) =>{
+    const [mounted, setMounted] = useState(false);
     const selectedMarker = useRecoilValue(selectedMarkerState);
-    const {data, error, isLoading} = useSWR(`/api/places/name?${selectedMarker}`, fetcher);
+    const {data, error, isLoading} =
+        useSWR(mounted ? `/api/places/details?name=${selectedMarker}` : null
+        , fetcher);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     if (error) return <ErrorSkeleton message={`Failed to find information for ${selectedMarker}.`} />
     if (isLoading) return <LoadingSkeleton />
+
+    if(data === undefined){
+        return <></>
+    }
 
     const places = plainToInstance(Place, data);
     if(places.length < 1 || places[0] === undefined){

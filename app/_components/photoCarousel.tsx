@@ -8,7 +8,7 @@ import ErrorSkeleton from "@/app/_components/errorSkeleton";
 
 const PhotoCarousel = React.memo((
     props : { placeId: string, placeName: string} , context) =>{
-    const {data, error, isLoading} = useSWR(`/api/places/photos?${props.placeId}`, fetcher);
+    const {data, error, isLoading} = useSWR(`/api/places/photos?id=${props.placeId}`, fetcher);
 
     if (error) return <ErrorSkeleton message={`Failed to find photos for ${props.placeName}.`} />
     if (isLoading) return <LoadingSkeleton />

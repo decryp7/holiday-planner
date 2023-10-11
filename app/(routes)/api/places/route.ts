@@ -3,8 +3,6 @@ import {prisma} from "@/app/_libraries/prismaExtendedClient";
 import {Place, PlaceWithAllData} from "@/app/_models/place";
 
 export async function GET(request: NextRequest) {
-    console.log(Array.from(request.nextUrl.searchParams.keys()));
-
     const result = await prisma.place.findMany();
     const places = result.map(p => Place.fromDbPlace(p as PlaceWithAllData));
 
