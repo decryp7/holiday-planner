@@ -23,19 +23,19 @@ const SearchResultCard = React.memo((props: {place: Place}, context) =>{
             <Divider/>
             {props.place.description === undefined ? <></> :
                 <Text>{props.place.description}</Text>}
-            <PhotoCarousel className="h-40" placeName={props.place.name} placeId={props.place.gplaceid}/>
-            <Card className="p-3">
-                <Title className="px-2">Opening Hours</Title>
-                <div className="flex flex-row flex-wrap gap-2">
-                    {props.place.getOpeningHours().map((oh, index) =>
-                        <div key={index}>
-                            <Subtitle
-                                className={`w-fit px-2 ${+Weekday[oh.weekday as keyof typeof Weekday] === weekday ? "text-gray-800 bg-yellow-300" : ""}`}>{oh.weekday}</Subtitle>
-                            <Text
-                                className={`w-fit px-2 ${+Weekday[oh.weekday as keyof typeof Weekday] === weekday ? "text-gray-800 bg-yellow-300" : ""}`}>{oh.time}</Text>
-                        </div>)}
-                </div>
-            </Card>
+            <Divider/>
+            <PhotoCarousel className="w-full h-40" placeName={props.place.name} placeId={props.place.gplaceid}/>
+            <Divider/>
+            <Title className="px-2">Opening Hours</Title>
+            <div className="flex flex-row flex-wrap gap-2">
+                {props.place.getOpeningHours().map((oh, index) =>
+                    <div key={index}>
+                        <Subtitle
+                            className={`w-fit px-2 ${+Weekday[oh.weekday as keyof typeof Weekday] === weekday ? "text-gray-800 bg-yellow-300" : ""}`}>{oh.weekday}</Subtitle>
+                        <Text
+                            className={`w-fit px-2 ${+Weekday[oh.weekday as keyof typeof Weekday] === weekday ? "text-gray-800 bg-yellow-300" : ""}`}>{oh.time}</Text>
+                    </div>)}
+            </div>
         </div>
     </Card>
 });

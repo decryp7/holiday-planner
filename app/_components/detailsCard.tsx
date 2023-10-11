@@ -51,7 +51,8 @@ const DetailsCard = React.memo((props : {} , context) =>{
             <Divider/>
             {place.description === undefined ? <></> :
                 <Text>{place.description}</Text>}
-            <PhotoCarousel className="h-[90%]" placeName={place.name} placeId={place.gplaceid}/>
+            <Divider/>
+            <PhotoCarousel className="w-full h-[90%]" placeName={place.name} placeId={place.gplaceid}/>
             <Card className="bg-gray-50 p-3">
                 <Title className="px-2">Opening Hours</Title>
                 <div className="flex flex-row flex-wrap gap-2">
