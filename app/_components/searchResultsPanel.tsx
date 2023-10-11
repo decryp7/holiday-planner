@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {SearchRequest} from "@/app/_models/searchRequest";
 import useSWR from "swr";
 import {fetcher} from "@/app/_libraries/constants";
@@ -10,8 +10,13 @@ import SearchResultCard from "@/app/_components/searchResultCard";
 
 const SearchResultsPanel = React.memo((
     props: {searchRequest: SearchRequest | undefined}, context) =>{
+    const [mounted, setMounted] = useState(false);
     const {data, error, isLoading} =
-        useSWR(props.searchRequest ? `/api/places?tags=${props.searchRequest.tags.join(",")}` : null, fetcher);
+        useSWR(mounted && props.searchRequest ? `/api/places?tags=${props.searchRequest.tags.join(",")}` : null, fetcher);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     if (error) return <ErrorSkeleton message={`Failed to find places with tags ${props.searchRequest?.tags.join(", ")}.`} />
     if (isLoading) return <LoadingSkeleton />
