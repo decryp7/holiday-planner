@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
         }
 
         result = await prisma.place.findMany({
+            take: 10,
             where: {
                     AND: tagClauses
             }
