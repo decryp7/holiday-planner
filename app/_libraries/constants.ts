@@ -13,7 +13,17 @@ export const DateTimeFormat : DateTimeFormatOptions = {
     hourCycle: "h12",
 }
 
-export const fetcher = (url: any) => fetch(url).then(res => res.json());
+export const fetcher = async (url: any) =>{
+    const res = await fetch(url)
+
+    // If the status code is not in the range 200-299,
+    // we still try to parse and throw it.
+    if (!res.ok) {
+        throw new Error('An error occurred while fetching the data.')
+    }
+
+    return res.json();
+}
 
 
 
