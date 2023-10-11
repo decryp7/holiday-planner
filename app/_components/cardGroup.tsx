@@ -56,7 +56,7 @@ const CardGroup = React.memo((
                 return (<Card key={index} header={card.header}
                       headerSize={headerSize}
                       labelColor={card.labelColor}
-                      items={card.items}
+                      content={card.content}
                               coveredSize={numOfCards * 20}
                       ref={setRef}/>);
             })}

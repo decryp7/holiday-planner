@@ -7,6 +7,14 @@ import {Place, PlaceWithAllData} from "@/app/_models/place";
 const requestHandlers: {[key: string]: (request:NextRequest) => Promise<NextResponse>} = {
     details: HandleDetailsRequest,
     photos: HandlePhotosRequest,
+    tags: HandleTagsRequest,
+}
+
+async function HandleTagsRequest(request: NextRequest){
+    const results = await prisma.tag.findMany({});
+    const tags = results ? results.map(r => r.name) : [];
+
+    return NextResponse.json(tags);
 }
 
 async function HandleDetailsRequest(request: NextRequest){

@@ -9,6 +9,7 @@ import DetailsCard from "@/app/_components/detailsCard";
 import SideTray from "@/app/_components/sideTray";
 import ToggleCardsButton from "@/app/_components/toggleCardsButton";
 import DateTime from "@/app/_components/dateTime";
+import SearchCard from "@/app/_components/searchCard";
 
 export default function Home() {
     return <RecoilRoot>
@@ -21,13 +22,12 @@ export default function Home() {
                 </SideTray>
 
                 <CardGroup cards={[
-                    {header: "search", labelColor:"rgb(31 41 55)"},
-                    {header: "weather", labelColor:"rgb(31 41 55)", items:[
-                             <WeatherCard key={0} />
-                        ]},
-                    {header: "details", labelColor:"rgb(31 41 55)", items:[
-                             <DetailsCard key={0} />
-                        ]},
+                    {header: "search", labelColor:"rgb(31 41 55)", content:
+                            <SearchCard key={0} /> },
+                    {header: "weather", labelColor:"rgb(31 41 55)", content:
+                             <WeatherCard key={0} /> },
+                    {header: "details", labelColor:"rgb(31 41 55)", content:
+                             <DetailsCard key={0} /> },
                 ]} />
       </main>
     </RecoilRoot>

@@ -7,7 +7,7 @@ import {da} from "date-fns/locale";
 import ErrorSkeleton from "@/app/_components/errorSkeleton";
 
 const PhotoCarousel = React.memo((
-    props : { placeId: string, placeName: string} , context) =>{
+    props : { placeId: string, placeName: string, className?: string} , context) =>{
     const {data, error, isLoading} = useSWR(`/api/places/photos?id=${props.placeId}`, fetcher);
 
     if (error) return <ErrorSkeleton message={`Failed to find photos for ${props.placeName}.`} />
@@ -15,7 +15,7 @@ const PhotoCarousel = React.memo((
 
     const placePhotos = JSON.parse(data) as string[];
 
-    return <div className="w-full h-[90%]">
+    return <div className={`w-full ${props.className}`}>
         <div className="flex flex-row h-full snap-x snap-mandatory overflow-auto">
             {placePhotos.map((p, index) =>
                 <Image

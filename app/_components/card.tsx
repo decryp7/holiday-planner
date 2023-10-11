@@ -4,11 +4,11 @@ import _ from 'lodash';
 export interface CardInfo {
     header: string;
     labelColor: string;
-    items?: any[];
+    content?: any;
 }
 
 const Card = React.memo(React.forwardRef((
-    props : {items: any,
+    props : {content: any,
         header: string,
         headerSize: number,
         coveredSize?: number,
@@ -60,8 +60,8 @@ const Card = React.memo(React.forwardRef((
             className="absolute lg:w-1/2 w-full h-1/2 left-1/2 bottom-0 -translate-x-1/2 bg-white rounded-t-xl shadow-t-lg transition-all ease-in-out duration-500 will-change-auto" ref={card}>
             <div style={{background: `${props.labelColor}`}} className="absolute font-bold w-fit px-2 text-xl rounded-b mr-4 right-0">{props.header}</div>
             <button onClick={toggleCard} className="block ml-auto mr-auto mt-2 w-12 h-2 bg-gray-200 rounded-full m-0"></button>
-            <div style={props.coveredSize != null ? {maxHeight: `calc(100% - ${props.coveredSize * 2}px)`} : {}}
-                 className="flex px-5 mt-5 text-black overflow-auto" ref={cardContent}>{props.items}</div>
+            <div style={props.coveredSize != null ? {maxHeight: `calc(100% - ${props.coveredSize * 2}px)`, minHeight: `calc(100% - ${props.coveredSize * 2}px)`} : {}}
+                 className="flex px-5 mt-5 text-black overflow-auto" ref={cardContent}>{props.content}</div>
         </div>
 
 }));
