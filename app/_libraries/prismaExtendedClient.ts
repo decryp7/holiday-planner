@@ -4,7 +4,12 @@ import {GlobalRef} from "@/app/_libraries/globalRef";
 export const selectPlaceIncludeAllData = Prisma.validator<Prisma.PlaceInclude>()({
     tags: {
         select: {
-            tagName: true,
+            tag: {
+                select:
+                    {
+                        name: true
+                    }
+            },
         }
     },
     openHours: {

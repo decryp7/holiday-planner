@@ -82,7 +82,8 @@ export class Place implements PlaceData {
                 public lng: number,
                 tags: string[],
                 openHours?: OpenHourData[],
-                closeHours?: CloseHourData[]) {
+                closeHours?: CloseHourData[],
+                public id?: number) {
         this.openHours = openHours;
         this.closeHours = closeHours;
         this.tags = tags;
@@ -97,9 +98,10 @@ export class Place implements PlaceData {
             placeData.address,
             +placeData.lat,
             +placeData.lng,
-            placeData.tags.map(t=> t.tagName),
+            placeData.tags.map(t=> t.tag.name),
             placeData.openHours.map(oh => new OpenHour(+oh.day, oh.time)),
-            placeData.closeHours.map(ch => new CloseHour(+ch.day, ch.time))
+            placeData.closeHours.map(ch => new CloseHour(+ch.day, ch.time)),
+            placeData.id
         );
     }
 
@@ -166,7 +168,10 @@ export class Place implements PlaceData {
             placeTags.push({
                 tag: {
                     connectOrCreate: {
-                        where: {name: tag.toLowerCase()},
+                        where: {
+                            id: -1,
+                            OR: [{name: tag.toLowerCase()}]
+                        },
                         create: {name: tag.toLowerCase()}
                     }
                 }

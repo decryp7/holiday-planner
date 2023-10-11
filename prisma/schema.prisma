@@ -8,6 +8,7 @@ datasource db {
 }
 
 model Place {
+  id Int @id @default(autoincrement())
   name         String
   gplaceid String
   description  String
@@ -18,43 +19,39 @@ model Place {
   openHours OpenHour[]
   closeHours CloseHour[]
   tags         PlaceTag[]
-  @@id([lat, lng, name])
 }
 
 model OpenHour {
+  id Int @id @default(autoincrement())
   day  Decimal
   time      String
-  placeLng Decimal
-  placeLat Decimal
-  placeName String
-  Place     Place  @relation(fields: [placeLat, placeLng, placeName], references: [lat, lng, name])
+  placeId Int
+  Place     Place  @relation(fields: [placeId], references: [id])
 
-  @@unique([placeLat, placeLng, placeName, day, time])
+  @@unique([placeId, day, time])
 }
 
 model CloseHour {
+  id Int @id @default(autoincrement())
   day  Decimal
   time      String
-  placeLng Decimal
-  placeLat Decimal
-  placeName String
-  Place     Place  @relation(fields: [placeLat, placeLng, placeName], references: [lat, lng, name])
+  placeId Int
+  Place     Place  @relation(fields: [placeId], references: [id])
 
-  @@unique([placeLat, placeLng, placeName, day, time])
+  @@unique([placeId, day, time])
 }
 
 model Tag {
-  name     String @id
+  id Int @id @default(autoincrement())
+  name     String
   PlaceTag PlaceTag[]
 }
 
 model PlaceTag {
-  tagName   String
-  tag       Tag    @relation(fields: [tagName], references: [name])
-  placeLng Decimal
-  placeLat Decimal
-  placeName String
-  Place     Place  @relation(fields: [placeLat, placeLng, placeName], references: [lat, lng, name])
+  tagId   Int
+  tag       Tag    @relation(fields: [tagId], references: [id])
+  placeId Int
+  Place     Place  @relation(fields: [placeId], references: [id])
 
-  @@unique([placeLat, placeLng, placeName, tagName])
+  @@unique([placeId, tagId])
 }
