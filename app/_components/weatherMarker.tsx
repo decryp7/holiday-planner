@@ -31,7 +31,7 @@ const WeatherMarker = React.memo((props : {
         setSelectedWeatherMarker(weatherMarkerRef.current.dataset.location);
     }
 
-    return <div data-start-time={props.startTime} data-location={props.location} className="flex flex-col w-16 h-fit hover:cursor-pointer"
+    return <div data-start-time={props.startTime} data-location={props.location} className="flex flex-col w-10 h-fit hover:cursor-pointer"
                 onClick={handleClick} ref={weatherMarkerRef}>
         <div className="relative w-[100%] h-fit left-1/2 -translate-x-1/2">
             <Image
