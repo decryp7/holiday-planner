@@ -7,14 +7,6 @@ import {Button} from "@tremor/react";
 
 export default function Page(){
     const [searchRequest, setSearchRequest] = useState<SearchRequest>({ tags: [] });
-    const [isStandAlone, setIsStandAlone] = useState<boolean>(false);
-
-    useEffect(() => {
-        const mqStandAlone = '(display-mode: standalone)';
-        if(('standalone' in navigator && navigator.standalone) || window.matchMedia(mqStandAlone).matches){
-            setIsStandAlone(true);
-        }
-    }, []);
 
     function handleSearch(req: SearchRequest) {
         setSearchRequest(req);
@@ -29,9 +21,8 @@ export default function Page(){
     }
 
     return <div className="flex flex-col gap-5 w-full h-full align-top overflow-auto">
-        <div className="sticky p-3 top-0 z-10 bg-slate-300">
+        <div className="sticky h-auto p-3 top-0 z-10 bg-slate-300">
             <SearchPanel onSearch={handleSearch} />
-            {isStandAlone && <Button onClick={handleGoBackToMap}>Go back to map</Button>}
         </div>
         <div className="px-3">
             <SearchResultsPanel searchRequest={searchRequest} />

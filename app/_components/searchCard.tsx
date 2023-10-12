@@ -22,7 +22,7 @@ const SearchCard = React.memo((props : {} , context) =>{
             return;
         }
         //https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
-        const newWindow = window.open("/places", '_blank', 'noopener,noreferrer');
+        const newWindow = window.open("https://taiwan.decryptology.net/places", '_blank', 'noopener,noreferrer');
         if(newWindow){
             newWindow.opener = null;
         }
