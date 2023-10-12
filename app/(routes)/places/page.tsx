@@ -20,11 +20,11 @@ export default function Page(){
         window.history.go(-1);
     }
 
-    return <div className="flex flex-col gap-5 w-full h-full align-top overflow-auto">
-        <div className="sticky h-auto p-3 top-0 z-10 bg-slate-300">
+    return <div className="flex flex-col w-full h-full align-top overflow-auto">
+        <div className="h-auto p-3">
             <SearchPanel onSearch={handleSearch} />
         </div>
-        <div className="px-3">
+        <div className="h-full">
             <SearchResultsPanel searchRequest={searchRequest} />
         </div>
     </div>;

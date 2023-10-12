@@ -7,6 +7,7 @@ import LoadingSkeleton from "@/app/_components/loadingSkeleton";
 import {plainToInstance} from "class-transformer";
 import {Place} from "@/app/_models/place";
 import SearchResultCard from "@/app/_components/searchResultCard";
+import {Virtuoso} from "react-virtuoso";
 
 const SearchResultsPanel = React.memo((
     props: {searchRequest: SearchRequest | undefined}, context) =>{
@@ -23,10 +24,10 @@ const SearchResultsPanel = React.memo((
 
     const places = plainToInstance(Place, data);
 
-    return <div className="flex flex-col gap-5 h-full">
-        {places !== undefined && places.map((p, index) =>
-            <SearchResultCard key={index} place={p} />)}
-    </div>
+    return <div className="h-full">{places !== undefined && <Virtuoso
+            totalCount={places.length}
+            itemContent={index => <div className="p-3"><SearchResultCard key={index} place={places[index]} /></div>}
+    />}</div>
 });
 
 SearchResultsPanel.displayName = "SearchResultsPanel";

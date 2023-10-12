@@ -17,11 +17,13 @@ const SearchCard = React.memo((props : {} , context) =>{
         setSearchRequest(req);
     }
 
-    return <div className="flex flex-col gap-5 w-full h-full">
+    return <div className="flex flex-col gap-3 w-full h-auto">
         <div className="flex flex-row flex-wrap gap-3">
             <SearchPanel onSearch={handleSearch} />
         </div>
-        <SearchResultsPanel searchRequest={searchRequest} />
+        <div className="h-full -ml-3 -mr-5">
+            <SearchResultsPanel searchRequest={searchRequest} />
+        </div>
     </div>;
 });
 
