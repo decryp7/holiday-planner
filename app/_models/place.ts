@@ -119,23 +119,30 @@ export class Place implements PlaceData {
             return true;
         }
 
-        const openHour = this.openHours.find(oh => +oh.day === weekday);
-        const closeHour = this.closeHours.find(ch => +ch.day === weekday);
-        if(openHour === undefined || closeHour === undefined){
+        const openHours= this.openHours.filter(o => o.day === weekday);
+        const closeHours = this.closeHours.filter(ch => +ch.day === weekday);
+        if(openHours === undefined || closeHours === undefined){
             return false;
         }
 
-        const oh = +openHour.time
-        const ch = +closeHour.time > oh ? +closeHour.time : +closeHour.time + 2400;
+        for(let i=0;i<openHours.length;i++) {
+            const oh = +openHours[i].time
+            const closeHour = closeHours[i];
+            if(closeHour === undefined){
+                continue;
+            }
 
-        if(now24hr >= oh && now24hr <= ch){
-            return true;
-        }
+            const ch = +closeHour.time > oh ? +closeHour.time : +closeHour.time + 2400;
 
-        const adjustedNow24Hr = now24hr + 2400;
+            if (now24hr >= oh && now24hr <= ch) {
+                return true;
+            }
 
-        if(adjustedNow24Hr >= oh && adjustedNow24Hr <= ch){
-            return true;
+            const adjustedNow24Hr = now24hr + 2400;
+
+            if (adjustedNow24Hr >= oh && adjustedNow24Hr <= ch) {
+                return true;
+            }
         }
 
         return false;
@@ -152,8 +159,9 @@ export class Place implements PlaceData {
             return opening24Hours;
         }
 
-        for(const oh of this.openHours){
-            const ch = this.closeHours.find(ch => ch.day === oh.day);
+        for(let i=0;i<openingHours.length;i++){
+            const oh = this.openHours[i];
+            const ch = this.closeHours[i];
             const time = `${DateTime.fromFormat(oh.time, Time24HrFormat).toLocaleString(SimpleTimeFormat)}`+
                 ` - ${ch !== undefined ? DateTime.fromFormat(ch.time, Time24HrFormat).toLocaleString(SimpleTimeFormat) : ""}`;
             openingHours.push({weekday: Weekday[+oh.day], time: time});
