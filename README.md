@@ -1,4 +1,4 @@
-![screenshot](screenshot.jpeg)
+![screenshot](screenshot.png)
 
 #### Getting Started
 To run the development server, please run the following command.
