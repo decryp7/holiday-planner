@@ -1,4 +1,4 @@
-An application to check the weather and direction of curated places when traveling. 
+![screenshot](screenshot.jpeg)
 
 #### Getting Started
 To run the development server, please run the following command.
