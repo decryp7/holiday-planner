@@ -29,7 +29,7 @@ const SearchCard = React.memo((props : {} , context) =>{
     }
 
     return <div className="flex flex-col gap-5 w-full h-full">
-        <div className="flex flex-row flex-wrap gap-3">
+        <div className="flex flex-row flex-wrap gap-3 sticky">
             <SearchPanel onSearch={handleSearch} />
             <Button onClick={handleShowInNewWindow}>Show in new window</Button>
         </div>
