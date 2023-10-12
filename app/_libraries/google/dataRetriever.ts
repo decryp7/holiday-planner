@@ -220,7 +220,7 @@ export class PlacesGenerator {
                         }
                     }
 
-                    const [lat, lng] = kmlPlace.coordinates.split(",");
+                    const [lng, lat] = kmlPlace.coordinates.split(",");
 
                     placeData.push(new Place(
                         kmlPlace.name,

@@ -35,7 +35,7 @@ const WeatherMarker = React.memo((props : {
                 onClick={handleClick} ref={weatherMarkerRef}>
         <div className="relative w-[100%] h-fit left-1/2 -translate-x-1/2">
             <Image
-                className="w-full h-auto opacity-90"
+                className="w-full h-auto opacity-80"
                 src={`https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/${now}/${props.icon}.svg`}
                 alt={props.value}
                 width="0"
