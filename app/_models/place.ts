@@ -169,8 +169,7 @@ export class Place implements PlaceData {
                 tag: {
                     connectOrCreate: {
                         where: {
-                            id: -1,
-                            OR: [{name: tag.toLowerCase()}]
+                            name: tag.toLowerCase()
                         },
                         create: {name: tag.toLowerCase()}
                     }

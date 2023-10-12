@@ -49,4 +49,7 @@ CREATE UNIQUE INDEX "OpenHour_placeId_day_time_key" ON "OpenHour"("placeId", "da
 CREATE UNIQUE INDEX "CloseHour_placeId_day_time_key" ON "CloseHour"("placeId", "day", "time");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "PlaceTag_placeId_tagId_key" ON "PlaceTag"("placeId", "tagId");
