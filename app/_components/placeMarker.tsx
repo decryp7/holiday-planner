@@ -20,7 +20,8 @@ const PlaceMarker = React.memo((props : {
         setIsOpen(props.place.IsOpen());
     }, [currentUnixTime]);
 
-    function handleClick(){
+    function handleClick(event: React.MouseEvent<HTMLDivElement>){
+        event.stopPropagation();
         setActiveCard("details");
         setSelectedMarker(props.place.name);
     }
