@@ -8,7 +8,7 @@ import WeatherCard from "@/app/_components/weatherCard";
 import DetailsCard from "@/app/_components/detailsCard";
 import SideTray from "@/app/_components/sideTray";
 import ToggleCardsButton from "@/app/_components/toggleCardsButton";
-import DateTime from "@/app/_components/dateTime";
+import DateTimeWidget from "@/app/_components/dateTimeWidget";
 import SearchCard from "@/app/_components/searchCard";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
                 <Map />
 
                 <SideTray>
-                    <DateTime />
+                    <DateTimeWidget />
                     <ToggleCardsButton />
                 </SideTray>
 
