@@ -159,7 +159,7 @@ export class Place implements PlaceData {
             return opening24Hours;
         }
 
-        for(let i=0;i<openingHours.length;i++){
+        for(let i=0;i<this.openHours.length;i++){
             const oh = this.openHours[i];
             const ch = this.closeHours[i];
             const time = `${DateTime.fromFormat(oh.time, Time24HrFormat).toLocaleString(SimpleTimeFormat)}`+
