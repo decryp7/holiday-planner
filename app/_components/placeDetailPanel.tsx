@@ -9,6 +9,7 @@ import {markLocationState} from "@/app/_state/markLocationState";
 import {LocationInfo} from "@/app/_models/location";
 import {GrMapLocation} from "react-icons/gr";
 import {TbMap2} from "react-icons/tb";
+import {isPWA} from "@/app/_libraries/isPWA";
 
 export interface PlaceDetailPanelProps extends HTMLAttributes<HTMLDivElement>{
     place: Place,
@@ -25,8 +26,13 @@ const PlaceDetailPanel = React.memo((props: PlaceDetailPanelProps, context) =>{
         }catch (e: any){
             //https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
             const newWindow = window.open(`https://maps.google.com/?q=${place.lat},${place.lng}`);
-            if(newWindow){
-                newWindow.opener = null;
+            if(newWindow === null){
+                return;
+            }
+
+            newWindow.opener = null;
+            if(isPWA){
+                newWindow.close();
             }
         }
     }
@@ -35,8 +41,13 @@ const PlaceDetailPanel = React.memo((props: PlaceDetailPanelProps, context) =>{
         //https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
         const newWindow = window.open(
             `https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.gplaceid}`);
-        if(newWindow){
-            newWindow.opener = null;
+        if(newWindow === null){
+            return;
+        }
+
+        newWindow.opener = null;
+        if(isPWA){
+            newWindow.close();
         }
     }
 
