@@ -6,7 +6,7 @@ import {LocationForecast, TemperatureForecastInfo, WeatherForecastInfo} from "@/
 import {plainToClass, plainToInstance} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
 import {DateTime} from "luxon";
-import MyMarker from "@/app/_components/myMarker";
+import CrossMarker from "@/app/_components/crossMarker";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
 import {activeCardState} from "@/app/_state/activeCardState";
 import PlaceMarker from "@/app/_components/placeMarker";
@@ -77,7 +77,7 @@ const Map = React.memo((
             return <PlaceMarker key={index} lat={p.lat} lng={p.lng} place={p} ref={setRef}/>
         })}
 
-        {location !== undefined && <MyMarker lat={location.lat} lng={location.lng} size={"4em"} color={"red"} />}
+        {location !== undefined && <CrossMarker lat={location.lat} lng={location.lng} size={"4em"} color={"red"} />}
     </GoogleMap>;
 });
 
