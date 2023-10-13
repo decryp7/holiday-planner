@@ -5,6 +5,7 @@ import {useRecoilState, useSetRecoilState} from "recoil";
 import {currentUnixTimeState} from "@/app/_state/currentUnixTimeState";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
 import {activeCardState} from "@/app/_state/activeCardState";
+import {LocationInfo} from "@/app/_models/location";
 
 const PlaceMarker = React.memo(React.forwardRef((props : {
     lat: number,
@@ -18,6 +19,9 @@ const PlaceMarker = React.memo(React.forwardRef((props : {
 
     useImperativeHandle(ref, ()=>{
         return {
+            get id() { return props.place.id },
+            get location() { return new LocationInfo(props.lat, props.lng); },
+            get name() { return props.place.name;},
         }
     });
 

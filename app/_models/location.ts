@@ -1,8 +1,14 @@
-export interface LocationInfo {
+export interface LocationModel {
     lat: number;
     lng: number;
 }
 
-declare type Location = LocationInfo | undefined;
+export class LocationInfo implements LocationModel {
+    constructor(public lat: number,
+                public lng: number) {
+    }
+}
+
+declare type Location = LocationModel | undefined;
 
 export default Location;

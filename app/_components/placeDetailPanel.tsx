@@ -15,7 +15,7 @@ const PlaceDetailPanel = React.memo((props: PlaceDetailPanelProps, context) =>{
     return <div {...rest}>
         <div className="flex flex-col space-y-2">
             <div className="flex flex-row space-x-2">
-                <Title className="text-2xl">{place.name}</Title>
+                <Title className="text-2xl"><span className="text-xs">{place.id}</span> {place.name}</Title>
                 <Badge color={place.IsOpen() ? "green" : "red"}>{place.IsOpen() ? "Open" : "Closed"}</Badge>
             </div>
             <Text><Italic>{place.address}</Italic></Text>

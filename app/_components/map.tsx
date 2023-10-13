@@ -21,8 +21,7 @@ const Map = React.memo((
     const [places, setPlaces] = useState<Place[]>([]);
     const mapRef = useRef<google.maps.Map | null>(null)
     const [mapReady, setMapReady] = useState(false)
-    // const setSelectedMarker = useSetRecoilState(selectedMarkerState);
-    // const [activeCard, setActiveCard] = useRecoilState(activeCardState);
+    const placeMarkers = useRef<Record<string, React.Ref<any>>>({});
 
     useEffect(() => {
         const url = `/api/weather?datetime=${DateTime.now().toUTC().toMillis()}`;
@@ -40,25 +39,14 @@ const Map = React.memo((
         setMapReady(true);
         map.setCenter({lat: 25.0330, lng: 121.5654});
 
-        //add kml
-        // const kmlLayer = new google.maps.KmlLayer({
-        //     url: `https://www.google.com/maps/d/u/0/kml?mid=1m2ouMpaefFlRqXtfxHMSUHfTp1Wbkps&${DateTime.now().minute}`,
-        //     suppressInfoWindows: true,
-        //     map: map,
-        // })
-        // kmlLayer.addListener('click', handleKMLLayerClick.bind(kmlLayer));
-
         new google.maps.TrafficLayer({map: map});
     }
 
-    // function handleKMLLayerClick(event : google.maps.KmlMouseEvent){
-    //     if(event.featureData == undefined){
-    //         console.log("KML Marker feature data is missing!");
-    //     }
-    //
-    //     setActiveCard("details");
-    //     setSelectedMarker(event.featureData!.name);
-    // }
+    function setRef(el: any){
+        if(el != null) {
+            placeMarkers.current[el.id] = el;
+        }
+    }
 
     return <GoogleMap
                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
@@ -86,7 +74,7 @@ const Map = React.memo((
         })}
 
         {places !== undefined && places.map((p, index)=> {
-            return <PlaceMarker key={index} lat={p.lat} lng={p.lng} place={p}/>
+            return <PlaceMarker key={index} lat={p.lat} lng={p.lng} place={p} ref={setRef}/>
         })}
 
         {location !== undefined && <MyMarker lat={location.lat} lng={location.lng} size={"4em"} color={"red"} />}
