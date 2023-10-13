@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useImperativeHandle, useState} from "react";
 import {BsFillCircleFill} from "react-icons/bs";
 import {Place} from "@/app/_models/place";
 import {useRecoilState, useSetRecoilState} from "recoil";
@@ -6,15 +6,20 @@ import {currentUnixTimeState} from "@/app/_state/currentUnixTimeState";
 import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
 import {activeCardState} from "@/app/_state/activeCardState";
 
-const PlaceMarker = React.memo((props : {
+const PlaceMarker = React.memo(React.forwardRef((props : {
     lat: number,
     lng: number,
     place: Place,
-} , context) =>{
+} , ref) =>{
     const currentUnixTime = useRecoilState(currentUnixTimeState);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const setSelectedMarker = useSetRecoilState(selectedMarkerState);
     const [activeCard, setActiveCard] = useRecoilState(activeCardState);
+
+    useImperativeHandle(ref, ()=>{
+        return {
+        }
+    });
 
     useEffect(() => {
         setIsOpen(props.place.IsOpen());
@@ -37,7 +42,7 @@ const PlaceMarker = React.memo((props : {
             {props.place.name}
         </div>
     </div>
-});
+}));
 
 PlaceMarker.displayName = "PlaceMarker";
 

@@ -39,7 +39,6 @@ const Card = React.memo(React.forwardRef((
         zIndex: 1,
     }
     const [style, setStyle] = useState<any>(hideStyle);
-    const card = useRef<HTMLDivElement>(null);
     const cardContent = useRef<HTMLDivElement>(null);
 
     function toggleCard() {
@@ -57,7 +56,7 @@ const Card = React.memo(React.forwardRef((
     }
 
     return <div style={style}
-            className="absolute lg:w-1/2 w-full h-1/2 left-1/2 bottom-0 -translate-x-1/2 bg-white rounded-t-xl shadow-t-lg transition-all ease-in-out duration-500 will-change-auto" ref={card}>
+            className="absolute lg:w-1/2 w-full h-1/2 left-1/2 bottom-0 -translate-x-1/2 bg-white rounded-t-xl shadow-t-lg transition-all ease-in-out duration-500 will-change-auto">
             <div style={{background: `${props.labelColor}`}} className="absolute font-bold w-fit px-2 text-xl rounded-b text-white mr-4 right-0">{props.header}</div>
             <button onClick={toggleCard} className="block ml-auto mr-auto mt-2 w-12 h-2 bg-gray-200 rounded-full m-0"></button>
             <div style={props.coveredSize != null ? {maxHeight: `calc(100% - ${props.coveredSize * 2}px)`, minHeight: `calc(100% - ${props.coveredSize * 2}px)`} : {}}
