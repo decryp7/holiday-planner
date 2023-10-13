@@ -39,15 +39,18 @@ const Map = React.memo((
             return;
         }
 
-        mapRef.current.setZoom(14);
-
-        const projection = mapRef.current.getProjection();
-        if(projection === undefined){
+        let zoom = mapRef.current.getZoom();
+        if(zoom === undefined){
             return;
         }
 
-        const zoom = mapRef.current.getZoom();
-        if(zoom === undefined){
+        if(zoom < 14) {
+            mapRef.current.setZoom(14);
+            zoom = 14;
+        }
+
+        const projection = mapRef.current.getProjection();
+        if(projection === undefined){
             return;
         }
 
