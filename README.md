@@ -2,7 +2,7 @@
 [![screenshot](screenshot.png)](https://taiwan.decryptology.net)
 
 ### Progressive Web Application
-<img src="mobile-screenshot.png" alt="Progressive Web Application" />
+<img src="mobile-screenshot.png" alt="Progressive Web Application" width="40%" />
 
 #### Getting Started
 To run the development server, please run the following command.
