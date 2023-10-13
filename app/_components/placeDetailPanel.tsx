@@ -24,9 +24,7 @@ const PlaceDetailPanel = React.memo((props: PlaceDetailPanelProps, context) =>{
             setMarkLocation(new LocationInfo(place.lat, place.lng));
         }catch (e: any){
             //https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
-            const newWindow = window.open(`https://maps.google.com/?q=${place.lat},${place.lng}`,
-                '_blank',
-                'noopener,noreferrer');
+            const newWindow = window.open(`https://maps.google.com/?q=${place.lat},${place.lng}`);
             if(newWindow){
                 newWindow.opener = null;
             }
@@ -36,9 +34,7 @@ const PlaceDetailPanel = React.memo((props: PlaceDetailPanelProps, context) =>{
     function handleGoogleMap(){
         //https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
         const newWindow = window.open(
-            `https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.gplaceid}`,
-            '_blank',
-            'noopener,noreferrer');
+            `https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.gplaceid}`);
         if(newWindow){
             newWindow.opener = null;
         }
