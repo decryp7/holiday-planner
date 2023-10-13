@@ -41,7 +41,7 @@ const WeatherMarker = React.memo((props : {
                 width="0"
                 height="0"
                 sizes="100vw" />
-            <div className="flex break-keep whitespace-nowrap text-gray-800 font-black bg-white bg-opacity-50">
+            <div className="flex break-keep whitespace-nowrap text-gray-800 font-black bg-white bg-opacity-80">
                 {props.value} ({props.temperature})
             </div>
     </div>
