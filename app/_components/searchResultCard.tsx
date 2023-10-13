@@ -9,7 +9,7 @@ const SearchResultCard = React.memo((props: {place: Place}, context) =>{
 
     const weekday = DateTime.now().weekday;
 
-    return <Card className="h-full bg-gray-50">
+    return <Card className="h-full bg-gray-50 p-5">
         <PlaceDetailPanel className="w-full" place={props.place}/>
     </Card>
 });

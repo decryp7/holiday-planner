@@ -1,16 +1,15 @@
 import React, {useEffect, useRef, useState} from "react";
 import GoogleMap from "google-maps-react-markers";
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {currentLocationState} from "@/app/_state/currentLocationState";
 import {LocationForecast, TemperatureForecastInfo, WeatherForecastInfo} from "@/app/_models/weather";
 import {plainToClass, plainToInstance} from "class-transformer";
 import WeatherMarker from "@/app/_components/weatherMarker";
 import {DateTime} from "luxon";
 import CrossMarker from "@/app/_components/crossMarker";
-import {selectedMarkerState} from "@/app/_state/selectedMarkerState";
-import {activeCardState} from "@/app/_state/activeCardState";
 import PlaceMarker from "@/app/_components/placeMarker";
 import {Place} from "@/app/_models/place";
+import {markLocationState} from "@/app/_state/markLocationState";
 
 const Map = React.memo((
     props : {}
@@ -22,6 +21,7 @@ const Map = React.memo((
     const mapRef = useRef<google.maps.Map | null>(null)
     const [mapReady, setMapReady] = useState(false)
     const placeMarkers = useRef<Record<string, React.Ref<any>>>({});
+    const markLocation = useRecoilValue(markLocationState);
 
     useEffect(() => {
         const url = `/api/weather?datetime=${DateTime.now().toUTC().toMillis()}`;
@@ -33,6 +33,40 @@ const Map = React.memo((
             .then(r => plainToInstance(Place, r))
             .then(p =>{ setPlaces(p)});
     }, [mapReady]);
+
+    useEffect(() => {
+        if(mapRef.current === null || markLocation === undefined) {
+            return;
+        }
+
+        mapRef.current.setZoom(14);
+
+        const projection = mapRef.current.getProjection();
+        if(projection === undefined){
+            return;
+        }
+
+        const zoom = mapRef.current.getZoom();
+        if(zoom === undefined){
+            return;
+        }
+
+        const scale = Math.pow(2, zoom);
+
+        const locationPoint = projection.fromLatLngToPoint({lat: markLocation.lat, lng: markLocation.lng});
+        if(locationPoint === null){
+            return;
+        }
+
+        const adjustedLocationPoint = projection.fromPointToLatLng(
+            new google.maps.Point(locationPoint.x, locationPoint.y + (200/scale)))
+        if(adjustedLocationPoint === null){
+            return;
+        }
+
+        mapRef.current.panTo(adjustedLocationPoint);
+
+    }, [markLocation]);
 
     const onGoogleApiLoaded = ({ map, maps } : {map: google.maps.Map, maps: google.maps.MapsLibrary}) => {
         mapRef.current = map;
@@ -77,7 +111,9 @@ const Map = React.memo((
             return <PlaceMarker key={index} lat={p.lat} lng={p.lng} place={p} ref={setRef}/>
         })}
 
-        {location !== undefined && <CrossMarker lat={location.lat} lng={location.lng} size={"4em"} color={"red"} />}
+        {markLocation !== undefined && <CrossMarker lat={markLocation.lat} lng={markLocation.lng} />}
+
+        {location !== undefined && <CrossMarker lat={location.lat} lng={location.lng} />}
     </GoogleMap>;
 });
 

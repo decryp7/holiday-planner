@@ -38,7 +38,7 @@ const SearchPanel = React.memo((props: {onSearch: (req: SearchRequest) => void} 
                 <MultiSelectItem key={index} value={tag}>{tag}</MultiSelectItem>
             )}
         </MultiSelect>
-        <Button icon={AiOutlineSearch} onClick={handleSearch}>Search</Button>
+        <Button icon={AiOutlineSearch} size="xs" onClick={handleSearch}>Search</Button>
     </div>;
 });
 
