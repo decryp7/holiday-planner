@@ -32,7 +32,7 @@ const WeatherMarker = React.memo((props : {
     }
 
     return <div data-start-time={props.startTime} data-location={props.location}
-                className="flex flex-col w-fit h-fit align-middle items-center justify-center hover:cursor-pointer"
+                className="flex flex-col w-fit h-fit align-middle items-center justify-center hover:cursor-pointer drop-shadow"
                 onClick={handleClick} ref={weatherMarkerRef}>
             <Image
                 className="w-10 h-auto opacity-90"
@@ -41,7 +41,7 @@ const WeatherMarker = React.memo((props : {
                 width="0"
                 height="0"
                 sizes="100vw" />
-            <div className="flex break-keep whitespace-nowrap text-gray-800 font-black bg-white bg-opacity-80">
+            <div className="flex p-1 break-keep whitespace-nowrap text-gray-800 font-black bg-white bg-opacity-80">
                 {props.value} ({props.temperature})
             </div>
     </div>

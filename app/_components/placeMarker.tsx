@@ -37,10 +37,10 @@ const PlaceMarker = React.memo(React.forwardRef((props : {
 
     return <div data-place-name={props.place.name}
                 onClick={handleClick}
-                className={`${props.place.tags.indexOf('food') > -1 ? "bg-fuchsia-300" : "bg-amber-300"} ` +
-                    `flex flex-row p-1 w-fit text-[1em] break-keep whitespace-nowrap text-gray-800 font-bold bg-opacity-80 hover:cursor-pointer`}>
+                className={`${props.place.tags.indexOf('food') > -1 ? "bg-sky-300" : "bg-amber-300"} ` +
+                    `flex flex-row drop-shadow p-1 w-fit text-[1em] break-keep whitespace-nowrap text-gray-800 font-bold bg-opacity-80 hover:cursor-pointer`}>
         <div className="flex">
-            <BsFillCircleFill className={`${isOpen ? "text-green-500" : "text-red-500"} w-4 h-fit m-auto p-1`} />
+            <BsFillCircleFill className={`${isOpen ? "text-green-600" : "text-red-600"} w-4 h-fit m-auto p-1`} />
         </div>
         <div className="m-auto">
             {props.place.name}
