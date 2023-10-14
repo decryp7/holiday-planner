@@ -76,7 +76,7 @@ const Map = React.memo((
         setMapReady(true);
         map.setCenter({lat: 25.0330, lng: 121.5654});
 
-        new google.maps.TrafficLayer({map: map});
+        //new google.maps.TrafficLayer({map: map});
     }
 
     function setRef(el: any){
