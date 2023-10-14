@@ -37,7 +37,7 @@ const PlaceMarker = React.memo(React.forwardRef((props : {
 
     return <div data-place-name={props.place.name}
                 onClick={handleClick}
-                className={`${props.place.tags.indexOf('food') > -1 ? "bg-blue-300" : "bg-yellow-300"} ` +
+                className={`${props.place.tags.indexOf('food') > -1 ? "bg-purple-300" : "bg-yellow-300"} ` +
                     `flex flex-row p-1 w-fit text-[1em] break-keep whitespace-nowrap text-gray-800 font-bold bg-opacity-80 hover:cursor-pointer`}>
         <div className="flex">
             <BsFillCircleFill className={`${isOpen ? "text-green-500" : "text-red-500"} w-4 h-fit m-auto p-1`} />
