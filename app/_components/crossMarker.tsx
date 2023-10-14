@@ -6,7 +6,7 @@ const CrossMarker = React.memo((props : {
     lng: number,
 } , context) =>{
 
-    return <RxCross2 className="text-red-700 stroke-1" size="4em" />
+    return <RxCross2 className="text-red-700 stroke-1" size="3em" />
 });
 
 CrossMarker.displayName = "CrossMarker";
