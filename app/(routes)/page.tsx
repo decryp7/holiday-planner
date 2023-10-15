@@ -10,6 +10,10 @@ import SideTray from "@/app/_components/sideTray";
 import ToggleCardsButton from "@/app/_components/toggleCardsButton";
 import DateTimeWidget from "@/app/_components/dateTimeWidget";
 import SearchCard from "@/app/_components/searchCard";
+import ToggleWeatherButton from "@/app/_components/toggleWeatherButton";
+import ToggleTrafficButton from "@/app/_components/toggleTrafficButton";
+import ToggleMyLocationButton from "@/app/_components/toggleMyLocationButton";
+import GoToMyLocationButton from "@/app/_components/goToMyLocationButton";
 
 export default function Home() {
     return <RecoilRoot>
@@ -18,7 +22,11 @@ export default function Home() {
 
                 <SideTray>
                     <DateTimeWidget />
+                    <ToggleMyLocationButton />
+                    <GoToMyLocationButton />
                     <ToggleCardsButton />
+                    <ToggleWeatherButton />
+                    <ToggleTrafficButton />
                 </SideTray>
 
                 <CardGroup cards={[

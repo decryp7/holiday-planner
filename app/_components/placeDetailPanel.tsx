@@ -10,6 +10,7 @@ import {LocationInfo} from "@/app/_models/location";
 import {GrMapLocation} from "react-icons/gr";
 import {TbMap2} from "react-icons/tb";
 import {isPWA} from "@/app/_libraries/isPWA";
+import {goToLocationState} from "@/app/_state/goToLocationState";
 
 export interface PlaceDetailPanelProps extends HTMLAttributes<HTMLDivElement>{
     place: Place,
@@ -19,10 +20,13 @@ const PlaceDetailPanel = React.memo((props: PlaceDetailPanelProps, context) =>{
     const {place, ...rest} = props;
     const weekday = DateTime.now().weekday;
     const setMarkLocation = useSetRecoilState(markLocationState);
+    const goToLocation = useSetRecoilState(goToLocationState);
 
     function handleLocate(){
         try {
-            setMarkLocation(new LocationInfo(place.lat, place.lng));
+            const locationInfo = new LocationInfo(place.lat, place.lng);
+            setMarkLocation(locationInfo);
+            goToLocation(locationInfo);
         }catch (e: any){
             //https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
             const newWindow = window.open(`https://maps.google.com/?q=${place.lat},${place.lng}`);
