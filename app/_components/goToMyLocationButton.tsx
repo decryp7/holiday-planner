@@ -19,7 +19,7 @@ const GoToMyLocationButton = React.memo((props , context) =>{
 
     return <button className="p-1 w-[40px] h-[40px] bg-white shadow rounded-[2px]"
                    onClick={toggleShowTraffic}>
-        <LiaLocationArrowSolid className={`${(!showMyLocation || !myLocation) && "opacity-20"} w-full h-auto text-gray-800 stroke-1`} />
+        <LiaLocationArrowSolid className={`${(!showMyLocation || !myLocation) && "opacity-20"} w-full h-auto stroke-1`} />
     </button>;
 });
 

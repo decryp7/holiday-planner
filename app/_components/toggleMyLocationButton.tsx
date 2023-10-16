@@ -39,7 +39,7 @@ const ToggleMyLocationButton = React.memo((props , context) =>{
 
     return <button className="p-1 w-[40px] h-[40px] bg-white shadow rounded-[2px]"
                    onClick={toggleMyLocation}>
-            <TbCurrentLocation className={`${!showMyLocation && "opacity-20"} w-full h-auto text-gray-800`} />
+            <TbCurrentLocation className={`${!showMyLocation && "opacity-20"} w-full h-auto`} />
     </button>;
 });
 
