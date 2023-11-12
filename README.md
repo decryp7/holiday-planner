@@ -1,6 +1,8 @@
 ### Desktop
 [![screenshot](screenshot.png)](https://taiwan.decryptology.net)
 
+[![screenshot](places.png)](https://taiwan.decryptology.net/places)
+
 ### Progressive Web Application
 <img src="mobile-screenshot.png" alt="Progressive Web Application" width="30%" />
 
