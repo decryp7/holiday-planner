@@ -1,3 +1,9 @@
+[![Quality gate](https://sonarqube.decryptology.net/api/project_badges/quality_gate?project=holiday-planner&token=sqb_b19f8ed6bb7ac3498b409d57d047ffae7780c714)](https://sonarqube.decryptology.net/dashboard?id=holiday-planner)
+
+### Taiwan Trip Planner
+A web application to show the curated places' information on a map.
+Also shows the weather and traffic information
+
 ### Desktop
 [![screenshot](screenshot.png)](https://taiwan.decryptology.net)
 
