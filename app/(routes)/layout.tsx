@@ -35,7 +35,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
-    images: "/screenshot.png"
+    images: "https://taiwan.decryptology.net/screenshot.png"
   },
   twitter: {
     card: "summary",
