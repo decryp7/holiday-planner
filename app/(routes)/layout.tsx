@@ -35,6 +35,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
+    images: "/screenshot.png"
   },
   twitter: {
     card: "summary",
