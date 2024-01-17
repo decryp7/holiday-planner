@@ -23,7 +23,7 @@
     "@tremor/react": "^3.8.2",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
-    "autoprefixer": "10.4.16",
+    "autoprefixer": "10.4.17",
     "class-transformer": "^0.5.1",
     "decompress": "^4.2.1",
     "dotenv": "^16.3.1",
