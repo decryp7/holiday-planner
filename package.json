@@ -22,7 +22,7 @@
     "@tailwindcss/forms": "^0.5.6",
     "@tremor/react": "^3.8.2",
     "@types/react": "18.2.74",
-    "@types/react-dom": "18.2.23",
+    "@types/react-dom": "18.2.24",
     "autoprefixer": "10.4.19",
     "class-transformer": "^0.5.1",
     "decompress": "^4.2.1",
