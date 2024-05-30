@@ -1,3 +1,4 @@
+[![Build status](https://dev.decryptology.net/decryp7/holiday-planner/actions/workflows/build-docker-image.yaml/badge.svg)]
 [![Quality gate](https://sonarqube.decryptology.net/api/project_badges/quality_gate?project=holiday-planner&token=sqb_b19f8ed6bb7ac3498b409d57d047ffae7780c714)](https://sonarqube.decryptology.net/dashboard?id=holiday-planner)
 [![Lines of Code](https://sonarqube.decryptology.net/api/project_badges/measure?project=holiday-planner&metric=ncloc&token=sqb_b19f8ed6bb7ac3498b409d57d047ffae7780c714)](https://sonarqube.decryptology.net/dashboard?id=holiday-planner)
 
