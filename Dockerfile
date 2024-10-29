@@ -1,4 +1,4 @@
-FROM node:21-alpine AS base
+FROM node:22-alpine AS base
 
 ARG NEXT_PUBLIC_GOOGLE_MAP_API_KEY
 ARG GOOGLE_MAP_API_KEY
