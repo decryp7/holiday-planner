@@ -29,7 +29,7 @@
     "dotenv": "^16.3.1",
     "eslint": "8.57.1",
     "eslint-config-next": "^14.0.0",
-    "fast-xml-parser": "^4.3.2",
+    "fast-xml-parser": "^5.0.0",
     "google-maps-react-markers": "^2.0.0",
     "lodash": "^4.17.21",
     "luxon": "^3.4.3",
