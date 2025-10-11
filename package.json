@@ -27,7 +27,7 @@
     "class-transformer": "^0.5.1",
     "decompress": "^4.2.1",
     "dotenv": "^16.3.1",
-    "eslint": "9.37.0",
+    "eslint": "8.57.1",
     "eslint-config-next": "^14.0.0",
     "fast-xml-parser": "^5.0.0",
     "google-maps-react-markers": "^2.0.0",
