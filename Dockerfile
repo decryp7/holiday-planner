@@ -1,4 +1,4 @@
-FROM mirror.gcr.io/node:22-alpine AS base
+FROM mirror.gcr.io/node:24-alpine AS base
 
 ARG NEXT_PUBLIC_GOOGLE_MAP_API_KEY
 ARG GOOGLE_MAP_API_KEY
